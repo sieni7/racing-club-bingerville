@@ -9,6 +9,8 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import Joueurs from './pages/Joueurs';
 import JoueurDetail from './pages/JoueurDetail';
+import Calendrier from './pages/Calendrier';
+import MatchDetail from './pages/MatchDetail';
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/joueurs" element={<Joueurs />} />
               <Route path="/joueurs/:id" element={<JoueurDetail />} />
+              <Route path="/calendrier" element={<Calendrier />} />
+              <Route path="/matchs/:id" element={<MatchDetail />} />
               <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
               <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             </Routes>

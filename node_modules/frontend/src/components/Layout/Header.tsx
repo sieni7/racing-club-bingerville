@@ -28,7 +28,7 @@ export const Header: React.FC = () => {
         <ul className="flex space-x-4 items-center">
           <li><Link to="/" className="hover:text-blue-200">Accueil</Link></li>
           <li><Link to="/joueurs" className="hover:text-blue-200">Effectif</Link></li>
-          <li><Link to="/matchs" className="hover:text-blue-200">Matchs</Link></li>
+          <li><Link to="/calendrier" className="hover:text-blue-200">Matchs</Link></li>
           
           {isAuthenticated ? (
             <>
