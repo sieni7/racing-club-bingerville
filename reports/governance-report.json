@@ -1,0 +1,42 @@
+{
+  "date": "2026-06-05",
+  "commit": "local",
+  "branch": "local",
+  "gates": {
+    "typeSafety": {
+      "status": "FAIL",
+      "anyCount": 52,
+      "tsIgnoreCount": 0
+    },
+    "zodValidation": {
+      "status": "PASS",
+      "violations": 0,
+      "totalRoutes": 12,
+      "validatedRoutes": 12
+    },
+    "architecture": {
+      "status": "PASS",
+      "violations": 0,
+      "details": []
+    },
+    "security": {
+      "status": "FAIL",
+      "violations": 2
+    },
+    "dataIntegrity": {
+      "status": "PASS",
+      "violations": 0
+    },
+    "coverage": {
+      "status": "PASS",
+      "backend": 84,
+      "frontend": 76,
+      "thresholds": {
+        "backend": 80,
+        "frontend": 70
+      }
+    }
+  },
+  "debtScore": 196,
+  "status": "FAIL"
+}
