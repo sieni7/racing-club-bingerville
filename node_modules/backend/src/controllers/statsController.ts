@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { statsJoueurRepository } from '../repositories/StatsJoueurRepository';
-import { statsService } from '../services/StatsService';
+import { eventBus } from '../server';
+import crypto from 'crypto';
 
 export const getTopButeurs = async (req: Request, res: Response) => {
   const saison = req.query.saison as string || '2023-2024';
@@ -25,8 +26,14 @@ export const recalculateAllStats = async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, error: 'Saison requise' });
   }
 
-  // Lancé de manière synchrone car c'est le MVP. 
-  await statsService.recalculateAllStats(saison);
+  await eventBus.emit({
+    eventId: crypto.randomUUID(),
+    type: 'STATS_RECALCULATION_REQUESTED',
+    payload: { saison },
+    aggregateId: 'global',
+    source: 'stats-controller',
+    timestamp: new Date()
+  });
   
   res.json({ success: true, message: `Stats recalculées pour la saison ${saison}` });
 };

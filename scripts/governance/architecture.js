@@ -26,6 +26,13 @@ function scanControllers() {
         violations++;
         details.push(`Direct Model import in ${file}`);
       }
+
+      // StatsService interdit dans controllers
+      const statsImport = content.match(/from.*['"]\.\.\/services\/StatsService['"]/);
+      if (statsImport) {
+        violations++;
+        details.push(`❌ StatsService ne peut pas être importé dans un controller: ${file}`);
+      }
     }
   }
 }
@@ -45,6 +52,11 @@ function scanServices() {
       if (manualStatsUpdate) {
         violations++;
         details.push(`Manual stats update detected in ${file}. Use recalculateForJoueur instead.`);
+      }
+
+      if (content.match(/statsService\./) && file !== 'StatsService.ts') {
+        violations++;
+        details.push(`❌ statsService utilisable uniquement dans listeners/, trouvé dans ${file}`);
       }
     }
   }

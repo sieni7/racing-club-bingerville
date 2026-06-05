@@ -1,6 +1,6 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
-import app from '../../src/app';
+import { app } from '../../src/server';
 
 describe('Actualites API Integration Tests', () => {
   it('should fetch actualites', async () => {

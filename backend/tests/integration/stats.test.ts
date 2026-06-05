@@ -1,6 +1,6 @@
 import request from 'supertest';
 import mongoose from 'mongoose';
-import app from '../../src/app';
+import { app } from '../../src/server';
 
 describe('Stats API Integration Tests', () => {
   it('should fetch top buteurs', async () => {
