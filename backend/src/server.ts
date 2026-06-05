@@ -10,6 +10,8 @@ import authRoutes from './routes/authRoutes';
 import userRoutes from './routes/userRoutes';
 import joueurRoutes from './routes/joueurRoutes';
 import matchRoutes from './routes/matchRoutes';
+import statsRoutes from './routes/statsRoutes';
+import actualiteRoutes from './routes/actualiteRoutes';
 
 dotenv.config();
 
@@ -28,6 +30,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/joueurs', joueurRoutes);
 app.use('/api/matchs', matchRoutes);
+app.use('/api/stats', statsRoutes);
+app.use('/api/actualites', actualiteRoutes);
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({ success: true, message: 'Backend is healthy' });

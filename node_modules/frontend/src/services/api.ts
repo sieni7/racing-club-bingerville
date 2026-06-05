@@ -31,6 +31,6 @@ const baseQueryWithReauth = async (args: string | import('@reduxjs/toolkit/query
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Auth', 'Joueur', 'Match', 'Stat', 'Actualite'],
+  tagTypes: ['User', 'Joueur', 'Match', 'Stats', 'Actualite'],
   endpoints: () => ({}),
 });

@@ -18,6 +18,7 @@
 - **Services** : Logique métier.
 - **Repositories** : Accès base de données uniquement.
 - ❌ Aucun appel direct à `Model.find()` ou équivalent en dehors des repositories.
+- ❌ **Stats Engine** : Interdiction absolue de mettre à jour manuellement les statistiques (ex: `$inc`). Seul le rebuild idempotent via `recalculateForJoueur` est autorisé.
 
 ### 4. Security Gate
 - **Routes sensibles** : Doivent être protégées par les middlewares `authenticate` et `authorize()`.
@@ -41,6 +42,7 @@ Un moteur de calcul évalue la dette technique à chaque pull request. Chaque vi
 | `@ts-ignore` | +5 | AST / Regex Scanner |
 | Zod validation missing | +10 | Scan des routes POST/PUT |
 | DB access in controller | +15 | Scan de l'utilisation des Modèles |
+| Manual stats update | +20 | Scan de `$inc` ou `update` sur StatsJoueur |
 | Missing test | +5 | Coverage Report |
 | Security guard missing | +20 | Scan des routes |
 | Data integrity violation| +10 | Validation de données |

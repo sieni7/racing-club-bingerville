@@ -30,7 +30,28 @@ function scanControllers() {
   }
 }
 
+const servicesDir = path.join(__dirname, '../../backend/src/services');
+function scanServices() {
+  if (!fs.existsSync(servicesDir)) return;
+  const files = fs.readdirSync(servicesDir);
+  for (const file of files) {
+    if (file.endsWith('.ts')) {
+      const content = fs.readFileSync(path.join(servicesDir, file), 'utf8');
+      
+      const manualStatsUpdate = content.match(/StatsJoueur\.(update|updateOne|findOneAndUpdate)/g) || 
+                                content.match(/\.\$inc.*buts/g) || 
+                                content.match(/\.increment.*stats/gi);
+      
+      if (manualStatsUpdate) {
+        violations++;
+        details.push(`Manual stats update detected in ${file}. Use recalculateForJoueur instead.`);
+      }
+    }
+  }
+}
+
 scanControllers();
+scanServices();
 
 const reportPath = path.join(__dirname, '../../reports');
 if (!fs.existsSync(reportPath)) {

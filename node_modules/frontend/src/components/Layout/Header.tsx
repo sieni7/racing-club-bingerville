@@ -29,6 +29,8 @@ export const Header: React.FC = () => {
           <li><Link to="/" className="hover:text-blue-200">Accueil</Link></li>
           <li><Link to="/joueurs" className="hover:text-blue-200">Effectif</Link></li>
           <li><Link to="/calendrier" className="hover:text-blue-200">Matchs</Link></li>
+          <li><Link to="/statistiques" className="hover:text-blue-200">Statistiques</Link></li>
+          <li><Link to="/actualites" className="hover:text-blue-200">Actualités</Link></li>
           
           {isAuthenticated ? (
             <>

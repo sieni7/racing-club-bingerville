@@ -1,21 +1,28 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IActualite extends Document {
-  title: string;
-  content: string;
-  authorId: mongoose.Types.ObjectId;
-  published: boolean;
-  publishedAt?: Date;
+  titre: string;
+  contenu: string;
+  datePublication: Date;
+  auteurId: mongoose.Types.ObjectId;
+  imageUrl?: string;
+  tags: string[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const ActualiteSchema: Schema = new Schema({
-  title: { type: String, required: true },
-  content: { type: String, required: true },
-  authorId: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
-  published: { type: Boolean, default: false },
-  publishedAt: { type: Date }
+const actualiteSchema = new Schema<IActualite>({
+  titre: { type: String, required: true, trim: true },
+  contenu: { type: String, required: true },
+  datePublication: { type: Date, default: Date.now },
+  auteurId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  imageUrl: { type: String },
+  tags: [{ type: String, trim: true }]
 }, {
   timestamps: true
 });
 
-export default mongoose.model<IActualite>('Actualite', ActualiteSchema);
+actualiteSchema.index({ datePublication: -1 }); // Pour tri par ordre chronologique
+actualiteSchema.index({ tags: 1 });
+
+export const Actualite = mongoose.model<IActualite>('Actualite', actualiteSchema);
