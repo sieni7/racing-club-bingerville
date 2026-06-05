@@ -1,17 +1,15 @@
 import { Request, Response } from 'express';
 import { joueurService } from '../services/JoueurService';
+import { JoueurSchema } from '../../../shared/schemas/joueur.schema';
 
 export const getAllJoueurs = async (req: Request, res: Response) => {
   try {
-    const { status } = req.query;
-    let joueurs;
-    
-    if (status === 'ACTIF') {
-      joueurs = await joueurService.getJoueursActifs();
-    } else {
-      joueurs = await joueurService.getAllJoueurs();
-    }
-    
+    const { statut, poste } = req.query;
+    const filters: any = {};
+    if (statut) filters.statut = statut;
+    if (poste) filters.poste = poste;
+
+    const joueurs = await joueurService.getAllJoueurs(filters);
     res.status(200).json(joueurs);
   } catch (error) {
     res.status(500).json({ message: 'Error retrieving joueurs' });
@@ -32,9 +30,41 @@ export const getJoueurById = async (req: Request, res: Response) => {
 
 export const createJoueur = async (req: Request, res: Response) => {
   try {
-    const joueur = await joueurService.createJoueur(req.body);
+    const validatedData = JoueurSchema.parse(req.body);
+    const joueur = await joueurService.createJoueur(validatedData as any);
     res.status(201).json(joueur);
+  } catch (error: any) {
+    if (error.name === 'ZodError') {
+      return res.status(400).json({ message: 'Validation error', errors: error.errors });
+    }
+    res.status(500).json({ message: 'Error creating joueur', error: error.message });
+  }
+};
+
+export const updateJoueur = async (req: Request, res: Response) => {
+  try {
+    const validatedData = JoueurSchema.partial().parse(req.body);
+    const joueur = await joueurService.updateJoueur(req.params.id, validatedData as any);
+    if (!joueur) {
+      return res.status(404).json({ message: 'Joueur not found' });
+    }
+    res.status(200).json(joueur);
+  } catch (error: any) {
+    if (error.name === 'ZodError') {
+      return res.status(400).json({ message: 'Validation error', errors: error.errors });
+    }
+    res.status(500).json({ message: 'Error updating joueur' });
+  }
+};
+
+export const deleteJoueur = async (req: Request, res: Response) => {
+  try {
+    const success = await joueurService.deleteJoueur(req.params.id);
+    if (!success) {
+      return res.status(404).json({ message: 'Joueur not found' });
+    }
+    res.status(204).send();
   } catch (error) {
-    res.status(500).json({ message: 'Error creating joueur' });
+    res.status(500).json({ message: 'Error deleting joueur' });
   }
 };

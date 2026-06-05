@@ -19,8 +19,9 @@ export class BaseRepository<T extends Document> {
     return this.model.findOne(filter).exec();
   }
 
-  async create(item: Partial<T>): Promise<T> {
-    return this.model.create(item);
+  async create(item: Partial<T>, options?: any): Promise<T> {
+    const docs = await this.model.create([item], options);
+    return docs[0];
   }
 
   async update(id: string, item: UpdateQuery<T>): Promise<T | null> {

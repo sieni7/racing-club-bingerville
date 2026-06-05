@@ -10,12 +10,16 @@ export class JoueurRepository extends BaseRepository<IJoueur> {
     return this.findOne({ userId });
   }
 
-  async findByStatut(status: string): Promise<IJoueur[]> {
-    return this.findAll({ status });
+  async findByStatut(statut: string): Promise<IJoueur[]> {
+    return this.findAll({ statut });
   }
 
-  async findByPoste(position: string): Promise<IJoueur[]> {
-    return this.findAll({ position });
+  async findByPoste(poste: string): Promise<IJoueur[]> {
+    return this.findAll({ poste });
+  }
+
+  async updateStatut(id: string, statut: string): Promise<IJoueur | null> {
+    return this.update(id, { statut } as Partial<IJoueur>);
   }
 }
 
