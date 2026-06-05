@@ -22,7 +22,7 @@ export class AuthService {
     if (!isValid) throw new Error('Invalid credentials');
 
     const familyId = uuidv4();
-    return this.generateTokensForUser(user.id, user.role || 'MEMBER', familyId);
+    return this.generateTokensForUser(user._id.toString(), user.role || 'MEMBER', familyId);
   }
 
   async refresh(tokenString: string, deviceFingerprint: string) {
@@ -49,7 +49,7 @@ export class AuthService {
     const user = await userService.getUserById(existingToken.userId.toString());
     if (!user) throw new Error('User not found');
 
-    return this.generateTokensForUser(user.id, user.role || 'MEMBER', existingToken.familyId);
+    return this.generateTokensForUser(user._id.toString(), user.role || 'MEMBER', existingToken.familyId);
   }
 
   private async generateTokensForUser(userId: string, role: string, familyId?: string) {
