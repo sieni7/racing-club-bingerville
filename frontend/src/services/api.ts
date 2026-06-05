@@ -8,10 +8,10 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
+const baseQueryWithReauth = async (args: string | import('@reduxjs/toolkit/query').FetchArgs, api: import('@reduxjs/toolkit/query').BaseQueryApi, extraOptions: Record<string, unknown>) => {
   let result = await baseQuery(args, api, extraOptions);
   
-  if (result.error && result.error.status === 401 && args.url !== '/auth/login' && args.url !== '/auth/refresh') {
+  if (result.error && result.error.status === 401 && (typeof args === 'object' && args !== null && 'url' in args && args.url !== '/auth/login' && args.url !== '/auth/refresh')) {
     const refreshResult = await baseQuery(
       { url: '/auth/refresh', method: 'POST' },
       api,

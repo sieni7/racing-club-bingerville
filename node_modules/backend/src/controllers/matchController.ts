@@ -6,7 +6,7 @@ import { z } from 'zod';
 export const getAllMatchs = async (req: Request, res: Response) => {
   try {
     const { saison, statut } = req.query;
-    const filters: any = {};
+    const filters: Record<string, unknown> = {};
     if (saison) filters.saison = saison;
     if (statut) filters.statut = statut;
 
@@ -32,9 +32,9 @@ export const getMatchById = async (req: Request, res: Response) => {
 export const createMatch = async (req: Request, res: Response) => {
   try {
     const validatedData = matchSchema.parse(req.body);
-    const match = await matchRepository.create(validatedData as any);
+    const match = await matchRepository.create(validatedData as Parameters<typeof matchRepository.create>[0]);
     res.status(201).json(match);
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: 'Validation error', errors: error.errors });
     }
@@ -45,12 +45,12 @@ export const createMatch = async (req: Request, res: Response) => {
 export const updateMatch = async (req: Request, res: Response) => {
   try {
     const validatedData = matchSchema.partial().parse(req.body);
-    const match = await matchRepository.update(req.params.id, validatedData as any);
+    const match = await matchRepository.update(req.params.id, validatedData as Parameters<typeof matchRepository.update>[1]);
     if (!match) {
       return res.status(404).json({ message: 'Match not found' });
     }
     res.status(200).json(match);
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof z.ZodError) {
       return res.status(400).json({ message: 'Validation error', errors: error.errors });
     }

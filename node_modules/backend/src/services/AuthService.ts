@@ -4,13 +4,14 @@ import { generateAccessToken, generateRefreshToken, TokenPayload } from '../conf
 import { hashPassword, comparePassword } from '../utils/password';
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
+import { IUser } from '../models/User';
 
 export class AuthService {
-  async register(userData: any) {
-    const existing = await userService.getUserByEmail(userData.email);
+  async register(userData: Record<string, unknown>) {
+    const existing = await userService.getUserByEmail(userData.email as string);
     if (existing) throw new Error('Email already in use');
 
-    const hashedPassword = await hashPassword(userData.password);
+    const hashedPassword = await hashPassword(userData.password as string);
     return userService.createUser({ ...userData, password: hashedPassword });
   }
 

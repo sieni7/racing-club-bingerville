@@ -5,7 +5,7 @@ import { IJoueur } from '../models/Joueur';
 import { IUser } from '../models/User';
 
 export class JoueurService {
-  async getAllJoueurs(filters: any = {}): Promise<IJoueur[]> {
+  async getAllJoueurs(filters: Record<string, unknown> = {}): Promise<IJoueur[]> {
     return joueurRepository.findAll(filters);
   }
 

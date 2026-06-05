@@ -13,7 +13,7 @@ export const register = async (req: Request, res: Response) => {
   try {
     const user = await authService.register(req.body);
     res.status(201).json({ success: true, data: { id: user._id, email: user.email } });
-  } catch (error: any) {
+  } catch (error: unknown) {
     res.status(400).json({ success: false, error: error.message });
   }
 };
@@ -27,8 +27,8 @@ export const login = async (req: Request, res: Response) => {
     
     res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
     res.status(200).json({ success: true, data: { accessToken } });
-  } catch (error: any) {
-    res.status(401).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    res.status(401).json({ message: 'Invalid refresh token' });
   }
 };
 
@@ -44,10 +44,11 @@ export const refresh = async (req: Request, res: Response) => {
     
     res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
     res.status(200).json({ success: true, data: { accessToken } });
-  } catch (error: any) {
-    // If refresh fails, clear the cookie
-    res.clearCookie('refreshToken');
-    res.status(401).json({ success: false, error: error.message });
+  } catch (error: unknown) {
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({ message: 'Validation error', errors: error.errors });
+    }
+    res.status(400).json({ message: (error as Error).message });
   }
 };
 
@@ -59,30 +60,32 @@ export const logout = async (req: Request, res: Response) => {
     }
     res.clearCookie('refreshToken');
     res.status(200).json({ success: true, message: 'Logged out successfully' });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: 'Error during logout' });
+  } catch (error: unknown) {
+    res.status(500).json({ message: 'Error logging out' });
   }
 };
 
 export const logoutAll = async (req: Request, res: Response) => {
   try {
-    const familyId = (req as any).user?.familyId;
-    if (familyId) {
-      await authService.logoutAll(familyId);
+    // Cast req object properly for custom Auth Request
+    const familyId = (req as Request & { user?: { familyId: string } }).user?.familyId;
+    if (!familyId) {
+      return res.status(401).json({ message: 'Not authenticated properly' });
     }
-    res.clearCookie('refreshToken');
-    res.status(200).json({ success: true, message: 'Logged out from all devices' });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: 'Error during global logout' });
+    await authService.logoutAll(familyId);
+    
+    res.clearCookie('jwt', { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict' });
+    res.status(200).json({ message: 'Logged out from all devices successfully' });
+  } catch (error: unknown) {
+    res.status(500).json({ message: 'Error logging out from all devices' });
   }
 };
 
 export const me = async (req: Request, res: Response) => {
   try {
-    // req.user is set by authenticate middleware
-    const user = (req as any).user;
-    res.status(200).json({ success: true, data: user });
-  } catch (error: any) {
-    res.status(500).json({ success: false, error: 'Error retrieving profile' });
+    const user = (req as Request & { user?: object }).user;
+    res.status(200).json(user);
+  } catch (error: unknown) {
+    res.status(500).json({ message: 'Error retrieving user info' });
   }
 };

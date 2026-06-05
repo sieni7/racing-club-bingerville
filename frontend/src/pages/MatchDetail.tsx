@@ -19,23 +19,25 @@ const MatchDetail: React.FC = () => {
   const [addMatchEvent, { isLoading: isAddingEvent }] = useAddMatchEventMutation();
 
   const [activeTab, setActiveTab] = useState<'INFOS' | 'COMPOSITION' | 'EVENEMENTS'>('INFOS');
+  const [showCompositionForm, setShowCompositionForm] = useState(false);
   
   const isStaffOrAdmin = user?.role === 'STAFF' || user?.role === 'ADMIN';
 
-  const handleUpdateComposition = async (composition: any[]) => {
+  const handleUpdateComposition = async (composition: Record<string, unknown>[]) => {
     try {
       await updateComposition({ id, composition }).unwrap();
       toast.success('Composition mise à jour');
-    } catch (err: any) {
+      setShowCompositionForm(false);
+    } catch (err: unknown) {
       toast.error(err.data?.message || 'Erreur lors de la mise à jour');
     }
   };
 
-  const handleAddEvent = async (event: any) => {
+  const handleAddEvent = async (event: Record<string, unknown>) => {
     try {
       await addMatchEvent({ id, event }).unwrap();
       toast.success('Événement ajouté');
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast.error(err.data?.message || 'Erreur lors de l\'ajout');
     }
   };
@@ -118,34 +120,44 @@ const MatchDetail: React.FC = () => {
 
           {activeTab === 'COMPOSITION' && (
             <div>
-              <h4 className="text-md font-medium mb-4">Équipe Titulaire et Remplaçants</h4>
+              <div className="flex justify-between items-center mb-4">
+                <h4 className="text-md font-medium">Équipe Titulaire et Remplaçants</h4>
+                {isStaffOrAdmin && (
+                  <button 
+                    onClick={() => setShowCompositionForm(!showCompositionForm)}
+                    className="text-sm text-blue-600 hover:text-blue-800"
+                  >
+                    {showCompositionForm ? 'Annuler' : 'Modifier'}
+                  </button>
+                )}
+              </div>
               
-              {isStaffOrAdmin ? (
+              {showCompositionForm ? (
                 <CompositionForm 
                   initialComposition={match.composition}
                   onSubmit={handleUpdateComposition}
                   isLoading={isUpdatingComp}
                 />
               ) : (
-                <ul className="divide-y divide-gray-200 border-t border-b mb-6">
-                  {match.composition?.map((comp: any) => {
-                    const joueur = joueurs?.find((j: any) => j._id === comp.joueurId);
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {match.composition?.map((comp: Record<string, unknown>) => {
+                    const joueur = joueurs?.find((j: Record<string, unknown>) => j._id === comp.joueurId);
                     return (
-                      <li key={comp.joueurId} className="py-3 flex justify-between items-center">
+                      <li key={comp.joueurId as string} className="py-3 flex justify-between items-center list-none">
                         <div className="flex items-center">
                           <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500 text-white font-bold mr-3">
-                            {comp.numero}
+                            {comp.numero as number}
                           </span>
                           <div>
                             <p className="text-sm font-medium text-gray-900">{joueur ? `${joueur.nom} ${joueur.prenom}` : 'Joueur inconnu'}</p>
-                            <p className="text-xs text-gray-500">{comp.role} - {comp.poste}</p>
+                            <p className="text-xs text-gray-500">{comp.role as string} - {comp.poste as string}</p>
                           </div>
                         </div>
                       </li>
                     );
                   })}
-                  {!match.composition?.length && <li className="py-4 text-center text-gray-500 text-sm">Composition non renseignée.</li>}
-                </ul>
+                  {!match.composition?.length && <div className="py-4 text-center text-gray-500 text-sm">Composition non renseignée.</div>}
+                </div>
               )}
             </div>
           )}
@@ -154,13 +166,13 @@ const MatchDetail: React.FC = () => {
             <div>
               <h4 className="text-md font-medium mb-4">Fil du match</h4>
               
-              <ul className="divide-y divide-gray-200 border-t border-b mb-8">
-                {match.evenements?.map((event: any, idx: number) => {
-                  const joueur = joueurs?.find((j: any) => j._id === event.joueurId);
+              <div className="space-y-4">
+                {match.evenements?.map((event: Record<string, unknown>, idx: number) => {
+                  const joueur = joueurs?.find((j: Record<string, unknown>) => j._id === event.joueurId);
                   return (
-                    <li key={idx} className="py-3 flex items-center">
-                      <span className="text-sm font-bold text-gray-900 w-12">{event.minute}'</span>
-                      <span className="text-sm text-gray-900 w-32">{event.type}</span>
+                    <li key={idx} className="py-3 flex items-center list-none">
+                      <span className="text-sm font-bold text-gray-900 w-12">{event.minute as number}'</span>
+                      <span className="text-sm text-gray-900 w-32">{event.type as string}</span>
                       <span className="text-sm font-medium text-gray-900 flex-grow">
                         {joueur ? `${joueur.nom} ${joueur.prenom}` : 'Inconnu'}
                       </span>

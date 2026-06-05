@@ -19,7 +19,7 @@ export class BaseRepository<T extends Document> {
     return this.model.findOne(filter).exec();
   }
 
-  async create(item: Partial<T>, options?: any): Promise<T> {
+  async create(item: Partial<T>, options?: mongoose.SaveOptions | mongoose.InsertManyOptions | Record<string, unknown>): Promise<T> {
     const docs = await this.model.create([item], options);
     return docs[0];
   }

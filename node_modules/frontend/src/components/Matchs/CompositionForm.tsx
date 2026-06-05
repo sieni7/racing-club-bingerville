@@ -3,14 +3,16 @@ import { useGetJoueursQuery } from '../../features/api/joueursApi';
 import { LoadingSpinner } from '../common/LoadingSpinner';
 
 interface CompositionFormProps {
-  initialComposition?: any[];
-  onSubmit: (composition: any[]) => void;
+  matchId: string;
+  initialComposition?: Record<string, unknown>[];
+  onSubmit: (composition: Record<string, unknown>[]) => void;
+  onCancel: () => void;
   isLoading: boolean;
 }
 
-export const CompositionForm: React.FC<CompositionFormProps> = ({ initialComposition = [], onSubmit, isLoading }) => {
-  const { data: joueurs, isLoading: isLoadingJoueurs } = useGetJoueursQuery({ statut: 'ACTIF' });
-  const [composition, setComposition] = useState<any[]>(initialComposition);
+export const CompositionForm: React.FC<CompositionFormProps> = ({ initialComposition = [], onSubmit, onCancel, isLoading }) => {
+  const { data: joueurs, isLoading: isLoadingJoueurs } = useGetJoueursQuery({});
+  const [composition, setComposition] = useState<Record<string, unknown>[]>(initialComposition || []);
 
   if (isLoadingJoueurs) return <LoadingSpinner />;
 
@@ -21,6 +23,12 @@ export const CompositionForm: React.FC<CompositionFormProps> = ({ initialComposi
 
   const handleRemovePlayer = (joueurId: string) => {
     setComposition(prev => prev.filter(c => c.joueurId !== joueurId));
+  };
+
+  const updateComposition = (index: number, field: string, value: unknown) => {
+    const newComposition = [...composition];
+    newComposition[index] = { ...newComposition[index], [field]: value };
+    setComposition(newComposition);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,8 +45,8 @@ export const CompositionForm: React.FC<CompositionFormProps> = ({ initialComposi
             <label className="block text-sm font-medium text-gray-700">Joueur</label>
             <select id="joueurSelect" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
               <option value="">Sélectionner un joueur</option>
-              {joueurs?.map((j: any) => (
-                <option key={j._id} value={j._id}>{j.nom} {j.prenom} ({j.poste})</option>
+              {joueurs?.map((j: Record<string, unknown>) => (
+                <option key={j._id as string} value={j._id as string}>{j.nom} {j.prenom} ({j.poste})</option>
               ))}
             </select>
           </div>
@@ -86,13 +94,13 @@ export const CompositionForm: React.FC<CompositionFormProps> = ({ initialComposi
       <div className="mt-6">
         <h4 className="text-md font-medium mb-4">Composition Actuelle ({composition.length} joueurs)</h4>
         <ul className="divide-y divide-gray-200 border-t border-b">
-          {composition.map((comp) => {
-            const joueur = joueurs?.find((j: any) => j._id === comp.joueurId);
+          {composition.map((comp, idx) => {
+            const joueur = joueurs?.find((j: Record<string, unknown>) => j._id === comp.joueurId);
             return (
-              <li key={comp.joueurId} className="py-3 flex justify-between items-center">
+              <li key={comp.joueurId as string} className="py-3 flex justify-between items-center">
                 <div className="flex items-center">
                   <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500 text-white font-bold mr-3">
-                    {comp.numero}
+                    {comp.numero as number}
                   </span>
                   <div>
                     <p className="text-sm font-medium text-gray-900">{joueur ? `${joueur.nom} ${joueur.prenom}` : 'Joueur inconnu'}</p>

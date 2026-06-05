@@ -7,12 +7,13 @@ import toast from 'react-hot-toast';
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [login, { isLoading }] = useLoginMutation();
   const navigate = useNavigate();
   const location = useLocation();
   const { isAuthenticated } = useAuth();
 
-  const from = (location.state as any)?.from?.pathname || '/dashboard';
+  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/dashboard';
+
+  const [login, { isLoading }] = useLoginMutation();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -26,8 +27,9 @@ const Login: React.FC = () => {
       await login({ email, password }).unwrap();
       toast.success('Connexion réussie');
       navigate(from, { replace: true });
-    } catch (err: any) {
-      toast.error(err.data?.error || 'Erreur de connexion');
+    } catch (err: unknown) {
+      console.error('Login failed', err);
+      toast.error((err as { data?: { error?: string } })?.data?.error || 'Erreur de connexion');
     }
   };
 

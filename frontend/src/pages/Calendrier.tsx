@@ -30,17 +30,18 @@ const Calendrier: React.FC = () => {
 
   if (isLoading) return <LoadingSpinner />;
 
-  const events = (matchs || []).map((match: any) => ({
+  const events = (matchs || []).map((match: Record<string, unknown>) => ({
     id: match._id,
     title: `vs ${match.adversaire} (${match.lieu})`,
-    start: new Date(match.date),
-    end: new Date(new Date(match.date).getTime() + 2 * 60 * 60 * 1000), // Approx 2 hours
+    start: new Date(match.date as string),
+    end: new Date(new Date(match.date as string).getTime() + 2 * 60 * 60 * 1000), // Approx 2 hours
     resource: match,
   }));
 
-  const eventStyleGetter = (event: any) => {
-    let backgroundColor = '#3174ad';
-    switch (event.resource.statut) {
+  const eventStyleGetter = (event: Record<string, unknown>) => {
+    let backgroundColor = '#3182ce'; // blue for PLANNED
+    const resource = event.resource as Record<string, unknown>;
+    switch (resource?.statut) {
       case 'PROGRAMME':
         backgroundColor = '#3b82f6'; // blue
         break;

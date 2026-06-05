@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 interface JoueurFormProps {
-  initialData?: any;
-  onSubmit: (data: any) => void;
+  initialData?: Record<string, unknown>;
+  onSubmit: (data: Record<string, unknown>) => void;
   onCancel: () => void;
   isLoading: boolean;
 }
@@ -41,9 +41,10 @@ export const JoueurForm: React.FC<JoueurFormProps> = ({ initialData, onSubmit, o
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Parse numbers
-    const submitData: any = { ...formData };
+    const submitData: Record<string, unknown> = { ...formData };
+    if (submitData.dateNaissance) {
+        submitData.dateNaissance = new Date(submitData.dateNaissance as string).toISOString();
+    }
     if (submitData.taille) submitData.taille = Number(submitData.taille);
     if (submitData.poids) submitData.poids = Number(submitData.poids);
     if (!submitData.taille) delete submitData.taille;

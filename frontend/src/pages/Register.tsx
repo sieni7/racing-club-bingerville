@@ -26,9 +26,10 @@ const Register: React.FC = () => {
     try {
       await register(formData).unwrap();
       toast.success('Inscription réussie. Vous pouvez vous connecter.');
-      navigate('/login');
-    } catch (err: any) {
-      toast.error(err.data?.error || 'Erreur lors de l\'inscription');
+      navigate('/dashboard');
+    } catch (err: unknown) {
+      console.error('Registration failed', err);
+      toast.error((err as { data?: { error?: string } })?.data?.error || 'Erreur lors de l\'inscription');
     }
   };
 

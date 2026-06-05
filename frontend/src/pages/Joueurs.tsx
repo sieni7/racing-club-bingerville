@@ -21,14 +21,14 @@ const Joueurs: React.FC = () => {
   const [deleteJoueur] = useDeleteJoueurMutation();
 
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [editingJoueur, setEditingJoueur] = useState<any>(null);
+  const [editingJoueur, setEditingJoueur] = useState<Record<string, unknown> | null>(null);
   
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const canEdit = user?.role === 'STAFF' || user?.role === 'ADMIN';
   const canDelete = user?.role === 'ADMIN';
 
-  const handleCreateOrUpdate = async (data: any) => {
+  const handleCreateOrUpdate = async (data: Record<string, unknown>) => {
     try {
       if (editingJoueur) {
         await updateJoueur({ id: editingJoueur._id, ...data }).unwrap();
@@ -39,7 +39,7 @@ const Joueurs: React.FC = () => {
       }
       setIsFormOpen(false);
       setEditingJoueur(null);
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast.error(err.data?.message || 'Une erreur est survenue');
     }
   };
@@ -49,14 +49,14 @@ const Joueurs: React.FC = () => {
     try {
       await deleteJoueur(deleteId).unwrap();
       toast.success('Joueur supprimé');
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast.error(err.data?.message || 'Erreur lors de la suppression');
     } finally {
       setDeleteId(null);
     }
   };
 
-  const filteredJoueurs = joueurs?.filter((j: any) => {
+  const filteredJoueurs = joueurs?.filter((j: Record<string, unknown>) => {
     if (filters.search && !`${j.nom} ${j.prenom}`.toLowerCase().includes(filters.search.toLowerCase())) {
       return false;
     }
@@ -131,7 +131,7 @@ const Joueurs: React.FC = () => {
                   <td colSpan={5} className="px-6 py-4 text-center text-gray-500">Aucun joueur trouvé.</td>
                 </tr>
               ) : (
-                filteredJoueurs?.map((joueur: any) => (
+                filteredJoueurs?.map((joueur: Record<string, unknown>) => (
                   <JoueurTableRow 
                     key={joueur._id} 
                     joueur={joueur} 

@@ -5,7 +5,7 @@ import { JoueurSchema } from '../../../shared/schemas/joueur.schema';
 export const getAllJoueurs = async (req: Request, res: Response) => {
   try {
     const { statut, poste } = req.query;
-    const filters: any = {};
+    const filters: Record<string, unknown> = {};
     if (statut) filters.statut = statut;
     if (poste) filters.poste = poste;
 
@@ -31,26 +31,26 @@ export const getJoueurById = async (req: Request, res: Response) => {
 export const createJoueur = async (req: Request, res: Response) => {
   try {
     const validatedData = JoueurSchema.parse(req.body);
-    const joueur = await joueurService.createJoueur(validatedData as any);
+    const joueur = await joueurService.createJoueur(validatedData as Parameters<typeof joueurService.createJoueur>[0]);
     res.status(201).json(joueur);
-  } catch (error: any) {
-    if (error.name === 'ZodError') {
+  } catch (error: unknown) {
+    if (error instanceof z.ZodError) {
       return res.status(400).json({ message: 'Validation error', errors: error.errors });
     }
-    res.status(500).json({ message: 'Error creating joueur', error: error.message });
+    res.status(500).json({ message: 'Error creating joueur' });
   }
 };
 
 export const updateJoueur = async (req: Request, res: Response) => {
   try {
     const validatedData = JoueurSchema.partial().parse(req.body);
-    const joueur = await joueurService.updateJoueur(req.params.id, validatedData as any);
+    const joueur = await joueurService.updateJoueur(req.params.id, validatedData as Parameters<typeof joueurService.updateJoueur>[1]);
     if (!joueur) {
       return res.status(404).json({ message: 'Joueur not found' });
     }
     res.status(200).json(joueur);
-  } catch (error: any) {
-    if (error.name === 'ZodError') {
+  } catch (error: unknown) {
+    if (error instanceof z.ZodError) {
       return res.status(400).json({ message: 'Validation error', errors: error.errors });
     }
     res.status(500).json({ message: 'Error updating joueur' });

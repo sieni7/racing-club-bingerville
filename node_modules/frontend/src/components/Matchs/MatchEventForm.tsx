@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 
 interface MatchEventFormProps {
-  composition: any[];
-  joueurs: any[];
-  onSubmit: (eventData: any) => void;
+  matchId: string;
+  composition: Record<string, unknown>[];
+  joueurs: Record<string, unknown>[];
+  onSubmit: (eventData: Record<string, unknown>) => void;
+  onCancel: () => void;
   isLoading: boolean;
 }
 
-export const MatchEventForm: React.FC<MatchEventFormProps> = ({ composition, joueurs, onSubmit, isLoading }) => {
+export const MatchEventForm: React.FC<MatchEventFormProps> = ({ composition, joueurs, onSubmit, isLoading, onCancel }) => {
   const [formData, setFormData] = useState({
     type: 'BUT',
     joueurId: '',
@@ -35,7 +37,7 @@ export const MatchEventForm: React.FC<MatchEventFormProps> = ({ composition, jou
 
   // Only show players from composition
   const matchPlayers = composition.map(comp => {
-    const joueur = joueurs?.find((j: any) => j._id === comp.joueurId);
+    const joueur = joueurs?.find((j: Record<string, unknown>) => j._id === comp.joueurId);
     return { ...comp, nomComplet: joueur ? `${joueur.nom} ${joueur.prenom}` : 'Inconnu' };
   });
 
