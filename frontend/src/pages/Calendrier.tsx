@@ -76,11 +76,11 @@ const Calendrier: React.FC = () => {
           style={{ height: '100%' }}
           culture="fr"
           view={view}
-          onView={(newView) => setView(newView)}
+          onView={(newView: View) => setView(newView)}
           date={date}
-          onNavigate={(newDate) => setDate(newDate)}
+          onNavigate={(newDate: Date) => setDate(newDate)}
           eventPropGetter={eventStyleGetter}
-          onSelectEvent={(event) => navigate(`/matchs/${event.id}`)}
+          onSelectEvent={(event: any) => navigate(`/matchs/${event.id}`)}
           messages={{
             next: "Suivant",
             previous: "Précédent",
