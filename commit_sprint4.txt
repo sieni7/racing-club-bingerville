@@ -1,7 +1,0 @@
-fix(types): correct TypeScript errors in forms and hooks
-
-- Fix zod schemas with z.coerce for numeric fields
-- Add proper SubmitHandler typing in useJoueurForm and useMatchForm
-- Fix EvenementsTab minute type (coerce to number)
-- Update netlify.toml publish path
-- All typechecks now pass
