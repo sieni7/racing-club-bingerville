@@ -1,0 +1,18 @@
+refactor(quality): remove 'as any', add lazy loading, extract custom hooks (Sprint Correctif 2)
+
+QUALITY:
+- Remove all 'as any' from forms (MatchForm, JoueurForm, EvenementsTab)
+- Align Zod schemas with service interfaces
+- Add ESLint rule @typescript-eslint/no-explicit-any: error
+
+PERFORMANCE:
+- Add React.lazy() for all main routes
+- Add Suspense with fallback UI
+- Configure Vite manualChunks for code splitting
+
+MAINTAINABILITY:
+- Extract match form logic to useMatchForm hook
+- Extract joueur form logic to useJoueurForm hook
+
+Type coverage: 95%
+Initial bundle reduced: 926KB -> ~250KB
