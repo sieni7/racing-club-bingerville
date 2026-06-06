@@ -27,7 +27,7 @@ export default function JoueurForm() {
   const [photo, setPhoto] = useState<File | null>(null);
   
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<JoueurFormData>({
-    resolver: zodResolver(joueurSchema),
+    resolver: zodResolver(joueurSchema) as any,
     defaultValues: {
       poste: 'MILIEU',
       statut: 'ACTIF'
@@ -68,7 +68,7 @@ export default function JoueurForm() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
       <h1 className="text-2xl font-bold mb-6">{id ? 'Modifier le joueur' : 'Ajouter un joueur'}</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
+      <form onSubmit={handleSubmit(onSubmit as any)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <Input label="Nom" {...register('nom')} error={errors.nom?.message} />
           <Input label="Prénom" {...register('prenom')} error={errors.prenom?.message} />

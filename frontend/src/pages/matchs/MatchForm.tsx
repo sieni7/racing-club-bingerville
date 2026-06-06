@@ -24,7 +24,7 @@ export default function MatchForm() {
   const navigate = useNavigate();
   
   const { register, handleSubmit, reset, watch, formState: { errors, isSubmitting } } = useForm<MatchFormData>({
-    resolver: zodResolver(matchSchema),
+    resolver: zodResolver(matchSchema) as any,
     defaultValues: {
       lieu: 'DOMICILE',
       competition: 'CHAMPIONNAT',
@@ -65,7 +65,7 @@ export default function MatchForm() {
       if (id) {
         await matchsService.update(id, matchData);
       } else {
-        await matchsService.create(matchData);
+        await matchsService.create(matchData as any);
       }
       navigate('/matchs');
     } catch (error) {
@@ -77,7 +77,7 @@ export default function MatchForm() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
       <h1 className="text-2xl font-bold mb-6">{id ? 'Modifier le match' : 'Planifier un match'}</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
+      <form onSubmit={handleSubmit(onSubmit as any)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
         
         <div className="grid grid-cols-2 gap-4">
           <Input label="Date et Heure" type="datetime-local" {...register('date_heure')} error={errors.date_heure?.message} />

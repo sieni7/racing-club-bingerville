@@ -52,7 +52,7 @@ export default function Dashboard() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Bienvenue, {user?.prenom} 👋</h1>
+        <h1 className="text-3xl font-bold text-gray-900">Bienvenue, {user?.user_metadata?.prenom} 👋</h1>
         <p className="text-gray-600 mt-2">Voici le résumé des activités du Racing Club de Bingerville.</p>
       </div>
 

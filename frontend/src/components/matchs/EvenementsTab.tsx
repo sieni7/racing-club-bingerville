@@ -22,7 +22,7 @@ export default function EvenementsTab({ matchId }: { matchId: string }) {
   const [isLoading, setIsLoading] = useState(true);
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<EvtFormData>({
-    resolver: zodResolver(evtSchema)
+    resolver: zodResolver(evtSchema) as any
   });
 
   useEffect(() => {
@@ -105,7 +105,7 @@ export default function EvenementsTab({ matchId }: { matchId: string }) {
       {/* Formulaire ajout */}
       <div>
         <h2 className="text-xl font-semibold border-b pb-2 mb-4">Ajouter un événement</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-4 border rounded-lg shadow-sm space-y-4">
+        <form onSubmit={handleSubmit(onSubmit as any)} className="bg-white p-4 border rounded-lg shadow-sm space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Minute</label>

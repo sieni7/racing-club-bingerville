@@ -1,0 +1,3 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { forwardRef } from 'react';
+export const Input = forwardRef(({ label, error, className = '', ...props }, ref) => (_jsxs("div", { className: "mb-4", children: [label && _jsx("label", { className: "block text-sm font-medium text-gray-700 mb-1", children: label }), _jsx("input", { ref: ref, className: `w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${error ? 'border-red-500' : 'border-gray-300'} ${className}`, ...props }), error && _jsx("p", { className: "mt-1 text-sm text-red-600", children: error })] })));
