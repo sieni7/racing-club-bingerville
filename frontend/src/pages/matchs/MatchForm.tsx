@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Input } from '../../components/common/Input';
-import { Button } from '../../components/common/Button';
+import { Button } from '../../components/ui/Button';
 import { useMatchForm } from '../../hooks/useMatchForm';
 import { matchsService } from '../../features/matchs/matchsService';
 

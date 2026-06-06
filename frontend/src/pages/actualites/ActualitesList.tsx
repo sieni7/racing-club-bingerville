@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Actualite, actualitesService } from '../../features/actualites/actualitesService';
-import { Button } from '../../components/common/Button';
+import { Button } from '../../components/ui/Button';
+import { Card } from '../../components/ui/Card';
+import { Badge } from '../../components/ui/Badge';
 import { Plus, Edit, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -54,35 +56,33 @@ export default function ActualitesList() {
         {actualites.length === 0 ? (
           <p className="text-gray-500 italic text-center py-10">Aucune actualité pour le moment.</p>
         ) : actualites.map(actu => (
-          <div key={actu.id} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-2">
-                <Link to={`/actualites/${actu.slug}`} className="hover:text-blue-600 transition">
-                  <h2 className="text-xl font-bold text-gray-900">{actu.titre}</h2>
-                </Link>
-                {isStaff && (
-                  <div className="flex gap-2">
-                    <span className={`px-2 py-1 text-xs font-semibold rounded-full ${actu.statut === 'PUBLIE' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                      {actu.statut}
-                    </span>
-                    <Link to={`/actualites/${actu.id}/editer`} className="text-indigo-600 hover:text-indigo-900"><Edit size={18} /></Link>
-                    <button onClick={() => handleDelete(actu.id)} className="text-red-600 hover:text-red-900"><Trash2 size={18} /></button>
-                  </div>
-                )}
-              </div>
-              <p className="text-sm text-gray-500 mb-4">
-                Publié le {actu.published_at ? format(new Date(actu.published_at), 'dd MMMM yyyy', { locale: fr }) : 'Non publié'}
-              </p>
-              <p className="text-gray-700 line-clamp-3">
-                {actu.contenu}
-              </p>
-              <div className="mt-4">
-                <Link to={`/actualites/${actu.slug}`} className="text-blue-600 font-medium hover:underline">
-                  Lire la suite →
-                </Link>
-              </div>
+          <Card key={actu.id} className="p-6">
+            <div className="flex justify-between items-start mb-2">
+              <Link to={`/actualites/${actu.slug}`} className="hover:text-primary transition">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">{actu.titre}</h2>
+              </Link>
+              {isStaff && (
+                <div className="flex gap-2">
+                  <Badge variant={actu.statut === 'PUBLIE' ? 'success' : 'secondary'}>
+                    {actu.statut}
+                  </Badge>
+                  <Link to={`/actualites/${actu.id}/editer`} className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"><Edit size={18} /></Link>
+                  <button onClick={() => handleDelete(actu.id)} className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"><Trash2 size={18} /></button>
+                </div>
+              )}
             </div>
-          </div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              Publié le {actu.published_at ? format(new Date(actu.published_at), 'dd MMMM yyyy', { locale: fr }) : 'Non publié'}
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 line-clamp-3">
+              {actu.contenu}
+            </p>
+            <div className="mt-4">
+              <Link to={`/actualites/${actu.slug}`} className="text-primary font-medium hover:underline">
+                Lire la suite →
+              </Link>
+            </div>
+          </Card>
         ))}
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StatJoueur, statistiquesService } from '../../features/statistiques/statistiquesService';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Card } from '../../components/ui/Card';
 
 export default function StatistiquesPage() {
   const [buteurs, setButeurs] = useState<StatJoueur[]>([]);
@@ -35,7 +36,7 @@ export default function StatistiquesPage() {
       <h1 className="text-2xl font-bold mb-8">Statistiques de l'équipe</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow h-96">
+        <Card className="p-6 h-96">
           <h2 className="text-lg font-semibold mb-4 text-center">Top Buteurs (Graphique)</h2>
           {buteursData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
@@ -50,10 +51,10 @@ export default function StatistiquesPage() {
           ) : (
             <div className="flex items-center justify-center h-full text-gray-500">Aucune donnée</div>
           )}
-        </div>
+        </Card>
 
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-lg font-semibold mb-4 border-b pb-2">Classement des Buteurs</h2>
+        <Card className="p-6">
+          <h2 className="text-lg font-semibold mb-4 border-b dark:border-gray-700 pb-2">Classement des Buteurs</h2>
           <table className="min-w-full text-sm">
             <thead>
               <tr className="text-left text-gray-500">
@@ -63,23 +64,28 @@ export default function StatistiquesPage() {
               </tr>
             </thead>
             <tbody>
-              {buteurs.length > 0 ? buteurs.map(b => (
-                <tr key={b.joueur_id} className="border-t">
-                  <td className="py-2">{b.prenom} {b.nom}</td>
+              {buteurs.length > 0 ? buteurs.map((b, index) => (
+                <tr key={b.joueur_id} className="border-t dark:border-gray-700">
+                  <td className="py-2 flex items-center gap-2">
+                    <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0 ? 'bg-secondary text-white' : index === 1 ? 'bg-gray-300 text-gray-800' : index === 2 ? 'bg-orange-200 text-orange-800' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'}`}>
+                      {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : index + 1}
+                    </span>
+                    {b.prenom} {b.nom}
+                  </td>
                   <td className="py-2 text-center">{b.matchs_joues}</td>
-                  <td className="py-2 text-center font-bold text-blue-600">{b.buts}</td>
+                  <td className="py-2 text-center font-bold text-primary">{b.buts}</td>
                 </tr>
               )) : (
                 <tr><td colSpan={3} className="text-center py-4 text-gray-500">Aucun buteur</td></tr>
               )}
             </tbody>
           </table>
-        </div>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-lg font-semibold mb-4 border-b pb-2">Top Passeurs</h2>
+        <Card className="p-6">
+          <h2 className="text-lg font-semibold mb-4 border-b dark:border-gray-700 pb-2">Top Passeurs</h2>
           <table className="min-w-full text-sm">
             <thead>
               <tr className="text-left text-gray-500">
@@ -89,9 +95,14 @@ export default function StatistiquesPage() {
               </tr>
             </thead>
             <tbody>
-              {passeurs.length > 0 ? passeurs.map(p => (
-                <tr key={p.joueur_id} className="border-t">
-                  <td className="py-2">{p.prenom} {p.nom}</td>
+              {passeurs.length > 0 ? passeurs.map((p, index) => (
+                <tr key={p.joueur_id} className="border-t dark:border-gray-700">
+                  <td className="py-2 flex items-center gap-2">
+                    <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0 ? 'bg-secondary text-white' : index === 1 ? 'bg-gray-300 text-gray-800' : index === 2 ? 'bg-orange-200 text-orange-800' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'}`}>
+                      {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : index + 1}
+                    </span>
+                    {p.prenom} {p.nom}
+                  </td>
                   <td className="py-2 text-center">{p.matchs_joues}</td>
                   <td className="py-2 text-center font-bold text-green-600">{p.passes_decisives}</td>
                 </tr>
@@ -100,10 +111,10 @@ export default function StatistiquesPage() {
               )}
             </tbody>
           </table>
-        </div>
+        </Card>
 
-        <div className="bg-white p-6 rounded-lg shadow">
-          <h2 className="text-lg font-semibold mb-4 border-b pb-2">Discipline (Cartons)</h2>
+        <Card className="p-6">
+          <h2 className="text-lg font-semibold mb-4 border-b dark:border-gray-700 pb-2">Discipline (Cartons)</h2>
           <table className="min-w-full text-sm">
             <thead>
               <tr className="text-left text-gray-500">
@@ -115,18 +126,18 @@ export default function StatistiquesPage() {
             </thead>
             <tbody>
               {discipline.length > 0 ? discipline.map(d => (
-                <tr key={d.joueur_id} className="border-t">
+                <tr key={d.joueur_id} className="border-t dark:border-gray-700">
                   <td className="py-2">{d.prenom} {d.nom}</td>
                   <td className="py-2 text-center">{d.matchs_joues}</td>
-                  <td className="py-2 text-center font-bold text-yellow-600">{d.cartons_jaunes}</td>
-                  <td className="py-2 text-center font-bold text-red-600">{d.cartons_rouges}</td>
+                  <td className="py-2 text-center font-bold text-accent-warning">{d.cartons_jaunes}</td>
+                  <td className="py-2 text-center font-bold text-accent-danger">{d.cartons_rouges}</td>
                 </tr>
               )) : (
                 <tr><td colSpan={4} className="text-center py-4 text-gray-500">Aucun avertissement</td></tr>
               )}
             </tbody>
           </table>
-        </div>
+        </Card>
       </div>
     </div>
   );

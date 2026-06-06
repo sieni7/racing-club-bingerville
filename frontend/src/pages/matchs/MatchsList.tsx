@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Match, matchsService } from '../../features/matchs/matchsService';
-import { Button } from '../../components/common/Button';
+import { Button } from '../../components/ui/Button';
+import { Badge } from '../../components/ui/Badge';
 import { Plus, Edit, Trash2, Calendar, ClipboardList } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -80,10 +81,9 @@ export default function MatchsList() {
                   {match.statut === 'TERMINE' ? `${match.score_equipe ?? '-'} : ${match.score_adversaire ?? '-'}` : '-'}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                    ${match.statut === 'TERMINE' ? 'bg-gray-100 text-gray-800' : match.statut === 'A_VENIR' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                  <Badge variant={match.statut === 'TERMINE' ? 'secondary' : match.statut === 'A_VENIR' ? 'primary' : 'warning'}>
                     {match.statut.replace('_', ' ')}
-                  </span>
+                  </Badge>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="flex justify-end gap-2">

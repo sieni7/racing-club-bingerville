@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { actualitesService } from '../../features/actualites/actualitesService';
 import { Input } from '../../components/common/Input';
-import { Button } from '../../components/common/Button';
+import { Button } from '../../components/ui/Button';
 
 const actuSchema = z.object({
   titre: z.string().min(3, 'Le titre doit faire au moins 3 caractères'),

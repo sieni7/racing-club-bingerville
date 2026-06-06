@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Composition, feuilleMatchService, StatutComposition } from '../../features/matchs/feuilleMatchService';
 import { joueursService } from '../../features/joueurs/joueursService';
-import { Button } from '../common/Button';
+import { Button } from '../ui/Button';
 
 export default function CompositionTab({ matchId }: { matchId: string }) {
   const [compositions, setCompositions] = useState<Composition[]>([]);

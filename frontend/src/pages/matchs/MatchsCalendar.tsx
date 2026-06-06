@@ -5,7 +5,7 @@ import { fr } from 'date-fns/locale';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Match, matchsService } from '../../features/matchs/matchsService';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '../../components/common/Button';
+import { Button } from '../../components/ui/Button';
 import { List, Plus } from 'lucide-react';
 
 const locales = {

@@ -1,4 +1,5 @@
 import { Trophy, Calendar, Target } from 'lucide-react';
+import { Card } from '../ui/Card';
 
 interface MetricsCardsProps {
   victoires: number;
@@ -18,7 +19,7 @@ export const MetricsCards = ({ victoires, defaites, buts, matchsRestants }: Metr
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
       {cards.map((card) => (
-        <div key={card.title} className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 transition-colors duration-200">
+        <Card key={card.title} className="p-6">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 dark:text-gray-400 text-sm">{card.title}</p>
@@ -26,7 +27,7 @@ export const MetricsCards = ({ victoires, defaites, buts, matchsRestants }: Metr
             </div>
             <card.icon className={`w-8 h-8 ${card.color}`} />
           </div>
-        </div>
+        </Card>
       ))}
     </div>
   );

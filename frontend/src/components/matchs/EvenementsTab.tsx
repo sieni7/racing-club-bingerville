@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { EvenementMatch, feuilleMatchService, TypeEvenement } from '../../features/matchs/feuilleMatchService';
 import { Composition } from '../../features/matchs/feuilleMatchService';
-import { Button } from '../common/Button';
+import { Button } from '../ui/Button';
 import { Trash2 } from 'lucide-react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';

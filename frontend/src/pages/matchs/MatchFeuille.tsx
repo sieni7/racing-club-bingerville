@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Match, matchsService } from '../../features/matchs/matchsService';
 import CompositionTab from '../../components/matchs/CompositionTab';
 import EvenementsTab from '../../components/matchs/EvenementsTab';
-import { Button } from '../../components/common/Button';
+import { Button } from '../../components/ui/Button';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 

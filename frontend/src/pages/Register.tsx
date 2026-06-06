@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Input } from '../components/common/Input';
-import { Button } from '../components/common/Button';
+import { Button } from '../components/ui/Button';
 
 const registerSchema = z.object({
   email: z.string().email('Email invalide'),

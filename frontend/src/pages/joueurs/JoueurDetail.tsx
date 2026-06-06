@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Joueur, joueursService } from '../../features/joueurs/joueursService';
-import { Button } from '../../components/common/Button';
+import { Button } from '../../components/ui/Button';
 import { Edit, ArrowLeft } from 'lucide-react';
 
 export default function JoueurDetail() {

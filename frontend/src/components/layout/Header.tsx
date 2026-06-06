@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { Button } from '../common/Button';
+import { Button } from '../ui/Button';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { DarkModeToggle } from '../common/DarkModeToggle';

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Joueur, joueursService } from '../../features/joueurs/joueursService';
-import { Button } from '../../components/common/Button';
+import { Button } from '../../components/ui/Button';
+import { Badge } from '../../components/ui/Badge';
 import { Plus, Edit, Trash2, Eye } from 'lucide-react';
 
 export default function JoueursList() {
@@ -72,10 +73,9 @@ export default function JoueursList() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{joueur.poste}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                    ${joueur.statut === 'ACTIF' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  <Badge variant={joueur.statut === 'ACTIF' ? 'success' : 'danger'}>
                     {joueur.statut}
-                  </span>
+                  </Badge>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="flex justify-end gap-2">

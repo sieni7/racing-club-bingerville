@@ -10,6 +10,7 @@ import { fr } from 'date-fns/locale';
 import { Calendar, Trophy, Users, FileText } from 'lucide-react';
 
 import { MetricsCards } from '../components/Dashboard/MetricsCards';
+import { Card } from '../components/ui/Card';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -79,106 +80,106 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* KPI: Joueurs Actifs */}
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-4 transition-colors">
+        <Card className="p-6 flex items-center gap-4">
           <div className="p-3 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-full"><Users size={24} /></div>
           <div>
             <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Joueurs Actifs</p>
             <p className="text-2xl font-bold text-gray-900 dark:text-white">{joueursActifsCount}</p>
           </div>
-        </div>
+        </Card>
 
         {/* Prochain Match */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 lg:col-span-2">
+        <Card className="p-6 lg:col-span-2">
           <div className="flex items-center gap-2 mb-4">
             <Calendar size={20} className="text-blue-500" />
-            <h2 className="font-bold text-gray-900">Prochain Match</h2>
+            <h2 className="font-bold text-gray-900 dark:text-white">Prochain Match</h2>
           </div>
           {prochainMatch ? (
             <div>
               <div className="flex items-center justify-between">
-                <span className="font-semibold text-lg">{prochainMatch.lieu === 'DOMICILE' ? 'Racing CB' : prochainMatch.adversaire}</span>
-                <span className="bg-gray-100 px-3 py-1 rounded-full text-xs font-bold text-gray-600">VS</span>
-                <span className="font-semibold text-lg">{prochainMatch.lieu === 'DOMICILE' ? prochainMatch.adversaire : 'Racing CB'}</span>
+                <span className="font-semibold text-lg dark:text-white">{prochainMatch.lieu === 'DOMICILE' ? 'Racing CB' : prochainMatch.adversaire}</span>
+                <span className="bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full text-xs font-bold text-gray-600 dark:text-gray-300">VS</span>
+                <span className="font-semibold text-lg dark:text-white">{prochainMatch.lieu === 'DOMICILE' ? prochainMatch.adversaire : 'Racing CB'}</span>
               </div>
-              <div className="mt-4 text-sm text-gray-500 flex justify-between">
+              <div className="mt-4 text-sm text-gray-500 dark:text-gray-400 flex justify-between">
                 <span>{format(new Date(prochainMatch.date_heure), 'dd MMMM yyyy HH:mm', { locale: fr })}</span>
                 <span>{prochainMatch.competition}</span>
               </div>
             </div>
           ) : (
-            <p className="text-gray-500 italic">Aucun match planifié</p>
+            <p className="text-gray-500 dark:text-gray-400 italic">Aucun match planifié</p>
           )}
-        </div>
+        </Card>
 
         {/* Dernier Résultat */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <Card className="p-6">
           <div className="flex items-center gap-2 mb-4">
             <Trophy size={20} className="text-yellow-500" />
-            <h2 className="font-bold text-gray-900">Dernier Résultat</h2>
+            <h2 className="font-bold text-gray-900 dark:text-white">Dernier Résultat</h2>
           </div>
           {dernierMatch ? (
             <div className="text-center">
-              <p className="text-sm font-medium text-gray-600 mb-2">vs {dernierMatch.adversaire}</p>
-              <div className="text-3xl font-black text-gray-800">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">vs {dernierMatch.adversaire}</p>
+              <div className="text-3xl font-black text-gray-800 dark:text-white">
                 {dernierMatch.score_equipe} - {dernierMatch.score_adversaire}
               </div>
-              <p className="text-xs text-gray-500 mt-2">{format(new Date(dernierMatch.date_heure), 'dd/MM/yyyy')}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">{format(new Date(dernierMatch.date_heure), 'dd/MM/yyyy')}</p>
             </div>
           ) : (
-            <p className="text-gray-500 italic">Aucun résultat</p>
+            <p className="text-gray-500 dark:text-gray-400 italic">Aucun résultat</p>
           )}
-        </div>
+        </Card>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Dernières Actualités */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 lg:col-span-2">
+        <Card className="p-6 lg:col-span-2">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
               <FileText size={20} className="text-indigo-500" />
-              <h2 className="font-bold text-gray-900 text-lg">Dernières Actualités</h2>
+              <h2 className="font-bold text-gray-900 dark:text-white text-lg">Dernières Actualités</h2>
             </div>
-            <Link to="/actualites" className="text-sm text-blue-600 hover:underline">Tout voir</Link>
+            <Link to="/actualites" className="text-sm text-primary hover:underline">Tout voir</Link>
           </div>
           <div className="space-y-4">
             {dernieresActus.length > 0 ? dernieresActus.map(actu => (
-              <div key={actu.id} className="border-b pb-4 last:border-0 last:pb-0">
-                <Link to={`/actualites/${actu.slug}`} className="hover:text-blue-600 font-semibold block mb-1">
+              <div key={actu.id} className="border-b dark:border-gray-700 pb-4 last:border-0 last:pb-0">
+                <Link to={`/actualites/${actu.slug}`} className="hover:text-primary dark:text-gray-200 dark:hover:text-primary-light font-semibold block mb-1">
                   {actu.titre}
                 </Link>
-                <div className="flex items-center text-xs text-gray-500 gap-2">
+                <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 gap-2">
                   <span>{format(new Date(actu.published_at!), 'dd MMM yyyy', { locale: fr })}</span>
-                  {actu.statut === 'BROUILLON' && <span className="text-orange-500 bg-orange-100 px-2 rounded-full">Brouillon</span>}
+                  {actu.statut === 'BROUILLON' && <span className="text-orange-500 bg-orange-100 dark:bg-orange-900/30 px-2 rounded-full">Brouillon</span>}
                 </div>
               </div>
             )) : (
-              <p className="text-gray-500 italic">Aucune actualité publiée</p>
+              <p className="text-gray-500 dark:text-gray-400 italic">Aucune actualité publiée</p>
             )}
           </div>
-        </div>
+        </Card>
 
         {/* Top Buteurs */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+        <Card className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-bold text-gray-900 text-lg">Top Buteurs</h2>
-            <Link to="/statistiques" className="text-sm text-blue-600 hover:underline">Détails</Link>
+            <h2 className="font-bold text-gray-900 dark:text-white text-lg">Top Buteurs</h2>
+            <Link to="/statistiques" className="text-sm text-primary hover:underline">Détails</Link>
           </div>
           <div className="space-y-4">
             {topButeurs.length > 0 ? topButeurs.map((buteur, index) => (
               <div key={buteur.joueur_id} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0 ? 'bg-yellow-100 text-yellow-700' : index === 1 ? 'bg-gray-200 text-gray-700' : 'bg-orange-100 text-orange-700'}`}>
+                  <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0 ? 'bg-secondary text-white' : index === 1 ? 'bg-gray-300 text-gray-800' : 'bg-orange-200 text-orange-800'}`}>
                     {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : index + 1}
                   </span>
-                  <span className="font-medium">{buteur.prenom} {buteur.nom}</span>
+                  <span className="font-medium dark:text-gray-200">{buteur.prenom} {buteur.nom}</span>
                 </div>
-                <span className="font-bold text-blue-600">{buteur.buts} ⚽</span>
+                <span className="font-bold text-primary dark:text-primary-light">{buteur.buts} ⚽</span>
               </div>
             )) : (
-              <p className="text-gray-500 italic">Aucun buteur</p>
+              <p className="text-gray-500 dark:text-gray-400 italic">Aucun buteur</p>
             )}
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   );
