@@ -1,9 +1,0 @@
-{
-  "status": "PASS",
-  "backend": 84,
-  "frontend": 76,
-  "thresholds": {
-    "backend": 80,
-    "frontend": 70
-  }
-}
