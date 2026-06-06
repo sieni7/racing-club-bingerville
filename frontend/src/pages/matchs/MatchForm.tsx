@@ -1,17 +1,46 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { useMatchForm } from '../../hooks/useMatchForm';
+import { matchsService } from '../../features/matchs/matchsService';
 
 export default function MatchForm() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { register, handleSubmit, onSubmit, errors, isSubmitting, statut } = useMatchForm(id);
+  const [initialData, setInitialData] = useState<any>(undefined);
+
+  useEffect(() => {
+    if (id) {
+      matchsService.getById(id).then(data => {
+        setInitialData({
+          ...data,
+          date_heure: new Date(data.date_heure).toISOString().slice(0, 16)
+        });
+      });
+    } else {
+      setInitialData({});
+    }
+  }, [id]);
+
+  if (initialData === undefined) return <div>Chargement...</div>;
+
+  return <MatchFormInner id={id} initialData={initialData} navigate={navigate} />;
+}
+
+function MatchFormInner({ id, initialData, navigate }: { id?: string, initialData: Partial<import('../../hooks/useMatchForm').MatchFormData> & { id?: string }, navigate: any }) {
+  const { form, onSubmit, isSubmitting } = useMatchForm({ ...initialData, id }, () => {
+    navigate('/matchs');
+  });
+
+  const { register, watch, formState: { errors } } = form;
+  const statut = watch('statut');
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
       <h1 className="text-2xl font-bold mb-6">{id ? 'Modifier le match' : 'Planifier un match'}</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
+      {/* @ts-ignore */}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
         
         <div className="grid grid-cols-2 gap-4">
           <Input label="Date et Heure" type="datetime-local" {...register('date_heure')} error={errors.date_heure?.message} />

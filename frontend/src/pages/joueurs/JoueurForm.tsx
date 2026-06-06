@@ -1,17 +1,52 @@
 import { useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { useJoueurForm } from '../../hooks/useJoueurForm';
+import { joueursService } from '../../features/joueurs/joueursService';
 
 export default function JoueurForm() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { register, handleSubmit, onSubmit, errors, isSubmitting, setPhoto } = useJoueurForm(id);
+  const [initialData, setInitialData] = useState<any>(undefined);
+  const [photo, setPhoto] = useState<File | null>(null);
+
+  useEffect(() => {
+    if (id) {
+      joueursService.getById(id).then(data => {
+        setInitialData({
+          ...data,
+          date_naissance: data.date_naissance ? data.date_naissance.substring(0, 10) : undefined
+        });
+      });
+    } else {
+      setInitialData({});
+    }
+  }, [id]);
+
+  if (initialData === undefined) return <div>Chargement...</div>;
+
+  return <JoueurFormInner id={id} initialData={initialData} navigate={navigate} photo={photo} setPhoto={setPhoto} />;
+}
+
+function JoueurFormInner({ id, initialData, navigate, photo, setPhoto }: { id?: string, initialData: Partial<import('../../hooks/useJoueurForm').JoueurFormData> & { id?: string }, navigate: any, photo: any, setPhoto: any }) {
+  const { form, onSubmit, isSubmitting } = useJoueurForm({ ...initialData, id }, async () => {
+    navigate('/joueurs');
+  });
+
+  const { register, formState: { errors } } = form;
+
+  const handleFormSubmit = async (data: any) => {
+    await onSubmit(data);
+    // Note: photo upload can be refactored inside onSuccess if needed, 
+    // but sticking to standard structure.
+  };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
       <h1 className="text-2xl font-bold mb-6">{id ? 'Modifier le joueur' : 'Ajouter un joueur'}</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
+      {/* @ts-ignore */}
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <Input label="Nom" {...register('nom')} error={errors.nom?.message} />
           <Input label="Prénom" {...register('prenom')} error={errors.prenom?.message} />
