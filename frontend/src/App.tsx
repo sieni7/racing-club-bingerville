@@ -9,6 +9,9 @@ import Dashboard from './pages/Dashboard';
 import JoueursList from './pages/joueurs/JoueursList';
 import JoueurForm from './pages/joueurs/JoueurForm';
 import JoueurDetail from './pages/joueurs/JoueurDetail';
+import MatchsList from './pages/matchs/MatchsList';
+import MatchsCalendar from './pages/matchs/MatchsCalendar';
+import MatchForm from './pages/matchs/MatchForm';
 
 function App() {
   return (
@@ -22,11 +25,19 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route element={<PrivateRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
+                
+                {/* Joueurs */}
                 <Route path="/joueurs" element={<JoueursList />} />
                 <Route path="/joueurs/nouveau" element={<JoueurForm />} />
                 <Route path="/joueurs/:id" element={<JoueurDetail />} />
                 <Route path="/joueurs/:id/editer" element={<JoueurForm />} />
-                <Route path="/matchs" element={<div>Matchs - à venir</div>} />
+                
+                {/* Matchs */}
+                <Route path="/matchs" element={<MatchsList />} />
+                <Route path="/matchs/calendrier" element={<MatchsCalendar />} />
+                <Route path="/matchs/nouveau" element={<MatchForm />} />
+                <Route path="/matchs/:id/editer" element={<MatchForm />} />
+                
                 <Route path="/statistiques" element={<div>Statistiques - à venir</div>} />
                 <Route path="/actualites" element={<div>Actualités - à venir</div>} />
               </Route>

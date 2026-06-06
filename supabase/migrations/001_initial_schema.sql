@@ -49,3 +49,28 @@ FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE INDEX idx_joueurs_numero ON public.joueurs(numero);
 CREATE INDEX idx_joueurs_poste ON public.joueurs(poste);
 CREATE INDEX idx_joueurs_statut ON public.joueurs(statut);
+
+-- =====================================================
+-- 3. TABLE MATCHS
+-- =====================================================
+CREATE TABLE IF NOT EXISTS public.matchs (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  date_heure TIMESTAMPTZ NOT NULL,
+  adversaire TEXT NOT NULL,
+  lieu TEXT NOT NULL CHECK (lieu IN ('DOMICILE', 'EXTERIEUR', 'NEUTRE')),
+  competition TEXT NOT NULL CHECK (competition IN ('CHAMPIONNAT', 'COUPE', 'AMICAL')),
+  score_equipe INTEGER,
+  score_adversaire INTEGER,
+  statut TEXT NOT NULL DEFAULT 'A_VENIR' CHECK (statut IN ('A_VENIR', 'EN_COURS', 'TERMINE', 'ANNULE')),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Trigger pour updated_at
+CREATE TRIGGER update_matchs_updated_at BEFORE UPDATE ON public.matchs
+FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Index pour performances
+CREATE INDEX idx_matchs_date_heure ON public.matchs(date_heure);
+CREATE INDEX idx_matchs_statut ON public.matchs(statut);
+CREATE INDEX idx_matchs_competition ON public.matchs(competition);

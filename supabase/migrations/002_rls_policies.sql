@@ -37,3 +37,18 @@ CREATE POLICY "Admin et staff peuvent supprimer" ON storage.objects
     bucket_id = 'joueurs-photos' 
     AND auth.role() IN ('ADMIN', 'STAFF')
   );
+
+-- =====================================================
+-- RLS POLICIES - TABLE MATCHS
+-- =====================================================
+
+-- Activer RLS
+ALTER TABLE public.matchs ENABLE ROW LEVEL SECURITY;
+
+-- Lecture publique (tout le monde peut voir les matchs)
+CREATE POLICY "Matchs visibles par tous" ON public.matchs
+  FOR SELECT USING (true);
+
+-- Écriture réservée aux ADMIN et STAFF
+CREATE POLICY "Admin et staff peuvent tout modifier" ON public.matchs
+  FOR ALL USING (auth.role() IN ('ADMIN', 'STAFF'));
