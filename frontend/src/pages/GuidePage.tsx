@@ -1,4 +1,4 @@
-import { Card } from '../../components/ui/Card';
+import { Card } from '../components/ui/Card';
 import { BookOpen, Users, Play, Calendar, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 

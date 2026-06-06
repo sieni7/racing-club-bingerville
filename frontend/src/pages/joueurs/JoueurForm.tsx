@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/ui/Button';
 import { useJoueurForm } from '../../hooks/useJoueurForm';
@@ -36,17 +37,40 @@ function JoueurFormInner({ id, initialData, navigate, photo, setPhoto }: { id?: 
 
   const { register, formState: { errors } } = form;
 
-  const handleFormSubmit = async (data: any) => {
-    await onSubmit(data);
-    // Note: photo upload can be refactored inside onSuccess if needed, 
-    // but sticking to standard structure.
+  const onSubmitForm = async (data: any) => {
+    const cleanedData = {
+      nom: data.nom,
+      prenom: data.prenom,
+      poste: data.poste,
+      numero: data.numero,
+      statut: data.statut,
+      date_naissance: data.date_naissance || null,
+      nationalite: data.nationalite || null,
+      taille: data.taille || null,
+      poids: data.poids || null,
+      photo_url: data.photo_url || null
+    };
+
+    try {
+      if (initialData?.id) {
+        await joueursService.update(initialData.id, cleanedData);
+        toast.success('Joueur modifié avec succès');
+      } else {
+        await joueursService.create(cleanedData);
+        toast.success('Joueur créé avec succès');
+      }
+      navigate('/joueurs');
+    } catch (err) {
+      console.error('Erreur:', err);
+      toast.error('Erreur lors de l\'enregistrement');
+    }
   };
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
       <h1 className="text-2xl font-bold mb-6">{id ? 'Modifier le joueur' : 'Ajouter un joueur'}</h1>
       {/* @ts-ignore */}
-      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmitForm)} className="bg-white p-6 rounded-lg shadow-md space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <Input label="Nom" {...register('nom')} error={errors.nom?.message} />
           <Input label="Prénom" {...register('prenom')} error={errors.prenom?.message} />
