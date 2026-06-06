@@ -7,7 +7,7 @@ Auteur: Audit automatisé (format rapport entreprise)
 
 ## Résumé exécutif
 
-Etat global: le projet dispose d'un frontend React/Vite structuré, d'une configuration CI/CD basique et de migrations Supabase créées. Plusieurs sprints (0→6) sont documentés et déclarés livrés. Cependant, des éléments critiques restent non vérifiables ou incomplets localement : le backend historique est absent, les migrations/RLS doivent être validées techniquement et les Netlify Functions exigent sécurisation. Décision: NO-GO pour mise en production tant que les actions critiques ne sont pas réalisées et validées.
+Etat global: le projet dispose d'un frontend React/Vite structuré, d'une configuration CI/CD basique et de migrations Supabase créées. Plusieurs sprints (0→7) sont documentés et déclarés livrés. Cependant, des éléments critiques restent non vérifiables ou incomplets localement : le backend historique est absent, les migrations/RLS doivent être validées techniquement et les Netlify Functions exigent sécurisation. Décision: NO-GO pour mise en production tant que les actions critiques ne sont pas réalisées et validées.
 
 Score global estimé (0–100): 53
 
@@ -27,7 +27,7 @@ Score global estimé (0–100): 53
 - Création/édition des migrations Supabase initiales: `001_initial_schema.sql`, `002_rls_policies.sql`, `003_statistiques_view.sql`.
 - Mises à jour récentes de `frontend/src/App.tsx` et `frontend/package.json`.
 - Déploiement local Netlify pour `frontend/dist` (commande `npx netlify deploy` exécutée localement).
-- Consolidation et génération du présent rapport d'audit, incluant la synthèse des sprints 0→6.
+-- Consolidation et génération du présent rapport d'audit, incluant la synthèse des sprints 0→7.
 
 Ces actions fournissent une base de travail mais requièrent validations techniques (migrations exécutées en staging, tests RLS, revue code pour functions) avant tout passage en production.
 
@@ -48,9 +48,9 @@ Ces actions fournissent une base de travail mais requièrent validations techniq
 
 ---
 
-## Synthèse des sprints (Sprint0 → Sprint6)
+## Synthèse des sprints (Sprint0 → Sprint7)
 
-Les rapports de sprint présents dans `sprint_report/` (Sprint0…Sprint6) indiquent l'achèvement progressif des modules suivants:
+Les rapports de sprint présents dans `sprint_report/` (Sprint0…Sprint7) indiquent l'achèvement progressif des modules suivants:
 
 - Sprint 0: fondations & infra (monorepo, CI, netlify.toml).
 - Sprint 1: Auth & layout (AuthContext, PrivateRoute, tests, coverage ≈82%).
@@ -59,6 +59,7 @@ Les rapports de sprint présents dans `sprint_report/` (Sprint0…Sprint6) indiq
 - Sprint 4: Compositions & événements (tables, services, tests).
 - Sprint 5: Statistiques (vues SQL, pages graphiques, tests).
 - Sprint 6: Actualités & dashboard (table actualites, RLS, UIs admin/public).
+- Sprint 7: Tests finaux & déploiement (smoke tests Playwright, script `test:e2e`, guide déploiement Netlify, README final).
 
 Ces rapports attestent d'efforts de livraison et de tests; néanmoins, chaque élément doit être techniquement vérifié en staging pour confirmer l'état observé.
 
@@ -155,7 +156,7 @@ Sprint Correctif 3 (2–4j): observabilité, optimisation frontend, documentatio
 - supabase/migrations/001_initial_schema.sql
 - supabase/migrations/002_rls_policies.sql
 - supabase/migrations/003_statistiques_view.sql
-- sprint_report/Sprint0_2026-06-06.md → Sprint6_2026-06-06.md
+- sprint_report/Sprint0_2026-06-06.md → Sprint7_2026-06-06.md
 
 ---
 
