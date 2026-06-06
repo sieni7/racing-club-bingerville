@@ -12,6 +12,7 @@ import { motion } from 'framer-motion';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { generateInsights, Insight } from '../features/insights/insightEngine';
+import { TooltipHelper } from '../components/common/TooltipHelper';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -117,7 +118,10 @@ export default function Dashboard() {
         <Card className="p-6 md:col-span-2 flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-6">
             <Activity size={20} className="text-accent-info" />
-            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">Dernier Résultat</h2>
+            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center">
+              Dernier Résultat
+              <TooltipHelper id="tt-dernier-resultat" content="Le résultat du dernier match joué par l'équipe" />
+            </h2>
           </div>
           {dernierMatch ? (
             <div className="flex items-center justify-between">
@@ -144,7 +148,10 @@ export default function Dashboard() {
         {/* Top 3 Joueurs */}
         <Card className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center gap-2"><Trophy size={16} className="text-secondary" /> Top Joueurs</h2>
+            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center gap-2">
+              <Trophy size={16} className="text-secondary" /> Top Joueurs
+              <TooltipHelper id="tt-top-joueurs" content="Classement basé sur le nombre de buts marqués" />
+            </h2>
             <Link to="/statistiques" className="text-xs text-primary hover:underline">Détails</Link>
           </div>
           <div className="space-y-4">
@@ -168,7 +175,10 @@ export default function Dashboard() {
         <Card className="p-6 md:col-span-3 bg-gradient-to-br from-background-card to-background">
           <div className="flex items-center gap-2 mb-6">
             <BrainCircuit size={20} className="text-purple-500" />
-            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">Intelligence & Insights</h2>
+            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center">
+              Intelligence & Insights
+              <TooltipHelper id="tt-insights" content="Analyse automatique des performances et tendances de l'équipe" />
+            </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {insights.map(insight => (
@@ -193,7 +203,10 @@ export default function Dashboard() {
         <Card className="p-6 md:col-span-3">
           <div className="flex items-center gap-2 mb-6">
             <Calendar size={20} className="text-content-muted" />
-            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm">Timeline de la Semaine</h2>
+            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center">
+              Timeline de la Semaine
+              <TooltipHelper id="tt-timeline" content="Calendrier des matchs prévus cette semaine" />
+            </h2>
           </div>
           
           <div className="flex justify-between items-stretch gap-2 overflow-x-auto pb-2">

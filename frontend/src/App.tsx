@@ -6,6 +6,7 @@ import { PrivateRoute } from './components/auth/PrivateRoute';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { CommandCenter } from './components/layout/CommandCenter';
+import { OnboardingModal } from './components/common/OnboardingModal';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -25,6 +26,8 @@ const ActualitesList = lazy(() => import('./pages/actualites/ActualitesList'));
 const ActualiteForm = lazy(() => import('./pages/actualites/ActualiteForm'));
 const ActualiteDetail = lazy(() => import('./pages/actualites/ActualiteDetail'));
 
+const GuidePage = lazy(() => import('./pages/GuidePage'));
+
 function App() {
   return (
     <BrowserRouter>
@@ -32,7 +35,7 @@ function App() {
         <div className="flex flex-col min-h-screen">
           <Header />
           <main className="flex-grow">
-            <Suspense fallback={<div className="flex justify-center items-center h-screen">Chargement...</div>}>
+            <Suspense fallback={<div className="flex justify-center items-center h-screen"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>}>
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
@@ -60,6 +63,9 @@ function App() {
                   <Route path="/actualites/nouvelle" element={<ActualiteForm />} />
                   <Route path="/actualites/:slug" element={<ActualiteDetail />} />
                   <Route path="/actualites/:id/editer" element={<ActualiteForm />} />
+
+                  {/* Guide */}
+                  <Route path="/guide" element={<GuidePage />} />
                   
                 </Route>
                 <Route path="/" element={<Dashboard />} />
@@ -68,6 +74,7 @@ function App() {
           </main>
           <Footer />
           <CommandCenter />
+          <OnboardingModal />
           <Toaster position="top-right" />
         </div>
       </AuthProvider>
