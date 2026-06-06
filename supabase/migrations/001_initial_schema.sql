@@ -74,3 +74,45 @@ FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 CREATE INDEX idx_matchs_date_heure ON public.matchs(date_heure);
 CREATE INDEX idx_matchs_statut ON public.matchs(statut);
 CREATE INDEX idx_matchs_competition ON public.matchs(competition);
+
+-- =====================================================
+-- 4. TABLE COMPOSITIONS
+-- =====================================================
+CREATE TABLE IF NOT EXISTS public.compositions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  match_id UUID NOT NULL REFERENCES public.matchs(id) ON DELETE CASCADE,
+  joueur_id UUID NOT NULL REFERENCES public.joueurs(id) ON DELETE CASCADE,
+  statut TEXT NOT NULL CHECK (statut IN ('TITULAIRE', 'REMPLACANT', 'ABSENT')),
+  numero_maillot INTEGER,
+  est_capitaine BOOLEAN DEFAULT FALSE,
+  minutes_jouees INTEGER DEFAULT 0,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW(),
+  UNIQUE(match_id, joueur_id)
+);
+
+-- Trigger pour updated_at
+CREATE TRIGGER update_compositions_updated_at BEFORE UPDATE ON public.compositions
+FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Index pour performances
+CREATE INDEX idx_compositions_match ON public.compositions(match_id);
+CREATE INDEX idx_compositions_joueur ON public.compositions(joueur_id);
+
+-- =====================================================
+-- 5. TABLE EVENEMENTS_MATCH
+-- =====================================================
+CREATE TABLE IF NOT EXISTS public.evenements_match (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  match_id UUID NOT NULL REFERENCES public.matchs(id) ON DELETE CASCADE,
+  joueur_id UUID REFERENCES public.joueurs(id) ON DELETE SET NULL,
+  type_evenement TEXT NOT NULL CHECK (type_evenement IN ('BUT', 'PASSE', 'CARTON_JAUNE', 'CARTON_ROUGE', 'ENTREE', 'SORTIE')),
+  minute INTEGER NOT NULL CHECK (minute BETWEEN 0 AND 120),
+  description TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Index pour performances
+CREATE INDEX idx_evenements_match ON public.evenements_match(match_id);
+CREATE INDEX idx_evenements_joueur ON public.evenements_match(joueur_id);
+CREATE INDEX idx_evenements_minute ON public.evenements_match(minute);

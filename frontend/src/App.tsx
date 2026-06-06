@@ -12,6 +12,7 @@ import JoueurDetail from './pages/joueurs/JoueurDetail';
 import MatchsList from './pages/matchs/MatchsList';
 import MatchsCalendar from './pages/matchs/MatchsCalendar';
 import MatchForm from './pages/matchs/MatchForm';
+import MatchFeuille from './pages/matchs/MatchFeuille';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
                 <Route path="/matchs/calendrier" element={<MatchsCalendar />} />
                 <Route path="/matchs/nouveau" element={<MatchForm />} />
                 <Route path="/matchs/:id/editer" element={<MatchForm />} />
+                <Route path="/matchs/:id/feuille" element={<MatchFeuille />} />
                 
                 <Route path="/statistiques" element={<div>Statistiques - à venir</div>} />
                 <Route path="/actualites" element={<div>Actualités - à venir</div>} />

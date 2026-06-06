@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Match, matchsService } from '../../features/matchs/matchsService';
 import { Button } from '../../components/common/Button';
-import { Plus, Edit, Trash2, Calendar } from 'lucide-react';
+import { Plus, Edit, Trash2, Calendar, ClipboardList } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
@@ -87,6 +87,7 @@ export default function MatchsList() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div className="flex justify-end gap-2">
+                    <Link to={`/matchs/${match.id}/feuille`} className="text-blue-600 hover:text-blue-900" title="Feuille de match"><ClipboardList size={18} /></Link>
                     <Link to={`/matchs/${match.id}/editer`} className="text-indigo-600 hover:text-indigo-900"><Edit size={18} /></Link>
                     <button onClick={() => handleDelete(match.id)} className="text-red-600 hover:text-red-900"><Trash2 size={18} /></button>
                   </div>

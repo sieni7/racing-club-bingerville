@@ -52,3 +52,29 @@ CREATE POLICY "Matchs visibles par tous" ON public.matchs
 -- Écriture réservée aux ADMIN et STAFF
 CREATE POLICY "Admin et staff peuvent tout modifier" ON public.matchs
   FOR ALL USING (auth.role() IN ('ADMIN', 'STAFF'));
+
+-- =====================================================
+-- RLS POLICIES - TABLE COMPOSITIONS
+-- =====================================================
+ALTER TABLE public.compositions ENABLE ROW LEVEL SECURITY;
+
+-- Lecture publique
+CREATE POLICY "Compositions visibles par tous" ON public.compositions
+  FOR SELECT USING (true);
+
+-- Écriture STAFF/ADMIN
+CREATE POLICY "Admin et staff peuvent gérer compositions" ON public.compositions
+  FOR ALL USING (auth.role() IN ('ADMIN', 'STAFF'));
+
+-- =====================================================
+-- RLS POLICIES - TABLE EVENEMENTS_MATCH
+-- =====================================================
+ALTER TABLE public.evenements_match ENABLE ROW LEVEL SECURITY;
+
+-- Lecture publique
+CREATE POLICY "Evenements visibles par tous" ON public.evenements_match
+  FOR SELECT USING (true);
+
+-- Écriture STAFF/ADMIN
+CREATE POLICY "Admin et staff peuvent gérer événements" ON public.evenements_match
+  FOR ALL USING (auth.role() IN ('ADMIN', 'STAFF'));
