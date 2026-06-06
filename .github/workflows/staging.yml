@@ -1,0 +1,28 @@
+name: Deploy Staging
+
+on:
+  push:
+    branches: [staging]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: cd frontend && npm ci
+      
+      - name: Build
+        run: cd frontend && npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.STAGING_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.STAGING_SUPABASE_ANON_KEY }}
+      
+      - name: Deploy to Netlify (Staging)
+        run: npx netlify deploy --prod --dir=frontend/dist --site=${{ secrets.STAGING_SITE_ID }} --auth=${{ secrets.NETLIFY_AUTH_TOKEN }}

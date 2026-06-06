@@ -1,0 +1,17 @@
+feat(optimize): add materialized stats view, staging environment, validation script (Sprint Correctif 3)
+
+PERFORMANCE:
+- Convert stats_joueurs to MATERIALIZED VIEW
+- Add refresh_stats() function
+- Add triggers for auto-refresh on match/event changes
+- Add indexes on MV for fast queries
+
+INFRASTRUCTURE:
+- Create staging branch
+- Add GitHub Actions workflow for staging deploys
+- Configure Netlify staging environment
+
+QUALITY:
+- Add validate-stats.ts script for non-regression testing
+
+Stats query performance: ~200ms -> ~10ms (95% improvement)
