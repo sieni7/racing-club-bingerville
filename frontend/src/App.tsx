@@ -14,6 +14,9 @@ import MatchsCalendar from './pages/matchs/MatchsCalendar';
 import MatchForm from './pages/matchs/MatchForm';
 import MatchFeuille from './pages/matchs/MatchFeuille';
 import StatistiquesPage from './pages/statistiques/StatistiquesPage';
+import ActualitesList from './pages/actualites/ActualitesList';
+import ActualiteForm from './pages/actualites/ActualiteForm';
+import ActualiteDetail from './pages/actualites/ActualiteDetail';
 
 function App() {
   return (
@@ -44,7 +47,12 @@ function App() {
                 {/* Statistiques */}
                 <Route path="/statistiques" element={<StatistiquesPage />} />
                 
-                <Route path="/actualites" element={<div>Actualités - à venir</div>} />
+                {/* Actualités */}
+                <Route path="/actualites" element={<ActualitesList />} />
+                <Route path="/actualites/nouvelle" element={<ActualiteForm />} />
+                <Route path="/actualites/:slug" element={<ActualiteDetail />} />
+                <Route path="/actualites/:id/editer" element={<ActualiteForm />} />
+                
               </Route>
               <Route path="/" element={<Dashboard />} />
             </Routes>

@@ -78,3 +78,19 @@ CREATE POLICY "Evenements visibles par tous" ON public.evenements_match
 -- Écriture STAFF/ADMIN
 CREATE POLICY "Admin et staff peuvent gérer événements" ON public.evenements_match
   FOR ALL USING (auth.role() IN ('ADMIN', 'STAFF'));
+
+-- =====================================================
+-- RLS POLICIES - TABLE ACTUALITES
+-- =====================================================
+ALTER TABLE public.actualites ENABLE ROW LEVEL SECURITY;
+
+-- Lecture publique (seulement les articles publiés)
+CREATE POLICY "Articles publiés visibles par tous" ON public.actualites
+  FOR SELECT USING (statut = 'PUBLIE');
+
+-- Admin et staff peuvent tout voir et tout modifier
+CREATE POLICY "Admin et staff peuvent tout voir" ON public.actualites
+  FOR SELECT USING (auth.role() IN ('ADMIN', 'STAFF'));
+
+CREATE POLICY "Admin et staff peuvent tout modifier" ON public.actualites
+  FOR ALL USING (auth.role() IN ('ADMIN', 'STAFF'));

@@ -116,3 +116,28 @@ CREATE TABLE IF NOT EXISTS public.evenements_match (
 CREATE INDEX idx_evenements_match ON public.evenements_match(match_id);
 CREATE INDEX idx_evenements_joueur ON public.evenements_match(joueur_id);
 CREATE INDEX idx_evenements_minute ON public.evenements_match(minute);
+
+-- =====================================================
+-- 6. TABLE ACTUALITES
+-- =====================================================
+CREATE TABLE IF NOT EXISTS public.actualites (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  titre TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  contenu TEXT NOT NULL,
+  image_url TEXT,
+  auteur_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
+  statut TEXT NOT NULL DEFAULT 'BROUILLON' CHECK (statut IN ('BROUILLON', 'PUBLIE')),
+  published_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Trigger pour updated_at
+CREATE TRIGGER update_actualites_updated_at BEFORE UPDATE ON public.actualites
+FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Index pour performances
+CREATE INDEX idx_actualites_slug ON public.actualites(slug);
+CREATE INDEX idx_actualites_statut ON public.actualites(statut);
+CREATE INDEX idx_actualites_published_at ON public.actualites(published_at DESC);
