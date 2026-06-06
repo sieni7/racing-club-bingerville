@@ -18,7 +18,7 @@ export const getAllJoueurs = async (req: Request, res: Response) => {
 
 export const getJoueurById = async (req: Request, res: Response) => {
   try {
-    const joueur = await joueurService.getJoueurById(req.params.id);
+    const joueur = await joueurService.getJoueurById(String(req.params.id));
     if (!joueur) {
       return res.status(404).json({ message: 'Joueur not found' });
     }
@@ -34,8 +34,8 @@ export const createJoueur = async (req: Request, res: Response) => {
     const joueur = await joueurService.createJoueur(validatedData as Parameters<typeof joueurService.createJoueur>[0]);
     res.status(201).json(joueur);
   } catch (error: unknown) {
-    if (error instanceof z.ZodError) {
-      return res.status(400).json({ message: 'Validation error', errors: error.errors });
+    if ((error as any)?.errors) {
+      return res.status(400).json({ message: 'Validation error', errors: (error as any).errors });
     }
     res.status(500).json({ message: 'Error creating joueur' });
   }
@@ -44,7 +44,7 @@ export const createJoueur = async (req: Request, res: Response) => {
 export const updateJoueur = async (req: Request, res: Response) => {
   try {
     const validatedData = JoueurSchema.partial().parse(req.body);
-    const joueur = await joueurService.updateJoueur(req.params.id, validatedData as Parameters<typeof joueurService.updateJoueur>[1]);
+    const joueur = await joueurService.updateJoueur(String(req.params.id), validatedData as any);
     if (!joueur) {
       return res.status(404).json({ message: 'Joueur not found' });
     }
@@ -59,7 +59,7 @@ export const updateJoueur = async (req: Request, res: Response) => {
 
 export const deleteJoueur = async (req: Request, res: Response) => {
   try {
-    const success = await joueurService.deleteJoueur(req.params.id);
+    const success = await joueurService.deleteJoueur(String(req.params.id));
     if (!success) {
       return res.status(404).json({ message: 'Joueur not found' });
     }

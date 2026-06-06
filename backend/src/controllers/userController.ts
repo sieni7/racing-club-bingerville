@@ -12,7 +12,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   try {
-    const user = await userService.getUserById(req.params.id);
+    const user = await userService.getUserById(String(req.params.id));
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }

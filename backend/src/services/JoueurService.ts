@@ -30,7 +30,7 @@ export class JoueurService {
   }
 
   async createWithUser(userData: Partial<IUser>, joueurData: Partial<IJoueur>): Promise<{ user: IUser; joueur: IJoueur }> {
-    const isReplicaSet = mongoose.connection.client?.s?.options?.replicaSet;
+    const isReplicaSet = (mongoose.connection as any).client?.s?.options?.replicaSet;
     if (!isReplicaSet && process.env.NODE_ENV !== 'test') {
       console.warn('⚠️ Transactions non disponibles - mode fallback activé');
       const user = await userRepository.create(userData);
@@ -38,7 +38,7 @@ export class JoueurService {
         const joueur = await joueurRepository.create({ ...joueurData, userId: user._id as mongoose.Types.ObjectId });
         return { user, joueur };
       } catch (error) {
-        await userRepository.delete(user._id as string);
+        await userRepository.delete(String(user._id));
         throw error;
       }
     }

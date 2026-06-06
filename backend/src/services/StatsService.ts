@@ -51,7 +51,7 @@ export class StatsService {
   async recalculateAllStats(saison: string): Promise<void> {
     const joueurs = await joueurRepository.findAll();
     for (const joueur of joueurs) {
-      await this.recalculateForJoueur(joueur._id as string, saison);
+      await this.recalculateForJoueur(String(joueur._id), saison);
     }
   }
 }

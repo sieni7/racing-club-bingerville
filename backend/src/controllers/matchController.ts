@@ -21,7 +21,7 @@ export const createMatchController = (matchService: MatchService) => ({
 
   getMatchById: async (req: Request, res: Response) => {
     try {
-      const match = await matchService.getMatchById(req.params.id);
+      const match = await matchService.getMatchById(String(req.params.id));
       if (!match) {
         return res.status(404).json({ message: 'Match not found' });
       }
@@ -34,11 +34,11 @@ export const createMatchController = (matchService: MatchService) => ({
   createMatch: async (req: Request, res: Response) => {
     try {
       const validatedData = matchSchema.parse(req.body);
-      const match = await matchService.createMatch(validatedData);
+      const match = await matchService.createMatch(validatedData as any);
       res.status(201).json(match);
     } catch (error: unknown) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: 'Validation error', errors: error.errors });
+      if ((error as any)?.errors) {
+        return res.status(400).json({ message: 'Validation error', errors: (error as any).errors });
       }
       res.status(500).json({ message: 'Error creating match' });
     }
@@ -47,14 +47,14 @@ export const createMatchController = (matchService: MatchService) => ({
   updateMatch: async (req: Request, res: Response) => {
     try {
       const validatedData = matchSchema.partial().parse(req.body);
-      const match = await matchService.updateMatch(req.params.id, validatedData);
+      const match = await matchService.updateMatch(String(req.params.id), validatedData as any);
       if (!match) {
         return res.status(404).json({ message: 'Match not found' });
       }
       res.status(200).json(match);
     } catch (error: unknown) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: 'Validation error', errors: error.errors });
+      if ((error as any)?.errors) {
+        return res.status(400).json({ message: 'Validation error', errors: (error as any).errors });
       }
       res.status(500).json({ message: 'Error updating match' });
     }
@@ -62,7 +62,7 @@ export const createMatchController = (matchService: MatchService) => ({
 
   deleteMatch: async (req: Request, res: Response) => {
     try {
-      const success = await matchService.deleteMatch(req.params.id);
+      const success = await matchService.deleteMatch(String(req.params.id));
       if (!success) {
         return res.status(404).json({ message: 'Match not found' });
       }
@@ -79,7 +79,7 @@ export const createMatchController = (matchService: MatchService) => ({
         return res.status(400).json({ message: 'Composition must be an array' });
       }
 
-      const match = await matchService.updateComposition(req.params.id, composition);
+      const match = await matchService.updateComposition(String(req.params.id), composition as any);
       if (!match) {
         return res.status(404).json({ message: 'Match not found' });
       }
@@ -96,7 +96,7 @@ export const createMatchController = (matchService: MatchService) => ({
         return res.status(400).json({ message: 'Invalid event data' });
       }
 
-      const match = await matchService.addEvent(req.params.id, evenement);
+      const match = await matchService.addEvent(String(req.params.id), evenement as any);
       if (!match) {
         return res.status(404).json({ message: 'Match not found' });
       }

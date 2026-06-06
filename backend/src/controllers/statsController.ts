@@ -4,16 +4,16 @@ import { eventBus } from '../server';
 import crypto from 'crypto';
 
 export const getTopButeurs = async (req: Request, res: Response) => {
-  const saison = req.query.saison as string || '2023-2024';
-  const limit = parseInt(req.query.limit as string) || 10;
+  const saison = typeof req.query.saison === 'string' ? req.query.saison : '2023-2024';
+  const limit = parseInt(String(req.query.limit)) || 10;
   
   const stats = await statsJoueurRepository.findTopButeurs(saison, limit);
   res.json({ success: true, data: stats });
 };
 
 export const getTopPasseurs = async (req: Request, res: Response) => {
-  const saison = req.query.saison as string || '2023-2024';
-  const limit = parseInt(req.query.limit as string) || 10;
+  const saison = typeof req.query.saison === 'string' ? req.query.saison : '2023-2024';
+  const limit = parseInt(String(req.query.limit)) || 10;
   
   const stats = await statsJoueurRepository.findTopPasseurs(saison, limit);
   res.json({ success: true, data: stats });
