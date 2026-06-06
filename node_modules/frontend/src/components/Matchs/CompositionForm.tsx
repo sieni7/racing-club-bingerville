@@ -3,16 +3,17 @@ import { useGetJoueursQuery } from '../../features/api/joueursApi';
 import { LoadingSpinner } from '../common/LoadingSpinner';
 
 interface CompositionFormProps {
-  matchId: string;
+  matchId?: string;
   initialComposition?: Record<string, unknown>[];
   onSubmit: (composition: Record<string, unknown>[]) => void;
-  onCancel: () => void;
+  onCancel?: () => void;
   isLoading: boolean;
 }
 
-export const CompositionForm: React.FC<CompositionFormProps> = ({ initialComposition = [], onSubmit, onCancel, isLoading }) => {
+export const CompositionForm: React.FC<CompositionFormProps> = ({ initialComposition = [], onSubmit, onCancel: _onCancel, isLoading }) => {
   const { data: joueurs, isLoading: isLoadingJoueurs } = useGetJoueursQuery({});
-  const [composition, setComposition] = useState<Record<string, unknown>[]>(initialComposition || []);
+  const joueursList = (joueurs ?? []) as any[];
+  const [composition, setComposition] = useState<any[]>(initialComposition || []);
 
   if (isLoadingJoueurs) return <LoadingSpinner />;
 
@@ -25,12 +26,7 @@ export const CompositionForm: React.FC<CompositionFormProps> = ({ initialComposi
     setComposition(prev => prev.filter(c => c.joueurId !== joueurId));
   };
 
-  const updateComposition = (index: number, field: string, value: unknown) => {
-    const newComposition = [...composition];
-    newComposition[index] = { ...newComposition[index], [field]: value };
-    setComposition(newComposition);
-  };
-
+  // updateComposition intentionally unused
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(composition);
@@ -45,7 +41,7 @@ export const CompositionForm: React.FC<CompositionFormProps> = ({ initialComposi
             <label className="block text-sm font-medium text-gray-700">Joueur</label>
             <select id="joueurSelect" className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2 border">
               <option value="">Sélectionner un joueur</option>
-              {joueurs?.map((j: Record<string, unknown>) => (
+              {joueursList.map((j: any) => (
                 <option key={j._id as string} value={j._id as string}>{j.nom} {j.prenom} ({j.poste})</option>
               ))}
             </select>
@@ -94,20 +90,20 @@ export const CompositionForm: React.FC<CompositionFormProps> = ({ initialComposi
       <div className="mt-6">
         <h4 className="text-md font-medium mb-4">Composition Actuelle ({composition.length} joueurs)</h4>
         <ul className="divide-y divide-gray-200 border-t border-b">
-          {composition.map((comp, idx) => {
-            const joueur = joueurs?.find((j: Record<string, unknown>) => j._id === comp.joueurId);
+          {composition.map((comp: any, _idx) => {
+            const joueur = joueursList.find((j: any) => j._id === comp.joueurId);
             return (
-              <li key={comp.joueurId as string} className="py-3 flex justify-between items-center">
+              <li key={String(comp.joueurId)} className="py-3 flex justify-between items-center">
                 <div className="flex items-center">
                   <span className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-500 text-white font-bold mr-3">
                     {comp.numero as number}
                   </span>
                   <div>
                     <p className="text-sm font-medium text-gray-900">{joueur ? `${joueur.nom} ${joueur.prenom}` : 'Joueur inconnu'}</p>
-                    <p className="text-xs text-gray-500">{comp.role} - {comp.poste}</p>
+                    <p className="text-xs text-gray-500">{(comp as any).role} - {(comp as any).poste}</p>
                   </div>
                 </div>
-                <button type="button" onClick={() => handleRemovePlayer(comp.joueurId)} className="text-red-600 hover:text-red-900 text-sm font-medium">
+                <button type="button" onClick={() => handleRemovePlayer(String(comp.joueurId))} className="text-red-600 hover:text-red-900 text-sm font-medium">
                   Retirer
                 </button>
               </li>

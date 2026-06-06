@@ -11,7 +11,7 @@ export const Header: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await logout({}).unwrap();
+      await logout().unwrap();
       toast.success('Déconnexion réussie');
       navigate('/login');
     } catch (error) {

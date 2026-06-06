@@ -13,9 +13,9 @@ const Statistiques: React.FC = () => {
   const buteurs = buteursData?.data || [];
   const passeurs = passeursData?.data || [];
 
-  const formatDataForChart = (data: Record<string, unknown>[], key: string) => {
-    return data.map((stat) => {
-      const joueur = stat.joueurId as Record<string, unknown>;
+  const formatDataForChart = (data: any[], key: string) => {
+    return data.map((stat: any) => {
+      const joueur = stat.joueurId as any;
       return {
         name: joueur ? `${joueur.nom} ${joueur.prenom}` : 'Inconnu',
         [key]: stat[key]
@@ -96,8 +96,8 @@ const Statistiques: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {buteurs.map((stat, idx) => {
-                const joueur = stat.joueurId as Record<string, unknown>;
+              {buteurs.map((stat: any, idx: number) => {
+                const joueur = stat.joueurId as any;
                 return (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -123,8 +123,8 @@ const Statistiques: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {passeurs.map((stat, idx) => {
-                const joueur = stat.joueurId as Record<string, unknown>;
+              {passeurs.map((stat: any, idx: number) => {
+                const joueur = stat.joueurId as any;
                 return (
                   <tr key={idx}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

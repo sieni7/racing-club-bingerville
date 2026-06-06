@@ -103,7 +103,7 @@ const Actualites: React.FC = () => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {actualites.map((actu) => (
+        {actualites.map((actu: any) => (
           <div key={actu._id as string} className="bg-white rounded-lg shadow overflow-hidden flex flex-col">
             {actu.imageUrl && (
               <img src={actu.imageUrl as string} alt={actu.titre as string} className="w-full h-48 object-cover" />

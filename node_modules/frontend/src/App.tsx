@@ -1,8 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { Header, Footer } from './components/Layout';
 import { PrivateRoute } from './components/Auth/PrivateRoute';
-import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -31,12 +30,12 @@ function App() {
               } />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/joueurs" element={<ProtectedRoute><Joueurs /></ProtectedRoute>} />
+              <Route path="/joueurs" element={<PrivateRoute><Joueurs /></PrivateRoute>} />
               <Route path="/joueurs/:id" element={<JoueurDetail />} />
-              <Route path="/calendrier" element={<ProtectedRoute><Calendrier /></ProtectedRoute>} />
-              <Route path="/matchs/:id" element={<ProtectedRoute><MatchDetail /></ProtectedRoute>} />
-              <Route path="/statistiques" element={<ProtectedRoute><Statistiques /></ProtectedRoute>} />
-              <Route path="/actualites" element={<ProtectedRoute><Actualites /></ProtectedRoute>} />
+              <Route path="/calendrier" element={<PrivateRoute><Calendrier /></PrivateRoute>} />
+              <Route path="/matchs/:id" element={<PrivateRoute><MatchDetail /></PrivateRoute>} />
+              <Route path="/statistiques" element={<PrivateRoute><Statistiques /></PrivateRoute>} />
+              <Route path="/actualites" element={<PrivateRoute><Actualites /></PrivateRoute>} />
               <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
               <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
               <Route path="/" element={<Navigate to="/dashboard" replace />} />

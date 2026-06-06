@@ -1,32 +1,37 @@
 import { apiSlice } from '../../services/api';
+import type { EndpointBuilder } from '@reduxjs/toolkit/query';
 
 export const authApi = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    login: builder.mutation({
-      query: (credentials) => ({
+  endpoints: (builder: EndpointBuilder<any, any, any>) => ({
+    login: builder.mutation<any, any>({
+      query: (credentials: any) => ({
         url: '/auth/login',
         method: 'POST',
         body: credentials,
       }),
-      invalidatesTags: ['Auth'],
+      invalidatesTags: ['User'],
+      transformResponse: (response: any) => response?.data ?? response,
     }),
-    register: builder.mutation({
-      query: (userData) => ({
+    register: builder.mutation<any, any>({
+      query: (userData: any) => ({
         url: '/auth/register',
         method: 'POST',
         body: userData,
       }),
+      transformResponse: (response: any) => response?.data ?? response,
     }),
-    logout: builder.mutation({
-      query: () => ({
+    logout: builder.mutation<any, void>({
+      query: (): any => ({
         url: '/auth/logout',
         method: 'POST',
       }),
-      invalidatesTags: ['Auth'],
+      invalidatesTags: ['User'],
+      transformResponse: (response: any) => response?.data ?? response,
     }),
-    getMe: builder.query({
-      query: () => '/auth/me',
-      providesTags: ['Auth'],
+    getMe: builder.query<any, void>({
+      query: (): any => '/auth/me',
+      providesTags: ['User'],
+      transformResponse: (response: any) => response?.data ?? response,
     }),
   }),
 });

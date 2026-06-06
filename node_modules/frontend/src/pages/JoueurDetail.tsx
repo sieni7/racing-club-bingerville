@@ -7,7 +7,7 @@ import { StatutBadge } from '../components/Joueurs/StatutBadge';
 const JoueurDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { data: joueur, isLoading, isError } = useGetJoueurByIdQuery(id);
+  const { data: joueur, isLoading, isError } = useGetJoueurByIdQuery(id as string);
 
   if (isLoading) return <LoadingSpinner />;
   if (isError || !joueur) return <div className="text-red-600">Erreur lors du chargement ou joueur introuvable.</div>;

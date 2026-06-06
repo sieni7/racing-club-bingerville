@@ -12,7 +12,7 @@ const MatchDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { data: match, isLoading, isError } = useGetMatchByIdQuery(id);
+  const { data: match, isLoading, isError } = useGetMatchByIdQuery(id as string);
   const { data: joueurs } = useGetJoueursQuery({});
   
   const [updateComposition, { isLoading: isUpdatingComp }] = useUpdateCompositionMutation();
@@ -29,7 +29,7 @@ const MatchDetail: React.FC = () => {
       toast.success('Composition mise à jour');
       setShowCompositionForm(false);
     } catch (err: unknown) {
-      toast.error(err.data?.message || 'Erreur lors de la mise à jour');
+      toast.error((err as any).data?.message || 'Erreur lors de la mise à jour');
     }
   };
 
@@ -38,7 +38,7 @@ const MatchDetail: React.FC = () => {
       await addMatchEvent({ id, event }).unwrap();
       toast.success('Événement ajouté');
     } catch (err: unknown) {
-      toast.error(err.data?.message || 'Erreur lors de l\'ajout');
+      toast.error((err as any).data?.message || 'Erreur lors de l\'ajout');
     }
   };
 
@@ -176,7 +176,7 @@ const MatchDetail: React.FC = () => {
                       <span className="text-sm font-medium text-gray-900 flex-grow">
                         {joueur ? `${joueur.nom} ${joueur.prenom}` : 'Inconnu'}
                       </span>
-                      {event.details && <span className="text-sm text-gray-500 italic">({event.details})</span>}
+                          {event.details ? <span className="text-sm text-gray-500 italic">({String(event.details)})</span> : null}
                     </li>
                   );
                 })}

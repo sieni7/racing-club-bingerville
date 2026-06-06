@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { StatutBadge } from './StatutBadge';
 
 interface JoueurTableRowProps {
-  joueur: Record<string, unknown>;
-  onEdit: (joueur: Record<string, unknown>) => void;
+  joueur: any;
+  onEdit: (joueur: any) => void;
   onDelete: (id: string) => void;
   canEdit: boolean;
 }

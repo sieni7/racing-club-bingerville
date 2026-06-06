@@ -1,9 +1,10 @@
 import { apiSlice } from '../../services/api';
+import type { EndpointBuilder } from '@reduxjs/toolkit/query';
 
 export const matchsApi = apiSlice.injectEndpoints({
-  endpoints: (builder) => ({
-    getMatchs: builder.query({
-      query: (filters) => {
+  endpoints: (builder: EndpointBuilder<any, any, any>) => ({
+    getMatchs: builder.query<any, any>({
+      query: (filters: any) => {
         let qs = '';
         if (filters) {
           const params = new URLSearchParams();
@@ -15,48 +16,54 @@ export const matchsApi = apiSlice.injectEndpoints({
       },
       providesTags: ['Match'],
     }),
-    getMatchById: builder.query({
-      query: (id) => `/matchs/${id}`,
+    getMatchById: builder.query<any, string>({
+      query: (id: any) => `/matchs/${id}`,
       providesTags: ['Match'],
+      transformResponse: (response: any) => response?.data ?? response,
     }),
-    createMatch: builder.mutation({
-      query: (match) => ({
+    createMatch: builder.mutation<any, any>({
+      query: (match: any) => ({
         url: '/matchs',
         method: 'POST',
         body: match,
       }),
       invalidatesTags: ['Match'],
+      transformResponse: (response: any) => response?.data ?? response,
     }),
-    updateMatch: builder.mutation({
-      query: ({ id, ...patch }) => ({
+    updateMatch: builder.mutation<any, any>({
+      query: ({ id, ...patch }: any) => ({
         url: `/matchs/${id}`,
         method: 'PUT',
         body: patch,
       }),
       invalidatesTags: ['Match'],
+      transformResponse: (response: any) => response?.data ?? response,
     }),
-    deleteMatch: builder.mutation({
-      query: (id) => ({
+    deleteMatch: builder.mutation<any, string>({
+      query: (id: any) => ({
         url: `/matchs/${id}`,
         method: 'DELETE',
       }),
       invalidatesTags: ['Match'],
+      transformResponse: (response: any) => response?.data ?? response,
     }),
-    updateComposition: builder.mutation({
-      query: ({ id, composition }) => ({
+    updateComposition: builder.mutation<any, any>({
+      query: ({ id, composition }: any) => ({
         url: `/matchs/${id}/composition`,
         method: 'PUT',
         body: { composition },
       }),
       invalidatesTags: ['Match'],
+      transformResponse: (response: any) => response?.data ?? response,
     }),
-    addMatchEvent: builder.mutation({
-      query: ({ id, event }) => ({
+    addMatchEvent: builder.mutation<any, any>({
+      query: ({ id, event }: any) => ({
         url: `/matchs/${id}/events`,
         method: 'POST',
         body: event,
       }),
       invalidatesTags: ['Match'],
+      transformResponse: (response: any) => response?.data ?? response,
     }),
   }),
 });

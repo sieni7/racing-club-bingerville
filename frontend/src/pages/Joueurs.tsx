@@ -40,7 +40,7 @@ const Joueurs: React.FC = () => {
       setIsFormOpen(false);
       setEditingJoueur(null);
     } catch (err: unknown) {
-      toast.error(err.data?.message || 'Une erreur est survenue');
+      toast.error((err as any).data?.message || 'Une erreur est survenue');
     }
   };
 
@@ -50,13 +50,13 @@ const Joueurs: React.FC = () => {
       await deleteJoueur(deleteId).unwrap();
       toast.success('Joueur supprimé');
     } catch (err: unknown) {
-      toast.error(err.data?.message || 'Erreur lors de la suppression');
+      toast.error((err as any).data?.message || 'Erreur lors de la suppression');
     } finally {
       setDeleteId(null);
     }
   };
 
-  const filteredJoueurs = joueurs?.filter((j: Record<string, unknown>) => {
+  const filteredJoueurs = (joueurs as any[] | undefined)?.filter((j: any) => {
     if (filters.search && !`${j.nom} ${j.prenom}`.toLowerCase().includes(filters.search.toLowerCase())) {
       return false;
     }
@@ -131,7 +131,7 @@ const Joueurs: React.FC = () => {
                   <td colSpan={5} className="px-6 py-4 text-center text-gray-500">Aucun joueur trouvé.</td>
                 </tr>
               ) : (
-                filteredJoueurs?.map((joueur: Record<string, unknown>) => (
+                filteredJoueurs?.map((joueur: any) => (
                   <JoueurTableRow 
                     key={joueur._id} 
                     joueur={joueur} 

@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
           </div>
           {actualites.length > 0 ? (
             <div className="space-y-4">
-              {actualites.map((actu) => (
+              {actualites.map((actu: any) => (
                 <div key={actu._id as string} className="border-b pb-3 last:border-0 last:pb-0">
                   <h3 className="font-semibold text-gray-900">{actu.titre as string}</h3>
                   <p className="text-xs text-gray-500">{new Date(actu.datePublication as string).toLocaleDateString()}</p>
@@ -44,8 +44,8 @@ const Dashboard: React.FC = () => {
           </div>
           {buteurs.length > 0 ? (
             <ul className="space-y-3">
-              {buteurs.map((stat, idx) => {
-                const joueur = stat.joueurId as Record<string, unknown>;
+              {buteurs.map((stat: any, idx: number) => {
+                const joueur = stat.joueurId as any;
                 return (
                   <li key={idx} className="flex justify-between items-center">
                     <span className="font-medium text-gray-700">{joueur ? `${joueur.nom} ${joueur.prenom}` : 'Inconnu'}</span>

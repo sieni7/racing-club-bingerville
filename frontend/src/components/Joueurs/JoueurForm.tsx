@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 interface JoueurFormProps {
-  initialData?: Record<string, unknown>;
-  onSubmit: (data: Record<string, unknown>) => void;
+  initialData?: any;
+  onSubmit: (data: any) => void;
   onCancel: () => void;
   isLoading: boolean;
 }
@@ -22,14 +22,14 @@ export const JoueurForm: React.FC<JoueurFormProps> = ({ initialData, onSubmit, o
   useEffect(() => {
     if (initialData) {
       setFormData({
-        numeroLicence: initialData.numeroLicence || '',
-        nom: initialData.nom || '',
-        prenom: initialData.prenom || '',
-        poste: initialData.poste || '',
-        dateNaissance: initialData.dateNaissance ? new Date(initialData.dateNaissance).toISOString().split('T')[0] : '',
-        taille: initialData.taille || '',
-        poids: initialData.poids || '',
-        statut: initialData.statut || 'ACTIF'
+        numeroLicence: initialData.numeroLicence ?? '',
+        nom: initialData.nom ?? '',
+        prenom: initialData.prenom ?? '',
+        poste: initialData.poste ?? '',
+        dateNaissance: initialData.dateNaissance ? new Date(String(initialData.dateNaissance)).toISOString().split('T')[0] : '',
+        taille: initialData.taille ?? '',
+        poids: initialData.poids ?? '',
+        statut: initialData.statut ?? 'ACTIF'
       });
     }
   }, [initialData]);
