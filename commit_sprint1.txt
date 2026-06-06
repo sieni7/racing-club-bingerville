@@ -1,0 +1,14 @@
+fix(critical): correct RLS policies, add custom JWT claims, enforce CI tests
+
+SECURITY (P0):
+- Add get_user_role() function for RLS
+- Replace auth.role() with get_user_role() in all policies
+- Add custom JWT claims trigger for role propagation
+
+CI/CD (P1):
+- Add test:ci script (vitest run)
+- Add E2E tests to GitHub Actions
+- Make CI blocking on test failures
+
+Fixes audit findings #1, #2, #3
+Production-ready gate passed
