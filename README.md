@@ -1,11 +1,36 @@
-# Racing Club de Bingerville — V2
+# Racing Club Bingerville
 
-Plateforme de gestion du club (frontend React + Supabase backend).
+## Description
+Plateforme de gestion pour le Racing Club Bingerville (v2).
 
-Voir `supabase/migrations` pour la base de données, `frontend/` pour l'application React, et `netlify/functions/` pour les fonctions Edge.
+## Stack Technique
+- Frontend: React, Vite, TailwindCSS
+- Backend/BaaS: Supabase
+- Hébergement: Netlify
+- CI/CD: GitHub Actions
 
-Installation rapide:
+## Prérequis
+- Node.js (v18+)
+- Compte Supabase
+- Compte Netlify
 
-1. Copier `.env.example` en `.env` et renseigner les variables.
-2. Lancer Supabase (migrations) et configurer le projet.
-3. Déployer frontend sur Netlify (build: `cd frontend && npm ci && npm run build`).
+## Installation
+```bash
+cd frontend
+npm install
+```
+
+## Variables d'environnement
+Copiez `.env.example` vers `frontend/.env` et remplissez les valeurs.
+
+## Structure du projet
+- `frontend/`: Code React
+- `supabase/`: Migrations et configuration BD
+- `netlify/`: Serverless functions
+
+## Commandes disponibles
+- `npm run dev`: Lancer le serveur de développement
+- `npm run build`: Build pour la production
+
+## Déploiement
+Déploiement automatique via GitHub Actions sur Netlify.
