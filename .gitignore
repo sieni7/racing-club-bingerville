@@ -1,0 +1,12 @@
+node_modules/
+dist/
+frontend/dist/
+backend/dist/
+.env
+.env.local
+.netlify/
+.vscode/
+.DS_Store
+npm-debug.log
+package-lock.json
+yarn.lock
