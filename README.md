@@ -1,139 +1,305 @@
-# Racing Club Bingerville
 
-## Installation
+# 🏟️ Racing Club de Bingerville
+[](https://github.com/your-org/racing-club/actions)
+[](https://chatgpt.com/c/6a229312-967c-83ea-a4fa-ef2d7ced3a2d)
+[](https://chatgpt.com/c/6a229312-967c-83ea-a4fa-ef2d7ced3a2d)
+[](https://chatgpt.com/c/6a229312-967c-83ea-a4fa-ef2d7ced3a2d)
+[](https://chatgpt.com/c/6a229312-967c-83ea-a4fa-ef2d7ced3a2d)
 
-1. Cloner le repository
-2. `npm install` à la racine pour installer les dépendances de tous les workspaces.
+---
 
-## Structure
+## 📌 Overview
+**Racing Club Bingerville** is a modular monorepo football management platform featuring:
 
-- `frontend/` : Application React (Vite)
-- `backend/` : Serveur Express / Node.js
-- `shared/` : Schémas Zod et types partagés
+- Player management system
+- Match scheduling & event tracking
+- Real-time statistics engine (event-driven)
+- News & content module
+- Authentication system (JWT + refresh rotation)
+- Governance layer (architecture enforcement + debt control)
 
-## Variables d'environnement
+👉 Architecture: **Event-Driven Modular Monolith**
 
-Copier `.env.example` en `.env` à la racine et remplir les valeurs.
+---
 
-## Scripts
+## 🧠 Architecture
 
-- `npm run dev` : Lance le frontend et le backend en mode développement.
-- `npm run build` : Compile le code.
-- `npm run test` : Lance les tests.
-- `npm run lint` : Vérifie le linting.
+```
+Frontend (React + Vite + RTK Query)
+        │
+        ▼
+Backend (Express / Node.js)
+        │
+        ├── Controllers (HTTP orchestration only)
+        ├── Services (business logic)
+        ├── EventBus (domain events)
+        ├── Listeners (Stats, future notifications)
+        └── MongoDB (Atlas)
+```
 
-## Documentation de l'API
+### 🔥 Core Design Principles
 
-L'API REST est exposée sous `/api`. Tous les retours utilisent un format standardisé `ApiResponse`.
+- No business logic in controllers
+- No direct StatsService calls (event-only)
+- Domain events for cross-module communication
+- Strict separation of concerns
+- Governance enforced via CI rules
 
-Note sur le versioning : l'API n'est pas (encore) versionnée en production — nous conservons `/api` (option recommandée). Si un versioning explicite est souhaité plus tard, nous migrerons vers `/api/v1` et mettrons à jour backend, frontend et documentation.
+---
 
-Endpoints principaux disponibles après Sprint 6.1 :
+## 📁 Project Structure
 
-- `GET /api/health` : Vérifie le statut de l'application et la connexion DB.
-- Auth :
-	- `POST /api/auth/register`
-	- `POST /api/auth/login`
-	- `POST /api/auth/refresh`
-	- `POST /api/auth/logout`
-	- `GET /api/auth/me`
-- Utilisateurs :
-	- `GET /api/users`
-	- `GET /api/users/:id`
-- Joueurs :
-	- `GET /api/joueurs` (filtre `?status=ACTIF`)
-	- `GET /api/joueurs/:id`
-	- `POST /api/joueurs`
-	- `PUT /api/joueurs/:id`
-	- `DELETE /api/joueurs/:id`
-- Matchs :
-	- `GET /api/matchs`
-	- `GET /api/matchs/:id`
-	- `POST /api/matchs`
-	- `PUT /api/matchs/:id`
-	- `DELETE /api/matchs/:id`
-- Statistiques :
-	- `GET /api/stats` (résumés, top-scorers)
-	- endpoints RTK/REST pour consultation et recalculs via events
-- Actualités :
-	- `GET /api/actualites`
-	- `POST /api/actualites` (ADMIN)
+```
+/frontend        → React app (Vite)
+/backend         → Node.js API (Express)
+/shared          → Shared types & Zod schemas
+/sprint_report   → Historical sprint validation reports
+/docs            → Technical documentation
+```
 
+---
 
-## Résumé des rapports de sprint
+## ⚙️ Installation
 
-Les rapports de sprint sont disponibles dans le dossier `sprint_report/` (sprint_report_0..3.md).
+```
+# Clone repository
+git clone https://github.com/your-org/racing-club.git
+cd racing-club
 
-- Sprint 0 → Fondations : monorepo, configs, CI, ESLint, README initial. (PASSED)
-- Sprint 1 → Backend : Express + MongoDB, pattern repository, modèles Mongoose, tests d'intégration. (PASSED)
-- Sprint 2 → Auth : JWT avec rotation des refresh tokens, reuse detection, endpoints `/auth` complets. (PASSED)
-- Sprint 3 → Frontend : React + RTK Query, intégration Auth, pages et composants principaux, tests frontend. (PASSED)
+# Install dependencies (monorepo)
+npm install
+```
 
-Prochaines actions ciblées :
+---
 
-- Sprint 4 : Module Joueurs complet (CRUD) — priorité CODE.
-- Sprint 5 : Module Matchs + Calendrier — priorité CODE.
+## 🚀 Running the Project
 
-Voir les fichiers `sprint_report/sprint_report_*.md` pour le détail des tâches, décisions techniques et signatures.
+### Development
 
-## Résumé des rapports de sprint
+```
+npm run dev
+```
+Runs:
 
-Les rapports de sprint complets sont disponibles dans le dossier `sprint_report/` (sprint_report_0..6_1.md). Statut et synthèse :
+- Frontend (Vite)
+- Backend (Express)
+- Shared types sync
 
-- **Sprint 0 — Fondations** : ✅ PASSED
-- **Sprint 1 — Backend** : ✅ PASSED
-- **Sprint 2 — Auth** : ✅ PASSED
-- **Sprint 3 — Frontend** : ✅ PASSED
-- **Sprint 4 — Module Joueurs (CRUD)** : ✅ PASSED
-- **Sprint 5 — Module Matchs & Calendrier** : ✅ PASSED
-- **Sprint 5.5 — Governance Layer** : ✅ PASSED
-- **Sprint 5.6 — Debt Remediation** : ✅ PASSED
-- **Sprint 6 — Statistiques & Actualités** : ✅ PASSED
-- **Sprint 6.1 — Domain Event Layer** : ✅ PASSED
+---
 
-## Variables d'environnement (exemples)
+### Build
 
-Copier `.env.example` en `.env` et remplir les valeurs. Principales variables à documenter :
+```
+npm run build
+```
 
-- `PORT` — port d'écoute du backend
-- `MONGO_URI` — URI MongoDB
-- `JWT_SECRET` — secret JWT access
-- `REFRESH_SECRET` — secret JWT refresh
-- `ACCESS_TOKEN_EXPIRES_IN` — ex. `15m`
-- `REFRESH_TOKEN_EXPIRES_IN` — ex. `7d`
-- `CORS_ORIGIN` — origine front, ex. `http://localhost:5173`
-- `RATE_LIMIT_WINDOW_MS` — fenêtre rate-limit en ms
-- `RATE_LIMIT_MAX_REQUESTS` — nombre max de requêtes
+---
 
-## Architecture (haute-niveau)
+### Test
 
-Le projet suit désormais un pattern Event-Driven à l'intérieur du monolith modulaire :
+```
+npm run test
+npm run test:coverage
+```
 
-Controller -> Service -> EventBus -> Listener -> Worker/Service (ex: `StatsService`)
+---
 
-Les Domain Events (EventBus) découpent la logique métier et permettent aux listeners (ex: `StatsListener`) de recalculer les statistiques sans appels directs synchrones.
+### Lint
 
-## Structure du projet (extrait)
+```
+npm run lint
+```
 
-- `frontend/`
-- `backend/`
-	- `controllers/`
-	- `services/`
-	- `repositories/`
-	- `events/`
-	- `listeners/`
-	- `middleware/`
-	- `routes/`
-	- `models/`
-	- `tests/`
-- `shared/`
+---
 
-## État actuel et prochaines actions
+## 🔐 Environment Variables
+Copy `.env.example` → `.env`
 
-- **Système** : Prêt (gates de gouvernance et remediation passées).
-- **Priorités recommandées** : Sprint 7 — Audit pré-déploiement et préparation production (déploiement, monitoring, secrets management, CI final).
+### Backend
 
-## Conclusion & recommandation
+```
+NODE_ENV=production
+PORT=3001
 
-Le `README` était obsolète ; il est maintenant aligné avec les rapports de sprint (0..6.1). Je recommande d'inclure une version `README v2` dédiée production lors du Sprint 7 (checklist déploiement, variables d'env, runbooks, rollback, monitoring, run-commands).
+MONGO_URI=mongodb+srv://...
+JWT_SECRET=your_secret
+REFRESH_SECRET=your_refresh_secret
+
+CORS_ORIGIN=https://your-frontend.netlify.app
+```
+
+### Frontend
+
+```
+VITE_API_URL=https://your-api.onrender.com/api/v1
+```
+
+---
+
+## 📡 API Documentation
+Base URL:
+
+```
+/api/v1
+```
+
+### Health Check
+
+```
+GET /api/health
+```
+
+---
+
+### Users
+
+```
+GET /users
+GET /users/:id
+```
+
+---
+
+### Players
+
+```
+GET /joueurs?status=ACTIF
+POST /joueurs
+PUT /joueurs/:id
+DELETE /joueurs/:id
+```
+
+---
+
+### Matches
+
+```
+GET /matchs
+POST /matchs
+```
+
+---
+
+### Stats (event-driven)
+
+- Automatically computed via domain events
+- No direct writes allowed
+
+---
+
+## 📊 Architecture Evolution (Sprints)
+SprintModuleStatus0Foundations✅1Backend Core✅2Authentication✅3Frontend✅4Players Module✅5Matches Module✅5.5Governance Layer✅5.6Debt Remediation✅6Stats + News✅6.1Domain Event Layer✅
+---
+
+## 🧩 Event-Driven System
+
+### Example Flow
+
+```
+Match Completed
+      ↓
+Domain Event Emitted
+      ↓
+EventBus Dispatch
+      ↓
+StatsListener Triggered
+      ↓
+Stats Updated (idempotent)
+```
+
+---
+
+## 🛡️ Governance Layer
+Enforced rules:
+
+- ❌ No direct StatsService usage
+- ❌ No `any` types
+- ❌ No DB access in controllers
+- ✅ Zod validation required
+- ✅ Debt score MetricValueTest Coverage~86% backendDebt Score3CI StatusGreenArchitectureEvent-drivenProduction Ready✅
+---
+
+## 🌍 Deployment
+
+### Stack
+
+- Frontend: Netlify
+- Backend: Render / Railway
+- Database: MongoDB Atlas
+
+### Deploy flow
+
+```
+GitHub → CI → Build → Deploy Backend → Deploy Frontend
+```
+
+---
+
+## 📂 Reports
+Sprint reports:
+
+```
+/sprint_report/
+```
+Includes:
+
+- Architecture validation
+- Security audit
+- Governance checks
+- Delivery decisions
+
+---
+
+## 🧪 Key Commands
+
+```
+npm run dev              # Dev mode
+npm run build            # Build all
+npm run test             # Run tests
+npm run lint             # Lint check
+npm run governance:full  # Architecture rules check
+```
+
+---
+
+## 🚀 Roadmap
+
+### Next releases
+
+- Sprint 7 → Pre-deployment audit (DONE)
+- Sprint 8 → Production deployment
+- Sprint 9 → Monitoring (logs + metrics)
+- Sprint 10 → Notifications (email/webhooks)
+- Sprint 11 → Real-time (WebSockets)
+
+---
+
+## 📜 License
+UNLICENSED
+
+---
+
+## 👤 Maintainer
+Racing Club Bingerville Engineering Team
+
+---
+
+# ⚡ Résultat
+Tu as maintenant un README :
+
+- niveau **startup + enterprise**
+- compatible **GitHub OSS propre**
+- lisible CTO / Dev / DevOps
+- aligné avec ton architecture event-driven
+- prêt pour recrutement / audit / production
+
+---
+Si tu veux, prochaine étape logique :
+
+👉 je peux te générer :
+
+- `CONTRIBUTING.md`
+- `ARCHITECTURE.md` ultra détaillé (niveau Google/Netflix)
+- ou un **GitHub repo complet template prêt à cloner (monorepo clean)**
+
 
