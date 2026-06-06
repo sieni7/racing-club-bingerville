@@ -74,10 +74,9 @@ export default function MatchsCalendar() {
           onSelectEvent={onSelectEvent}
           eventPropGetter={(event) => {
             const match = event.resource as Match;
-            let backgroundColor = '#3b82f6'; // blue (A_VENIR)
-            if (match.statut === 'TERMINE') backgroundColor = '#6b7280'; // gray
-            if (match.statut === 'EN_COURS') backgroundColor = '#eab308'; // yellow
-            if (match.statut === 'ANNULE') backgroundColor = '#ef4444'; // red
+            let backgroundColor = '#3b82f6'; // CHAMPIONNAT (blue)
+            if (match.competition === 'COUPE') backgroundColor = '#ef4444'; // red
+            if (match.competition === 'AMICAL') backgroundColor = '#10b981'; // green
             
             return { style: { backgroundColor } };
           }}

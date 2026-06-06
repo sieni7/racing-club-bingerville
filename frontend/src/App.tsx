@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { PrivateRoute } from './components/auth/PrivateRoute';
 import { Header } from './components/layout/Header';
@@ -65,6 +66,7 @@ function App() {
             </Suspense>
           </main>
           <Footer />
+          <Toaster position="top-right" />
         </div>
       </AuthProvider>
     </BrowserRouter>

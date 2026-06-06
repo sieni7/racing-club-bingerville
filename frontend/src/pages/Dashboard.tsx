@@ -9,6 +9,8 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Calendar, Trophy, Users, FileText } from 'lucide-react';
 
+import { MetricsCards } from './Dashboard/MetricsCards';
+
 export default function Dashboard() {
   const { user } = useAuth();
   const [prochainMatch, setProchainMatch] = useState<Match | null>(null);
@@ -16,6 +18,7 @@ export default function Dashboard() {
   const [topButeurs, setTopButeurs] = useState<StatJoueur[]>([]);
   const [dernieresActus, setDernieresActus] = useState<Actualite[]>([]);
   const [joueursActifsCount, setJoueursActifsCount] = useState<number>(0);
+  const [metrics, setMetrics] = useState({ victoires: 0, defaites: 0, buts: 0, matchsRestants: 0 });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -38,6 +41,22 @@ export default function Dashboard() {
         setDernieresActus(actus);
         setJoueursActifsCount(joueurs.filter(j => j.statut === 'ACTIF').length);
 
+        let victoires = 0;
+        let defaites = 0;
+        let buts = 0;
+        termines.forEach(m => {
+          buts += (m.score_equipe || 0);
+          if ((m.score_equipe || 0) > (m.score_adversaire || 0)) victoires++;
+          else if ((m.score_equipe || 0) < (m.score_adversaire || 0)) defaites++;
+        });
+
+        setMetrics({
+          victoires,
+          defaites,
+          buts,
+          matchsRestants: aVenir.length
+        });
+
       } catch (error) {
         console.error(error);
       } finally {
@@ -52,17 +71,19 @@ export default function Dashboard() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Bienvenue, {user?.user_metadata?.prenom} 👋</h1>
-        <p className="text-gray-600 mt-2">Voici le résumé des activités du Racing Club de Bingerville.</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white transition-colors">Bienvenue, {user?.user_metadata?.prenom} 👋</h1>
+        <p className="text-gray-600 dark:text-gray-400 mt-2 transition-colors">Voici le résumé des activités du Racing Club de Bingerville.</p>
       </div>
+
+      <MetricsCards {...metrics} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {/* KPI: Joueurs Actifs */}
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center gap-4">
-          <div className="p-3 bg-blue-100 text-blue-600 rounded-full"><Users size={24} /></div>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex items-center gap-4 transition-colors">
+          <div className="p-3 bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 rounded-full"><Users size={24} /></div>
           <div>
-            <p className="text-sm text-gray-500 font-medium">Joueurs Actifs</p>
-            <p className="text-2xl font-bold text-gray-900">{joueursActifsCount}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">Joueurs Actifs</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-white">{joueursActifsCount}</p>
           </div>
         </div>
 
@@ -146,8 +167,8 @@ export default function Dashboard() {
             {topButeurs.length > 0 ? topButeurs.map((buteur, index) => (
               <div key={buteur.joueur_id} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0 ? 'bg-yellow-100 text-yellow-700' : index === 1 ? 'bg-gray-100 text-gray-700' : 'bg-orange-100 text-orange-700'}`}>
-                    {index + 1}
+                  <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0 ? 'bg-yellow-100 text-yellow-700' : index === 1 ? 'bg-gray-200 text-gray-700' : 'bg-orange-100 text-orange-700'}`}>
+                    {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : index + 1}
                   </span>
                   <span className="font-medium">{buteur.prenom} {buteur.nom}</span>
                 </div>
