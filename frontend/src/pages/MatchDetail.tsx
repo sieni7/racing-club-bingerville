@@ -166,7 +166,7 @@ const MatchDetail: React.FC = () => {
             <div>
               <h4 className="text-md font-medium mb-4">Fil du match</h4>
               
-              <div className="space-y-4">
+              <ul className="space-y-4">
                 {match.evenements?.map((event: Record<string, unknown>, idx: number) => {
                   const joueur = joueurs?.find((j: Record<string, unknown>) => j._id === event.joueurId);
                   return (
