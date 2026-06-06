@@ -1,0 +1,7 @@
+feat(deploy): add E2E smoke test and deployment guide (Sprint 7)
+
+- Add Playwright smoke test (login page)
+- Add test:e2e script to package.json
+- Update README with Netlify deployment guide
+- Add final sprint report
+- Prepare for production release
