@@ -5,6 +5,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { PrivateRoute } from './components/auth/PrivateRoute';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
+import { CommandCenter } from './components/layout/CommandCenter';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -66,6 +67,7 @@ function App() {
             </Suspense>
           </main>
           <Footer />
+          <CommandCenter />
           <Toaster position="top-right" />
         </div>
       </AuthProvider>

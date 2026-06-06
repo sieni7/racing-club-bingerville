@@ -9,38 +9,36 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#1E3A5F',
-          dark: '#0F2440',
-          light: '#2B4A7A',
+          DEFAULT: '#0B5FFF',
+          dark: '#0848CC',
+          light: '#3B7DFF',
         },
-        secondary: {
-          DEFAULT: '#D4AF37',
-          dark: '#B8960F',
-          light: '#E2C265',
+        background: {
+          DEFAULT: '#0B0F1A',
+          card: '#1A1F2E',
         },
         accent: {
-          success: '#2E7D32',
-          danger: '#C62828',
-          warning: '#ED6C02',
-          info: '#0288D1',
+          success: '#22C55E',
+          danger: '#EF4444',
+          warning: '#F59E0B',
+          info: '#0ea5e9',
         },
+        content: {
+          DEFAULT: '#F1F5F9',
+          muted: '#64748B',
+        }
       },
       fontFamily: {
-        montserrat: ['Montserrat', 'sans-serif'],
-        openSans: ['Open Sans', 'sans-serif'],
+        geist: ['Geist', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
       },
       boxShadow: {
-        'soft': '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-        'soft-lg': '0 20px 30px -10px rgba(0, 0, 0, 0.15)',
+        'glow': '0 0 15px rgba(11, 95, 255, 0.3)',
+        'glass': '0 4px 30px rgba(0, 0, 0, 0.5)',
       },
-      spacing: {
-        18: '4.5rem',
-        88: '22rem',
-      },
-      transitionDuration: {
-        '200': '200ms',
-        '300': '300ms',
-      },
+      backgroundImage: {
+        'glass-gradient': 'linear-gradient(to bottom right, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01))',
+      }
     },
   },
   plugins: [],

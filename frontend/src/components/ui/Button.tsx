@@ -1,44 +1,43 @@
 import { ReactNode } from 'react';
+import { motion, HTMLMotionProps } from 'framer-motion';
 
-interface ButtonProps {
+interface ButtonProps extends Omit<HTMLMotionProps<"button">, 'type'> {
   children: ReactNode;
   variant?: 'primary' | 'secondary' | 'danger' | 'success';
-  onClick?: () => void;
   type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean;
-  className?: string;
   isLoading?: boolean;
 }
 
 export const Button = ({ 
   children, 
   variant = 'primary', 
-  onClick, 
   type = 'button',
   disabled = false,
   className = '',
-  isLoading = false
+  isLoading = false,
+  ...props
 }: ButtonProps) => {
   const variants = {
-    primary: 'bg-primary text-white hover:bg-primary-dark focus:ring-primary',
-    secondary: 'bg-secondary text-white hover:bg-secondary-dark focus:ring-secondary',
+    primary: 'bg-primary text-white hover:bg-primary-dark focus:ring-primary shadow-glow',
+    secondary: 'bg-background-card border border-white/10 text-white hover:bg-white/10 focus:ring-white/50',
     danger: 'bg-accent-danger text-white hover:bg-red-700 focus:ring-red-500',
     success: 'bg-accent-success text-white hover:bg-green-700 focus:ring-green-500',
   };
 
   return (
-    <button
+    <motion.button
       type={type}
-      onClick={onClick}
       disabled={disabled || isLoading}
+      whileHover={!(disabled || isLoading) ? { scale: 1.05 } : {}}
+      whileTap={!(disabled || isLoading) ? { scale: 0.95 } : {}}
       className={`
-        px-6 py-2 rounded-lg font-montserrat font-semibold flex items-center justify-center gap-2
-        transition-all duration-200 transform hover:scale-105
-        focus:outline-none focus:ring-2 focus:ring-offset-2
-        disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100
+        px-6 py-2 rounded-lg font-geist font-semibold flex items-center justify-center gap-2
+        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background
+        disabled:opacity-50 disabled:cursor-not-allowed
         ${variants[variant]}
         ${className}
       `}
+      {...props}
     >
       {isLoading ? (
         <>
@@ -49,6 +48,6 @@ export const Button = ({
           Chargement...
         </>
       ) : children}
-    </button>
+    </motion.button>
   );
 };

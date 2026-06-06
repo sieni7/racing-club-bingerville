@@ -4,17 +4,17 @@ import { Actualite, actualitesService } from '../../features/actualites/actualit
 import { Button } from '../../components/ui/Button';
 import { Card } from '../../components/ui/Card';
 import { Badge } from '../../components/ui/Badge';
-import { Plus, Edit, Trash2 } from 'lucide-react';
+import { Plus, Edit, Trash2, Heart, MessageCircle, Share2, MoreHorizontal } from 'lucide-react';
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { useAuth } from '../../contexts/AuthContext';
+import { motion } from 'framer-motion';
 
 export default function ActualitesList() {
   const [actualites, setActualites] = useState<Actualite[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { user } = useAuth();
   
-  // Show all news if ADMIN or STAFF
   const isStaff = user?.role === 'ADMIN' || user?.role === 'STAFF';
 
   useEffect(() => {
@@ -39,50 +39,81 @@ export default function ActualitesList() {
     }
   };
 
-  if (isLoading) return <div className="text-center py-10">Chargement...</div>;
+  if (isLoading) return <div className="flex justify-center py-10"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>;
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <div className="flex justify-between items-center mb-8 border-b pb-4">
-        <h1 className="text-3xl font-bold">Actualités du Club</h1>
+    <div className="container mx-auto px-4 py-8 max-w-3xl">
+      <div className="flex justify-between items-end mb-8">
+        <div>
+          <h1 className="text-3xl font-black text-white tracking-tight">Club Newsfeed</h1>
+          <p className="text-content-muted mt-1">Toutes les dernières informations du Racing CB.</p>
+        </div>
         {isStaff && (
           <Link to="/actualites/nouvelle">
-            <Button className="flex items-center gap-2"><Plus size={16} /> Nouvelle actualité</Button>
+            <Button className="flex items-center gap-2 shadow-glow"><Plus size={18} /> Publier</Button>
           </Link>
         )}
       </div>
 
       <div className="space-y-6">
         {actualites.length === 0 ? (
-          <p className="text-gray-500 italic text-center py-10">Aucune actualité pour le moment.</p>
-        ) : actualites.map(actu => (
-          <Card key={actu.id} className="p-6">
-            <div className="flex justify-between items-start mb-2">
-              <Link to={`/actualites/${actu.slug}`} className="hover:text-primary transition">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">{actu.titre}</h2>
-              </Link>
-              {isStaff && (
-                <div className="flex gap-2">
-                  <Badge variant={actu.statut === 'PUBLIE' ? 'success' : 'secondary'}>
-                    {actu.statut}
-                  </Badge>
-                  <Link to={`/actualites/${actu.id}/editer`} className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300"><Edit size={18} /></Link>
-                  <button onClick={() => handleDelete(actu.id)} className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"><Trash2 size={18} /></button>
+          <div className="text-content-muted italic text-center py-10">Aucune actualité pour le moment.</div>
+        ) : actualites.map((actu, i) => (
+          <motion.div
+            key={actu.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: i * 0.1 }}
+          >
+            <Card className="p-0 overflow-hidden">
+              {/* Post Header */}
+              <div className="p-5 flex justify-between items-start border-b border-white/5">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center font-bold text-white text-lg">
+                    RC
+                  </div>
+                  <div>
+                    <h2 className="font-bold text-white leading-tight">Racing Club Bingerville</h2>
+                    <div className="flex items-center gap-2 text-xs text-content-muted mt-0.5">
+                      <span>{actu.published_at ? format(new Date(actu.published_at), 'dd MMM à HH:mm', { locale: fr }) : 'Non publié'}</span>
+                      {actu.statut === 'BROUILLON' && <Badge variant="warning" className="text-[10px] py-0">Brouillon</Badge>}
+                    </div>
+                  </div>
                 </div>
-              )}
-            </div>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-              Publié le {actu.published_at ? format(new Date(actu.published_at), 'dd MMMM yyyy', { locale: fr }) : 'Non publié'}
-            </p>
-            <p className="text-gray-700 dark:text-gray-300 line-clamp-3">
-              {actu.contenu}
-            </p>
-            <div className="mt-4">
-              <Link to={`/actualites/${actu.slug}`} className="text-primary font-medium hover:underline">
-                Lire la suite →
-              </Link>
-            </div>
-          </Card>
+                {isStaff && (
+                  <div className="flex items-center gap-1">
+                    <Link to={`/actualites/${actu.id}/editer`} className="p-2 text-content-muted hover:text-white transition"><Edit size={16} /></Link>
+                    <button onClick={() => handleDelete(actu.id)} className="p-2 text-content-muted hover:text-accent-danger transition"><Trash2 size={16} /></button>
+                  </div>
+                )}
+              </div>
+
+              {/* Post Content */}
+              <div className="p-5">
+                <Link to={`/actualites/${actu.slug}`} className="block group">
+                  <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors mb-3">{actu.titre}</h3>
+                  <p className="text-content-muted leading-relaxed line-clamp-4">
+                    {actu.contenu}
+                  </p>
+                </Link>
+              </div>
+
+              {/* Fake Social Actions */}
+              <div className="px-5 py-3 border-t border-white/5 bg-white/5 flex items-center gap-6">
+                <button className="flex items-center gap-2 text-content-muted hover:text-accent-danger transition-colors group">
+                  <Heart size={18} className="group-hover:fill-accent-danger" />
+                  <span className="text-sm font-medium">J'aime</span>
+                </button>
+                <button className="flex items-center gap-2 text-content-muted hover:text-primary transition-colors group">
+                  <MessageCircle size={18} />
+                  <span className="text-sm font-medium">Commenter</span>
+                </button>
+                <button className="flex items-center gap-2 text-content-muted hover:text-white transition-colors group ml-auto">
+                  <Share2 size={18} />
+                </button>
+              </div>
+            </Card>
+          </motion.div>
         ))}
       </div>
     </div>
