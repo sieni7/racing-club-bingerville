@@ -17,7 +17,7 @@ export class StatsService {
 
     for (const match of matchs) {
       // Vérifier si le joueur était dans la composition
-      const dansCompo = match.composition?.some((comp: Record<string, unknown>) => comp.joueurId?.toString() === joueurId.toString());
+      const dansCompo = match.composition?.some((comp: any) => comp.joueurId?.toString() === joueurId.toString());
       if (dansCompo) {
         matchsJoues++;
       }

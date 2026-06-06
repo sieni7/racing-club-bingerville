@@ -14,7 +14,7 @@ export const register = async (req: Request, res: Response) => {
     const user = await authService.register(req.body);
     res.status(201).json({ success: true, data: { id: user._id, email: user.email } });
   } catch (error: unknown) {
-    res.status(400).json({ success: false, error: error.message });
+    res.status(400).json({ success: false, error: (error as any).message });
   }
 };
 
@@ -28,7 +28,7 @@ export const login = async (req: Request, res: Response) => {
     res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
     res.status(200).json({ success: true, data: { accessToken } });
   } catch (error: unknown) {
-    res.status(401).json({ message: 'Invalid refresh token' });
+    res.status(401).json({ message: (error as any).message || 'Invalid refresh token' });
   }
 };
 
@@ -45,10 +45,10 @@ export const refresh = async (req: Request, res: Response) => {
     res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
     res.status(200).json({ success: true, data: { accessToken } });
   } catch (error: unknown) {
-    if (error instanceof z.ZodError) {
-      return res.status(400).json({ message: 'Validation error', errors: error.errors });
+    if ((error as any)?.errors) {
+      return res.status(400).json({ message: 'Validation error', errors: (error as any).errors });
     }
-    res.status(400).json({ message: (error as Error).message });
+    res.status(400).json({ message: (error as any).message || 'Error' });
   }
 };
 

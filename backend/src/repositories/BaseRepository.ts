@@ -1,4 +1,4 @@
-import { Model, Document, FilterQuery, UpdateQuery } from 'mongoose';
+import { Model, Document } from 'mongoose';
 
 export class BaseRepository<T extends Document> {
   protected model: Model<T>;
@@ -11,20 +11,20 @@ export class BaseRepository<T extends Document> {
     return this.model.findById(id).exec();
   }
 
-  async findAll(filter: FilterQuery<T> = {}): Promise<T[]> {
+  async findAll(filter: any = {}): Promise<T[]> {
     return this.model.find(filter).exec();
   }
 
-  async findOne(filter: FilterQuery<T>): Promise<T | null> {
+  async findOne(filter: any): Promise<T | null> {
     return this.model.findOne(filter).exec();
   }
 
-  async create(item: Partial<T>, options?: mongoose.SaveOptions | mongoose.InsertManyOptions | Record<string, unknown>): Promise<T> {
+  async create(item: Partial<T>, options?: any): Promise<T> {
     const docs = await this.model.create([item], options);
     return docs[0];
   }
 
-  async update(id: string, item: UpdateQuery<T>): Promise<T | null> {
+  async update(id: string, item: any): Promise<T | null> {
     return this.model.findByIdAndUpdate(id, item, { new: true }).exec();
   }
 

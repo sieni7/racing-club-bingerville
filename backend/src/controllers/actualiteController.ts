@@ -22,7 +22,7 @@ export const createActualite = async (req: Request, res: Response) => {
     return res.status(400).json({ success: false, error: (parsed.error as any).errors });
   }
 
-  const user = (req as Record<string, unknown>).user as { _id: string };
+  const user = (req as any).user as { _id: string };
   const actualiteData = {
     ...parsed.data,
     auteurId: user._id
@@ -35,7 +35,7 @@ export const createActualite = async (req: Request, res: Response) => {
 export const updateActualite = async (req: Request, res: Response) => {
   const parsed = ActualiteSchema.safeParse(req.body);
   if (!parsed.success) {
-    return res.status(400).json({ success: false, error: parsed.error.errors });
+    return res.status(400).json({ success: false, error: (parsed.error as any).errors });
   }
 
   const actualite = await actualiteRepository.update(String(req.params.id), parsed.data as any);
