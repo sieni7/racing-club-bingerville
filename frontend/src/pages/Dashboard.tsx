@@ -9,7 +9,7 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { Calendar, Trophy, Users, FileText } from 'lucide-react';
 
-import { MetricsCards } from './Dashboard/MetricsCards';
+import { MetricsCards } from '../components/Dashboard/MetricsCards';
 
 export default function Dashboard() {
   const { user } = useAuth();
