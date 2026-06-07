@@ -62,7 +62,7 @@ cd frontend && npm install
 
 # Variables d'environnement (.env)
 VITE_SUPABASE_URL=https://ardriqliroipulywbuar.supabase.co
-VITE_SUPABASE_ANON_KEY=votre_clé_anon
+VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFyZHJpcWxpcm9pcHVseXdidWFyIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4MDc2NzUzMywiZXhwIjoyMDk2MzQzNTMzfQ.fFlu0UI3UeohFZM7JGB8P-zwCmy4Mj0mUf3aaH8v2Zo
 
 # Lancer en développement
 npm run dev
