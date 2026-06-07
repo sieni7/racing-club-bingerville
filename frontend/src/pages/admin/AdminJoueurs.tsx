@@ -4,12 +4,12 @@ import { Plus, Edit2, Trash2, X, Loader2, LayoutGrid, List } from 'lucide-react'
 
 interface Joueur {
   id: string;
-  first_name: string;
-  last_name: string;
-  position: string;
-  number: number | null;
+  prenom: string;
+  nom: string;
+  poste: string;
+  numero: number | null;
   photo_url: string | null;
-  is_active: boolean;
+  statut: string;
 }
 
 export default function AdminJoueurs() {
@@ -20,11 +20,11 @@ export default function AdminJoueurs() {
   // Form State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [position, setPosition] = useState('');
-  const [number, setNumber] = useState('');
-  const [isActive, setIsActive] = useState(true);
+  const [prenom, setPrenom] = useState('');
+  const [nom, setNom] = useState('');
+  const [poste, setPoste] = useState('');
+  const [numero, setNumero] = useState('');
+  const [statut, setStatut] = useState('ACTIF');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function AdminJoueurs() {
       const { data, error } = await supabase
         .from('joueurs')
         .select('*')
-        .order('last_name', { ascending: true });
+        .order('nom', { ascending: true });
 
       if (error) throw error;
       setJoueurs(data || []);
@@ -53,11 +53,11 @@ export default function AdminJoueurs() {
 
     try {
       const payload = {
-        first_name: firstName,
-        last_name: lastName,
-        position,
-        number: number ? parseInt(number) : null,
-        is_active: isActive,
+        prenom,
+        nom,
+        poste,
+        numero: numero ? parseInt(numero) : null,
+        statut,
       };
 
       if (editingId) {
@@ -99,18 +99,18 @@ export default function AdminJoueurs() {
   const openModal = (joueur?: Joueur) => {
     if (joueur) {
       setEditingId(joueur.id);
-      setFirstName(joueur.first_name);
-      setLastName(joueur.last_name);
-      setPosition(joueur.position);
-      setNumber(joueur.number ? joueur.number.toString() : '');
-      setIsActive(joueur.is_active);
+      setPrenom(joueur.prenom);
+      setNom(joueur.nom);
+      setPoste(joueur.poste);
+      setNumero(joueur.numero ? joueur.numero.toString() : '');
+      setStatut(joueur.statut);
     } else {
       setEditingId(null);
-      setFirstName('');
-      setLastName('');
-      setPosition('');
-      setNumber('');
-      setIsActive(true);
+      setPrenom('');
+      setNom('');
+      setPoste('');
+      setNumero('');
+      setStatut('ACTIF');
     }
     setIsModalOpen(true);
   };
@@ -178,13 +178,13 @@ export default function AdminJoueurs() {
                     {joueurs.map((joueur) => (
                       <tr key={joueur.id} className="hover:bg-gray-50 dark:hover:bg-gray-750">
                         <td className="p-4 font-medium text-gray-900 dark:text-white">
-                          {joueur.first_name} {joueur.last_name}
+                          {joueur.prenom} {joueur.nom}
                         </td>
-                        <td className="p-4 text-gray-500 dark:text-gray-400">{joueur.position}</td>
-                        <td className="p-4 text-gray-500 dark:text-gray-400">{joueur.number || '-'}</td>
+                        <td className="p-4 text-gray-500 dark:text-gray-400">{joueur.poste}</td>
+                        <td className="p-4 text-gray-500 dark:text-gray-400">{joueur.numero || '-'}</td>
                         <td className="p-4">
-                          <span className={`px-2 py-1 text-xs rounded-full font-medium ${joueur.is_active ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}`}>
-                            {joueur.is_active ? 'Actif' : 'Inactif'}
+                          <span className={`px-2 py-1 text-xs rounded-full font-medium ${joueur.statut === 'ACTIF' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}`}>
+                            {joueur.statut}
                           </span>
                         </td>
                         <td className="p-4 flex items-center justify-end gap-2">
@@ -218,10 +218,10 @@ export default function AdminJoueurs() {
                 <div key={joueur.id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden flex flex-col relative group">
                   <div className="h-48 bg-gray-200 dark:bg-gray-700 relative flex items-center justify-center overflow-hidden">
                     {joueur.photo_url ? (
-                      <img src={joueur.photo_url} alt={joueur.last_name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                      <img src={joueur.photo_url} alt={joueur.nom} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                     ) : (
                       <div className="text-4xl font-black text-gray-400 dark:text-gray-600">
-                        {joueur.number || '?'}
+                        {joueur.numero || '?'}
                       </div>
                     )}
                     <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -236,16 +236,16 @@ export default function AdminJoueurs() {
                   <div className="p-4 flex-1 flex flex-col justify-between">
                     <div>
                       <h3 className="font-bold text-lg text-gray-900 dark:text-white truncate">
-                        {joueur.first_name} {joueur.last_name}
+                        {joueur.prenom} {joueur.nom}
                       </h3>
-                      <p className="text-gray-500 dark:text-gray-400 text-sm">{joueur.position}</p>
+                      <p className="text-gray-500 dark:text-gray-400 text-sm">{joueur.poste}</p>
                     </div>
                     <div className="mt-4 flex items-center justify-between">
-                      <span className={`px-2 py-1 text-xs rounded-full font-medium ${joueur.is_active ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}`}>
-                        {joueur.is_active ? 'Actif' : 'Inactif'}
+                      <span className={`px-2 py-1 text-xs rounded-full font-medium ${joueur.statut === 'ACTIF' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'}`}>
+                        {joueur.statut}
                       </span>
-                      {joueur.number && (
-                        <span className="font-bold text-gray-300 dark:text-gray-600">#{joueur.number}</span>
+                      {joueur.numero && (
+                        <span className="font-bold text-gray-300 dark:text-gray-600">#{joueur.numero}</span>
                       )}
                     </div>
                   </div>
@@ -276,8 +276,8 @@ export default function AdminJoueurs() {
                   <input 
                     type="text" 
                     required
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    value={prenom}
+                    onChange={(e) => setPrenom(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-gray-900 dark:text-white"
                   />
                 </div>
@@ -286,8 +286,8 @@ export default function AdminJoueurs() {
                   <input 
                     type="text" 
                     required
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    value={nom}
+                    onChange={(e) => setNom(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-gray-900 dark:text-white"
                   />
                 </div>
@@ -298,8 +298,8 @@ export default function AdminJoueurs() {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Poste</label>
                   <select 
                     required
-                    value={position}
-                    onChange={(e) => setPosition(e.target.value)}
+                    value={poste}
+                    onChange={(e) => setPoste(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-gray-900 dark:text-white"
                   >
                     <option value="">Sélectionner...</option>
@@ -315,8 +315,8 @@ export default function AdminJoueurs() {
                     type="number" 
                     min="1"
                     max="99"
-                    value={number}
-                    onChange={(e) => setNumber(e.target.value)}
+                    value={numero}
+                    onChange={(e) => setNumero(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-gray-900 dark:text-white"
                   />
                 </div>
@@ -326,8 +326,8 @@ export default function AdminJoueurs() {
                 <label className="flex items-center gap-3 cursor-pointer mt-4">
                   <input 
                     type="checkbox" 
-                    checked={isActive}
-                    onChange={(e) => setIsActive(e.target.checked)}
+                    checked={statut === 'ACTIF'}
+                    onChange={(e) => setStatut(e.target.checked ? 'ACTIF' : 'INACTIF')}
                     className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
                   />
                   <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Joueur actif (Affiche sur le site)</span>
