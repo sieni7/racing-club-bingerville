@@ -15,7 +15,7 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import HomePage from './pages/HomePage';
 
-import { AdminLayout } from './components/admin/AdminLayout';
+import { MemberLayout } from './components/layout/MemberLayout';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { AdminHomepage } from './pages/admin/AdminHomepage';
 import { AdminActualites } from './pages/admin/AdminActualites';
@@ -60,20 +60,8 @@ function App() {
         <AuthProvider>
           <Suspense fallback={<div className="flex justify-center items-center h-screen"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>}>
             <Routes>
-              {/* ADMIN ROUTES */}
-              <Route element={<PrivateRoute requiredRole={['ADMIN', 'SUPER_ADMIN']} />}>
-                <Route path="/admin" element={<AdminLayout />}>
-                  <Route index element={<Navigate to="dashboard" replace />} />
-                  <Route path="dashboard" element={<AdminDashboard />} />
-                  <Route path="homepage" element={<AdminHomepage />} />
-                  <Route path="actualites" element={<AdminActualites />} />
-                  <Route path="joueurs" element={<AdminJoueurs />} />
-                </Route>
-              </Route>
-
-              {/* PUBLIC & USER ROUTES */}
+              {/* Routes PUBLIQUES (accessibles sans connexion) */}
               <Route element={<MainLayout />}>
-                {/* Routes PUBLIQUES (accessibles sans connexion) */}
                 <Route path="/" element={<HomePage />} />
                 <Route path="/matchs" element={<MatchsList />} />
                 <Route path="/matchs/calendrier" element={<MatchsCalendar />} />
@@ -83,28 +71,37 @@ function App() {
                 <Route path="/guide" element={<GuidePage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                
-                {/* Routes PRIVÉES (authentification requise) */}
+              </Route>
+              
+              {/* Routes PRIVÉES (authentification requise) via MemberLayout */}
+              <Route element={<MemberLayout />}>
                 <Route element={<PrivateRoute />}>
+                  {/* Membre */}
                   <Route path="/dashboard" element={<Dashboard />} />
-                  
-                  {/* Joueurs */}
                   <Route path="/joueurs" element={<JoueursList />} />
                   <Route path="/joueurs/nouveau" element={<JoueurForm />} />
                   <Route path="/joueurs/:id" element={<JoueurDetail />} />
                   <Route path="/joueurs/:id/editer" element={<JoueurForm />} />
                   
-                  {/* Matchs (Gestion) */}
                   <Route path="/matchs/nouveau" element={<MatchForm />} />
                   <Route path="/matchs/:id/editer" element={<MatchForm />} />
                   <Route path="/matchs/:id/feuille" element={<MatchFeuille />} />
                   
-                  {/* Actualités (Gestion) */}
                   <Route path="/actualites/nouvelle" element={<ActualiteForm />} />
                   <Route path="/actualites/:id/editer" element={<ActualiteForm />} />
                   
-                  {/* Paramètres */}
                   <Route path="/parametres" element={<SettingsPage />} />
+                </Route>
+
+                {/* ADMIN ROUTES */}
+                <Route element={<PrivateRoute requiredRole={['ADMIN', 'SUPER_ADMIN']} />}>
+                  <Route path="/admin">
+                    <Route index element={<Navigate to="dashboard" replace />} />
+                    <Route path="dashboard" element={<AdminDashboard />} />
+                    <Route path="homepage" element={<AdminHomepage />} />
+                    <Route path="actualites" element={<AdminActualites />} />
+                    <Route path="joueurs" element={<AdminJoueurs />} />
+                  </Route>
                 </Route>
               </Route>
             </Routes>
