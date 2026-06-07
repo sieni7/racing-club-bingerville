@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
-import { Pencil, Trash2, Plus, Upload, X, Eye } from 'lucide-react';
+import { Pencil, Trash2, Plus, Upload, X, Eye, Search } from 'lucide-react';
 
 interface Article {
   id: string;
@@ -50,6 +50,7 @@ export const AdminActualites = () => {
   const [editing, setEditing] = useState<Article | null>(null);
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const { register, handleSubmit, reset, setValue, watch, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -68,6 +69,11 @@ export const AdminActualites = () => {
   };
 
   useEffect(() => { fetchArticles(); }, []);
+
+  const filteredArticles = articles.filter((article) =>
+    article.titre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    article.contenu.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const openModal = (article?: Article) => {
     if (article) {
@@ -168,9 +174,23 @@ export const AdminActualites = () => {
       </div>
 
       <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden">
+        <div className="p-4 border-b border-gray-100 dark:border-gray-800 flex justify-between items-center">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+            <input
+              type="text"
+              placeholder="Rechercher une actualité..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-9 pr-4 py-2 w-full md:w-80 border border-gray-200 dark:border-gray-700 rounded-lg bg-transparent text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+            />
+          </div>
+          <span className="text-sm text-gray-500 font-medium">{filteredArticles.length} article(s)</span>
+        </div>
+
         {loading ? (
           Array.from({ length: 4 }).map((_, i) => <SkeletonRow key={i} />)
-        ) : articles.length === 0 ? (
+        ) : filteredArticles.length === 0 ? (
           <div className="px-6 py-16 text-center text-gray-400">
             Aucune actualité. Créez la première.
           </div>
@@ -186,7 +206,7 @@ export const AdminActualites = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-              {articles.map((article) => (
+              {filteredArticles.map((article) => (
                 <tr key={article.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors">
                   <td className="px-6 py-4">
                     {article.image_url ? (

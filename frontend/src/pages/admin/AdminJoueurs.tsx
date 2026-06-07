@@ -75,6 +75,9 @@ export const AdminJoueurs = () => {
     joueur: null,
   });
   const [isDeleting, setIsDeleting] = useState(false);
+  const [statutFilter, setStatutFilter] = useState<string>('TOUS');
+  const [sortField, setSortField] = useState<keyof Joueur>('numero');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -92,6 +95,32 @@ export const AdminJoueurs = () => {
     setViewMode(mode);
     localStorage.setItem('admin_joueurs_view', mode);
   };
+
+  const handleSort = (field: keyof Joueur) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortOrder('asc');
+    }
+  };
+
+  const filteredJoueurs = joueurs.filter((joueur) => {
+    if (statutFilter === 'TOUS') return true;
+    return joueur.statut === statutFilter;
+  });
+
+  const sortedJoueurs = [...filteredJoueurs].sort((a, b) => {
+    let aVal = a[sortField];
+    let bVal = b[sortField];
+    if (typeof aVal === 'string') aVal = aVal.toLowerCase();
+    if (typeof bVal === 'string') bVal = bVal.toLowerCase();
+    if (aVal === null) return 1;
+    if (bVal === null) return -1;
+    if (aVal < bVal) return sortOrder === 'asc' ? -1 : 1;
+    if (aVal > bVal) return sortOrder === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   const handleDeleteClick = (joueur: Joueur) => {
     setConfirmModal({ isOpen: true, joueur });
@@ -139,7 +168,7 @@ export const AdminJoueurs = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Joueurs</h1>
         <div className="flex items-center gap-2">
           {/* Toggle vue */}
@@ -169,23 +198,73 @@ export const AdminJoueurs = () => {
         </div>
       </div>
 
+      <div className="flex flex-wrap gap-2 mb-6">
+        <button
+          onClick={() => setStatutFilter('TOUS')}
+          className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+            statutFilter === 'TOUS' ? 'bg-primary text-white shadow-glow' : 'bg-white text-gray-600 dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+          }`}
+        >
+          Tous ({joueurs.length})
+        </button>
+        <button
+          onClick={() => setStatutFilter('ACTIF')}
+          className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+            statutFilter === 'ACTIF' ? 'bg-green-500 text-white shadow-sm' : 'bg-white text-gray-600 dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+          }`}
+        >
+          ACTIF ({joueurs.filter(j => j.statut === 'ACTIF').length})
+        </button>
+        <button
+          onClick={() => setStatutFilter('BLESSE')}
+          className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+            statutFilter === 'BLESSE' ? 'bg-orange-500 text-white shadow-sm' : 'bg-white text-gray-600 dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+          }`}
+        >
+          BLESSÉ ({joueurs.filter(j => j.statut === 'BLESSE').length})
+        </button>
+        <button
+          onClick={() => setStatutFilter('INACTIF')}
+          className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+            statutFilter === 'INACTIF' ? 'bg-red-500 text-white shadow-sm' : 'bg-white text-gray-600 dark:bg-gray-800 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+          }`}
+        >
+          INACTIF ({joueurs.filter(j => j.statut === 'INACTIF').length})
+        </button>
+      </div>
+
       {/* VUE TABLEAU */}
       {viewMode === 'table' && (
         <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden">
           <table className="w-full">
             <thead className="bg-gray-50 dark:bg-gray-800 text-xs text-gray-500 uppercase tracking-wide">
               <tr>
-                <th className="px-6 py-3 text-left">N°</th>
-                <th className="px-6 py-3 text-left">Joueur</th>
-                <th className="px-6 py-3 text-left">Poste</th>
-                <th className="px-6 py-3 text-left">Statut</th>
+                <th className="px-6 py-3 text-left cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort('numero')}>
+                  <div className="flex items-center gap-1">N° {sortField === 'numero' && (sortOrder === 'asc' ? '↑' : '↓')}</div>
+                </th>
+                <th className="px-6 py-3 text-left cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort('nom')}>
+                  <div className="flex items-center gap-1">Joueur {sortField === 'nom' && (sortOrder === 'asc' ? '↑' : '↓')}</div>
+                </th>
+                <th className="px-6 py-3 text-left cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort('poste')}>
+                  <div className="flex items-center gap-1">Poste {sortField === 'poste' && (sortOrder === 'asc' ? '↑' : '↓')}</div>
+                </th>
+                <th className="px-6 py-3 text-left cursor-pointer hover:text-primary transition-colors" onClick={() => handleSort('statut')}>
+                  <div className="flex items-center gap-1">Statut {sortField === 'statut' && (sortOrder === 'asc' ? '↑' : '↓')}</div>
+                </th>
                 <th className="px-6 py-3 text-center">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
               {loading
                 ? Array.from({ length: 5 }).map((_, i) => <SkeletonRow key={i} />)
-                : joueurs.map((joueur) => (
+                : sortedJoueurs.length === 0 ? (
+                    <tr>
+                      <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                        Aucun joueur trouvé
+                      </td>
+                    </tr>
+                  )
+                : sortedJoueurs.map((joueur) => (
                     <tr key={joueur.id} className="hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors">
                       <td className="px-6 py-4 font-bold text-gray-400 text-sm">{joueur.numero}</td>
                       <td className="px-6 py-4">
@@ -227,7 +306,12 @@ export const AdminJoueurs = () => {
                   <div className="h-3 bg-gray-100 dark:bg-gray-800 rounded w-1/2 mx-auto" />
                 </div>
               ))
-            : joueurs.map((joueur) => (
+            : sortedJoueurs.length === 0 ? (
+                <div className="col-span-full py-12 text-center text-gray-500 bg-white dark:bg-gray-900 rounded-xl shadow-sm">
+                  Aucun joueur trouvé
+                </div>
+              )
+            : sortedJoueurs.map((joueur) => (
                 <div key={joueur.id} className="bg-white dark:bg-gray-900 rounded-xl p-4 shadow-sm text-center">
                   <AvatarLg joueur={joueur} />
                   <div className="font-medium text-sm mt-3">{joueur.prenom} {joueur.nom}</div>

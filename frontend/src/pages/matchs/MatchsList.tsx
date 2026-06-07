@@ -8,10 +8,13 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { motion } from 'framer-motion';
 import { Card } from '../../components/ui/Card';
+import { Pagination } from '../../components/common/Pagination';
 
 export default function MatchsList() {
   const [matchs, setMatchs] = useState<Match[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     loadMatchs();
@@ -37,9 +40,12 @@ export default function MatchsList() {
 
   if (isLoading) return <div className="flex justify-center py-10"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>;
 
-  const aVenir = matchs.filter(m => m.statut === 'A_VENIR').reverse(); // Chronological for future
-  const enCours = matchs.filter(m => m.statut === 'EN_COURS');
-  const termines = matchs.filter(m => m.statut === 'TERMINE');
+  const totalPages = Math.ceil(matchs.length / itemsPerPage);
+  const paginatedMatchs = matchs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  const aVenir = paginatedMatchs.filter(m => m.statut === 'A_VENIR').reverse(); // Chronological for future
+  const enCours = paginatedMatchs.filter(m => m.statut === 'EN_COURS');
+  const termines = paginatedMatchs.filter(m => m.statut === 'TERMINE');
 
   const renderMatchCard = (match: Match) => {
     const isRacingHome = match.lieu === 'DOMICILE';
@@ -170,6 +176,10 @@ export default function MatchsList() {
           )}
         </div>
       </div>
+
+      {!isLoading && matchs.length > 0 && (
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      )}
     </div>
   );
 }

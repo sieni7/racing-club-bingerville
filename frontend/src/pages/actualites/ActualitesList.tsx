@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, Eye } from 'lucide-react';
 import { SkeletonLoader } from '../../components/common/SkeletonLoader';
 import { EmptyState } from '../../components/common/EmptyState';
+import { Pagination } from '../../components/common/Pagination';
 
 interface Article {
   id: string;
@@ -17,6 +18,8 @@ interface Article {
 export default function ActualitesList() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   useEffect(() => {
     fetchArticles();
@@ -46,6 +49,9 @@ export default function ActualitesList() {
     );
   }
 
+  const totalPages = Math.ceil(articles.length / itemsPerPage);
+  const paginatedArticles = articles.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-7xl">
       <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-8">Actualités</h1>
@@ -54,7 +60,7 @@ export default function ActualitesList() {
         <EmptyState title="Aucune actualité" message="Aucune actualité n'a encore été publiée." />
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article) => (
+          {paginatedArticles.map((article) => (
             <Link
               key={article.id}
               to={`/actualites/${article.slug}`}
@@ -90,6 +96,10 @@ export default function ActualitesList() {
             </Link>
           ))}
         </div>
+      )}
+      
+      {!loading && articles.length > 0 && (
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
       )}
     </div>
   );

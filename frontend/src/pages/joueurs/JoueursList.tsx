@@ -10,12 +10,15 @@ import { JoueurDrawer } from '../../components/joueurs/JoueurDrawer';
 import { Card } from '../../components/ui/Card';
 import { SkeletonLoader } from '../../components/common/SkeletonLoader';
 import { EmptyState } from '../../components/common/EmptyState';
+import { Pagination } from '../../components/common/Pagination';
 import { useNavigate } from 'react-router-dom';
 export default function JoueursList() {
   const [joueurs, setJoueurs] = useState<Joueur[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedJoueur, setSelectedJoueur] = useState<Joueur | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,6 +47,14 @@ export default function JoueursList() {
     `${j.prenom} ${j.nom}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
     j.poste.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const totalPages = Math.ceil(filteredJoueurs.length / itemsPerPage);
+  const paginatedJoueurs = filteredJoueurs.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+  // Reset to page 1 when search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   if (isLoading) return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -89,7 +100,7 @@ export default function JoueursList() {
             />
           </div>
         ) : (
-          filteredJoueurs.map((joueur, i) => {
+          paginatedJoueurs.map((joueur, i) => {
           const rating = calculatePlayerRating(joueur);
           
           return (
@@ -141,6 +152,10 @@ export default function JoueursList() {
           );
         })}
       </div>
+
+      {!isLoading && filteredJoueurs.length > 0 && (
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+      )}
 
       <JoueurDrawer 
         joueur={selectedJoueur} 
