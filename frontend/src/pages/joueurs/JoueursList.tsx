@@ -68,18 +68,33 @@ export default function JoueursList() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Effectif</h1>
-          <p className="text-content-muted mt-1">Gérez vos joueurs et analysez leurs performances.</p>
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0A0E17]">
+      {/* Hero Header */}
+      <div className="relative pt-20 pb-16 bg-white dark:bg-gray-900 overflow-hidden border-b border-gray-200 dark:border-white/5">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
+        
+        <div className="container mx-auto px-4 max-w-7xl relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+          >
+            <div>
+              <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Team Roster</span>
+              <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">Effectif</h1>
+              <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg">Gérez vos joueurs et analysez leurs performances.</p>
+            </div>
+            {isAdmin && (
+              <Link to="/joueurs/nouveau">
+                <Button className="flex items-center gap-2 shadow-glow"><Plus size={18} /> Ajouter un joueur</Button>
+              </Link>
+            )}
+          </motion.div>
         </div>
-        {isAdmin && (
-          <Link to="/joueurs/nouveau">
-            <Button className="flex items-center gap-2"><Plus size={18} /> Ajouter un joueur</Button>
-          </Link>
-        )}
       </div>
+
+      <div className="container mx-auto px-4 py-16 max-w-7xl">
 
       <div className="flex gap-4 mb-8">
         <div className="relative flex-grow max-w-md">
@@ -168,6 +183,7 @@ export default function JoueursList() {
         onClose={() => setSelectedJoueur(null)} 
         onDelete={handleDelete} 
       />
+      </div>
     </div>
   );
 }

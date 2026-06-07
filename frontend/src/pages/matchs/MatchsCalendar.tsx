@@ -7,7 +7,8 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Match, matchsService } from '../../features/matchs/matchsService';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/Button';
-import { List, Plus } from 'lucide-react';
+import { List, Plus, Calendar as CalendarIcon } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const locales = {
   'fr': fr,
@@ -49,22 +50,46 @@ export default function MatchsCalendar() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 h-screen flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Calendrier des Matchs</h1>
-        <div className="flex gap-2">
-          <Link to="/matchs">
-            <Button variant="secondary" className="flex items-center gap-2"><List size={16} /> Vue Liste</Button>
-          </Link>
-          {isAdmin && (
-            <Link to="/matchs/nouveau">
-              <Button className="flex items-center gap-2"><Plus size={16} /> Nouveau match</Button>
-            </Link>
-          )}
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0A0E17] flex flex-col">
+      {/* Hero Header */}
+      <div className="relative pt-20 pb-16 bg-white dark:bg-gray-900 overflow-hidden border-b border-gray-200 dark:border-white/5 flex-shrink-0">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
+        
+        <div className="container mx-auto px-4 max-w-7xl relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+          >
+            <div>
+              <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Saison 2026</span>
+              <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight flex items-center gap-3">
+                <CalendarIcon className="w-10 h-10 text-primary" /> Calendrier des Matchs
+              </h1>
+            </div>
+            
+            <div className="flex flex-wrap gap-3">
+              <Link to="/matchs">
+                <Button variant="secondary" className="flex items-center gap-2 bg-white dark:bg-gray-800 shadow-sm"><List size={18} /> Vue Liste</Button>
+              </Link>
+              {isAdmin && (
+                <Link to="/matchs/nouveau">
+                  <Button className="flex items-center gap-2 shadow-glow"><Plus size={18} /> Nouveau match</Button>
+                </Link>
+              )}
+            </div>
+          </motion.div>
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-lg shadow flex-grow">
+      <div className="container mx-auto px-4 py-8 max-w-7xl flex-grow flex flex-col">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-soft flex-grow border border-gray-100 dark:border-gray-800"
+        >
         <Calendar
           localizer={localizer}
           events={events}
@@ -91,6 +116,7 @@ export default function MatchsCalendar() {
             return { style: { backgroundColor } };
           }}
         />
+        </motion.div>
       </div>
     </div>
   );

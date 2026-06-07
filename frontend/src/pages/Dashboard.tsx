@@ -80,15 +80,26 @@ export default function Dashboard() {
   );
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="mb-8 flex justify-between items-end">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-900 dark:text-white">Bienvenue, {user?.user_metadata?.prenom} 👋</h1>
-          <p className="text-gray-600 dark:text-content-muted mt-2">Vue d'ensemble de la performance (Sport Intelligence).</p>
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0A0E17]">
+      {/* Hero Header */}
+      <div className="relative pt-20 pb-16 bg-white dark:bg-gray-900 overflow-hidden border-b border-gray-200 dark:border-white/5">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
+        
+        <div className="container mx-auto px-4 max-w-6xl relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Espace Membre</span>
+            <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">Bienvenue, {user?.user_metadata?.prenom} 👋</h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg">Vue d'ensemble de la performance (Sport Intelligence).</p>
+          </motion.div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="container mx-auto px-4 py-16 max-w-6xl">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
         {/* Hero Card : Prochain Match */}
         <Card className="p-0 overflow-hidden md:col-span-3 border-l-4 border-l-primary relative">
           <div className="absolute top-0 right-0 p-8 opacity-10">

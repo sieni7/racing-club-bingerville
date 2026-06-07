@@ -37,13 +37,27 @@ export default function GuidePage() {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl">
-      <div className="mb-10 text-center">
-        <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight mb-3">Centre d'Aide & Documentation</h1>
-        <p className="text-content-muted text-lg max-w-2xl mx-auto">
-          Tout ce dont vous avez besoin pour maîtriser le Sport Intelligence Dashboard du Racing Club de Bingerville.
-        </p>
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0A0E17]">
+      {/* Hero Header */}
+      <div className="relative pt-20 pb-16 bg-white dark:bg-gray-900 overflow-hidden border-b border-gray-200 dark:border-white/5">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
+        
+        <div className="container mx-auto px-4 max-w-5xl relative z-10 text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Support & Aide</span>
+            <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight mb-3">Centre de Documentation</h1>
+            <p className="text-gray-500 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+              Tout ce dont vous avez besoin pour maîtriser le Sport Intelligence Dashboard du Racing Club de Bingerville.
+            </p>
+          </motion.div>
+        </div>
       </div>
+
+      <div className="container mx-auto px-4 py-16 max-w-5xl">
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {guides.map((guide, i) => (
@@ -79,6 +93,7 @@ export default function GuidePage() {
         <p className="text-content-muted">
           Besoin d'aide supplémentaire ? Contactez l'administrateur du club ou consultez notre <a href="https://github.com/sieni7/racing-club-bingerville/blob/master/docs/tutorial-script.md" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline font-medium">Tutoriel Vidéo</a>.
         </p>
+      </div>
       </div>
     </div>
   );
