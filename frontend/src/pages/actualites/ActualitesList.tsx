@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Link } from 'react-router-dom';
-import { Calendar, Eye } from 'lucide-react';
+import { Calendar, Eye, ArrowRight } from 'lucide-react';
 import { SkeletonLoader } from '../../components/common/SkeletonLoader';
 import { EmptyState } from '../../components/common/EmptyState';
 import { Pagination } from '../../components/common/Pagination';
+import { motion } from 'framer-motion';
 
 interface Article {
   id: string;
@@ -40,12 +41,24 @@ export default function ActualitesList() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-12 max-w-7xl">
-        <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-8">Actualités</h1>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <SkeletonLoader type="card" count={6} />
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-[#0A0E17]">
+        <div className="relative pt-20 pb-16 bg-white dark:bg-gray-900 overflow-hidden border-b border-gray-200 dark:border-white/5">
+          <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
+          <div className="container mx-auto px-4 max-w-7xl relative z-10">
+            <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Médias</span>
+            <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">Actualités</h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg">Toute l'actualité du Racing Club Bingerville.</p>
+          </div>
+        </div>
+        <div className="container mx-auto px-4 py-16 max-w-7xl">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <SkeletonLoader type="card" count={6} />
+          </div>
         </div>
       </div>
+    );
     );
   }
 
@@ -53,19 +66,41 @@ export default function ActualitesList() {
   const paginatedArticles = articles.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
-    <div className="container mx-auto px-4 py-12 max-w-7xl">
-      <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-8">Actualités</h1>
+  return (
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0A0E17]">
+      {/* Hero Header */}
+      <div className="relative pt-20 pb-16 bg-white dark:bg-gray-900 overflow-hidden border-b border-gray-200 dark:border-white/5">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
+        
+        <div className="container mx-auto px-4 max-w-7xl relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Médias</span>
+            <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">Actualités</h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg max-w-2xl">Découvrez les dernières annonces, résumés de matchs et moments forts de la vie du Racing Club Bingerville.</p>
+          </motion.div>
+        </div>
+      </div>
 
-      {articles.length === 0 ? (
-        <EmptyState title="Aucune actualité" message="Aucune actualité n'a encore été publiée." />
-      ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {paginatedArticles.map((article) => (
-            <Link
-              key={article.id}
-              to={`/actualites/${article.slug}`}
-              className="group bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-soft hover:shadow-soft-lg transition-all duration-300 hover:-translate-y-1 border border-gray-100 dark:border-gray-700"
-            >
+      <div className="container mx-auto px-4 py-16 max-w-7xl">
+        {articles.length === 0 ? (
+          <EmptyState title="Aucune actualité" message="Aucune actualité n'a encore été publiée." />
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {paginatedArticles.map((article, index) => (
+              <motion.div
+                key={article.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Link
+                  to={`/actualites/${article.slug}`}
+                  className="group flex flex-col h-full bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-soft hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 dark:border-gray-800"
+                >
               <div className="aspect-video overflow-hidden bg-gray-200 dark:bg-gray-700">
                 {article.image_url ? (
                   <img
@@ -93,14 +128,18 @@ export default function ActualitesList() {
                   Lire la suite <Eye size={16} className="ml-1" />
                 </div>
               </div>
-            </Link>
+              </Link>
+            </motion.div>
           ))}
         </div>
       )}
       
       {!loading && articles.length > 0 && (
-        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+        <div className="mt-16">
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+        </div>
       )}
+      </div>
     </div>
   );
 }

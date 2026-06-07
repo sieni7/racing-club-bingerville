@@ -118,23 +118,39 @@ export default function MatchsList() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
-        <div>
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Matchs & Calendrier</h1>
-          <p className="text-content-muted mt-1">Suivez l'historique et planifiez les prochaines rencontres.</p>
-        </div>
-        <div className="flex gap-3">
-          <Link to="/matchs/calendrier">
-            <Button variant="secondary" className="flex items-center gap-2"><Calendar size={18} /> Vue Calendrier</Button>
-          </Link>
-          {isAdmin && (
-            <Link to="/matchs/nouveau">
-              <Button className="flex items-center gap-2"><Plus size={18} /> Nouveau match</Button>
-            </Link>
-          )}
+    <div className="min-h-screen bg-gray-50 dark:bg-[#0A0E17]">
+      {/* Hero Header */}
+      <div className="relative pt-20 pb-16 bg-white dark:bg-gray-900 overflow-hidden border-b border-gray-200 dark:border-white/5">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2" />
+        
+        <div className="container mx-auto px-4 max-w-5xl relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"
+          >
+            <div>
+              <span className="text-primary font-bold tracking-wider uppercase text-sm mb-2 block">Saison 2026</span>
+              <h1 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white tracking-tight">Matchs & Calendrier</h1>
+              <p className="text-gray-500 dark:text-gray-400 mt-2 text-lg">Suivez l'historique et planifiez les prochaines rencontres du Racing Club.</p>
+            </div>
+            
+            <div className="flex flex-wrap gap-3">
+              <Link to="/matchs/calendrier">
+                <Button variant="secondary" className="flex items-center gap-2 bg-white dark:bg-gray-800 shadow-sm"><Calendar size={18} /> Vue Calendrier</Button>
+              </Link>
+              {isAdmin && (
+                <Link to="/matchs/nouveau">
+                  <Button className="flex items-center gap-2 shadow-glow"><Plus size={18} /> Nouveau match</Button>
+                </Link>
+              )}
+            </div>
+          </motion.div>
         </div>
       </div>
+
+      <div className="container mx-auto px-4 py-16 max-w-5xl">
 
       <div className="relative">
         {/* Vertical Line */}
@@ -186,7 +202,9 @@ export default function MatchsList() {
       </div>
 
       {!isLoading && matchs.length > 0 && (
-        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+        <div className="mt-12">
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+        </div>
       )}
     </div>
   );
