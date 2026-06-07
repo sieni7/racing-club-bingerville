@@ -3,6 +3,17 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 
 export const HeroSection = () => {
+  const handleCTAClick = (ctaName: string) => {
+    // Analytics tracking (placeholder)
+    console.log(`[Analytics] CTA Clicked: ${ctaName}`);
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'click', {
+        event_category: 'CTA',
+        event_label: ctaName,
+      });
+    }
+  };
+
   return (
     <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
       {/* Background Image / Video */}
@@ -38,7 +49,8 @@ export const HeroSection = () => {
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link 
-              to="/register" 
+              to="/register?role=JOUEUR" 
+              onClick={() => handleCTAClick('rejoindre')}
               className="bg-primary hover:bg-primary-light text-gray-900 px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-glow flex items-center gap-2 group w-full sm:w-auto justify-center"
             >
               Rejoindre le club
@@ -46,6 +58,7 @@ export const HeroSection = () => {
             </Link>
             <Link 
               to="/actualites" 
+              onClick={() => handleCTAClick('actus')}
               className="bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all flex items-center gap-2 w-full sm:w-auto justify-center"
             >
               Dernières actus
