@@ -17,11 +17,11 @@ export const Header = () => {
   };
 
   const navLinks = [
-    { name: 'Dashboard', path: '/dashboard', icon: <LayoutDashboard size={18} /> },
+    { name: 'Actualités', path: '/actualites', icon: <Newspaper size={18} /> },
     { name: 'Joueurs', path: '/joueurs', icon: <Users size={18} /> },
     { name: 'Matchs', path: '/matchs', icon: <Calendar size={18} /> },
     { name: 'Statistiques', path: '/statistiques', icon: <BarChart3 size={18} /> },
-    { name: 'Actualités', path: '/actualites', icon: <Newspaper size={18} /> },
+    { name: 'Administration', path: '/dashboard', icon: <LayoutDashboard size={18} /> },
     { name: 'Guide', path: '/guide', icon: <HelpCircle size={18} /> },
     { name: 'Paramètres', path: '/parametres', icon: <Settings size={18} /> },
   ];
