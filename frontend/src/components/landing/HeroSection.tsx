@@ -7,9 +7,9 @@ export const HeroSection = () => {
   const [index, setIndex] = useState(0);
 
   const images = [
-    'https://images.unsplash.com/photo-qowyMze7jqg?q=80&w=2000&auto=format&fit=crop', // personnes-regardant-larene-de-football
-    'https://images.unsplash.com/photo-kTxAcjN2VtQ?q=80&w=2000&auto=format&fit=crop', // un-ballon-de-football-pose-sur-un-terrain-verdoyant
-    'https://images.unsplash.com/photo-hQBIJsBtyBw?q=80&w=2000&auto=format&fit=crop', // personnes-regardant-un-match-de-football-dans-le-stade
+    'https://unsplash.com/photos/qowyMze7jqg/download?w=2000', // personnes-regardant-larene-de-football
+    'https://unsplash.com/photos/kTxAcjN2VtQ/download?w=2000', // un-ballon-de-football-pose-sur-un-terrain-verdoyant
+    'https://unsplash.com/photos/hQBIJsBtyBw/download?w=2000', // personnes-regardant-un-match-de-football-dans-le-stade
   ];
 
   useEffect(() => {
