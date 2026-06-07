@@ -170,7 +170,8 @@ export default function JoueursList() {
               </Card>
             </motion.div>
           );
-        })}
+        })
+        )}
       </div>
 
       {!isLoading && filteredJoueurs.length > 0 && (

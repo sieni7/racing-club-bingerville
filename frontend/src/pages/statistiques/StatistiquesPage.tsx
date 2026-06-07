@@ -192,6 +192,7 @@ export default function StatistiquesPage() {
           </div>
         </Card>
       </div>
+      </div>
     </div>
   );
 }

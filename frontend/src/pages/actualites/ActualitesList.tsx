@@ -41,7 +41,6 @@ export default function ActualitesList() {
 
   if (loading) {
     return (
-    return (
       <div className="min-h-screen bg-gray-50 dark:bg-[#0A0E17]">
         <div className="relative pt-20 pb-16 bg-white dark:bg-gray-900 overflow-hidden border-b border-gray-200 dark:border-white/5">
           <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]" />
@@ -59,13 +58,11 @@ export default function ActualitesList() {
         </div>
       </div>
     );
-    );
   }
 
   const totalPages = Math.ceil(articles.length / itemsPerPage);
   const paginatedArticles = articles.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
-  return (
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#0A0E17]">
       {/* Hero Header */}

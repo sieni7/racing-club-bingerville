@@ -206,6 +206,7 @@ export default function MatchsList() {
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
         </div>
       )}
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
-import { DarkModeToggle } from '../common/DarkModeToggle';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 export const HeaderPublic = () => {
   const { user, signOut, profile } = useAuth();
@@ -36,13 +36,13 @@ export const HeaderPublic = () => {
                   </Link>
                 )}
                 <Link to="/dashboard" className="hover:text-primary transition">Dashboard</Link>
-                <DarkModeToggle />
+                <ThemeToggle />
                 <span className="text-sm text-gray-600">{user.email}</span>
                 <Button variant="secondary" onClick={handleLogout}>Déconnexion</Button>
               </>
             ) : (
               <>
-                <DarkModeToggle />
+                <ThemeToggle />
                 <Link to="/login"><Button variant="secondary">Connexion</Button></Link>
                 <Link to="/register"><Button variant="primary">Inscription</Button></Link>
               </>

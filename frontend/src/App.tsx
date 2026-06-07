@@ -38,7 +38,7 @@ const ActualiteDetail = lazy(() => import('./pages/actualites/ActualiteDetail'))
 const GuidePage = lazy(() => import('./pages/GuidePage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 
-import { AdminLayout } from './components/admin/AdminLayout';
+import { MemberLayout } from './components/layout/MemberLayout';
 
 const PublicLayout = () => (
   <div className="flex flex-col min-h-screen">
@@ -95,7 +95,7 @@ function App() {
 
               {/* Layout ADMIN (rôle ADMIN/SUPER_ADMIN requis) */}
               <Route element={<PrivateRoute requiredRole={['ADMIN', 'SUPER_ADMIN']} />}>
-                <Route path="/admin" element={<AdminLayout />}>
+                <Route path="/admin" element={<MemberLayout />}>
                   <Route index element={<Navigate to="dashboard" replace />} />
                   <Route path="dashboard" element={<AdminDashboard />} />
                   <Route path="homepage" element={<AdminHomepage />} />

@@ -7,6 +7,8 @@ import { useAuth } from '../../contexts/AuthContext';
 import { motion } from 'framer-motion';
 import { calculatePlayerRating } from '../../utils/rating';
 import { Badge } from '../../components/ui/Badge';
+import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 export default function JoueurDetail() {
   const { id } = useParams<{ id: string }>();

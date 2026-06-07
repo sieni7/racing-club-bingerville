@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { statistiquesService, StatJoueur } from '../../features/statistiques/statistiquesService';
 import { Trophy, Medal } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { motion } from 'framer-motion';
 
-const medalAnimation = {
+const medalAnimation: any = {
   hidden: { scale: 0, rotate: -180 },
   visible: { scale: 1, rotate: 0, transition: { type: 'spring', duration: 0.5 } }
 };
+
+export const TopScorersSection = () => {
   const [buteurs, setButeurs] = useState<StatJoueur[]>([]);
 
   useEffect(() => {
