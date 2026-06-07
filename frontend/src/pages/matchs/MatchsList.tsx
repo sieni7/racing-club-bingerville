@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import { Link } from 'react-router-dom';
 import { Match, matchsService } from '../../features/matchs/matchsService';
 import { Button } from '../../components/ui/Button';
@@ -15,6 +16,9 @@ export default function MatchsList() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  
+  const { profile } = useAuth();
+  const isAdmin = profile?.role === 'ADMIN' || profile?.role === 'SUPER_ADMIN';
 
   useEffect(() => {
     loadMatchs();
@@ -100,11 +104,13 @@ export default function MatchsList() {
               <div className="text-xs text-content-muted font-medium uppercase tracking-wider">{match.competition}</div>
             </div>
 
-            <div className="flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-              <Link to={`/matchs/${match.id}/feuille`} className="p-2 bg-white/5 hover:bg-primary hover:text-gray-900 dark:text-white rounded-lg transition text-content-muted"><ClipboardList size={18} /></Link>
-              <Link to={`/matchs/${match.id}/editer`} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition text-content-muted"><Edit size={18} /></Link>
-              <button onClick={() => handleDelete(match.id)} className="p-2 bg-accent-danger/10 hover:bg-accent-danger/20 text-accent-danger rounded-lg transition"><Trash2 size={18} /></button>
-            </div>
+            {isAdmin && (
+              <div className="flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                <Link to={`/matchs/${match.id}/feuille`} className="p-2 bg-white/5 hover:bg-primary hover:text-gray-900 dark:text-white rounded-lg transition text-content-muted"><ClipboardList size={18} /></Link>
+                <Link to={`/matchs/${match.id}/editer`} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition text-content-muted"><Edit size={18} /></Link>
+                <button onClick={() => handleDelete(match.id)} className="p-2 bg-accent-danger/10 hover:bg-accent-danger/20 text-accent-danger rounded-lg transition"><Trash2 size={18} /></button>
+              </div>
+            )}
           </Card>
         </div>
       </motion.div>
@@ -122,9 +128,11 @@ export default function MatchsList() {
           <Link to="/matchs/calendrier">
             <Button variant="secondary" className="flex items-center gap-2"><Calendar size={18} /> Vue Calendrier</Button>
           </Link>
-          <Link to="/matchs/nouveau">
-            <Button className="flex items-center gap-2"><Plus size={18} /> Nouveau match</Button>
-          </Link>
+          {isAdmin && (
+            <Link to="/matchs/nouveau">
+              <Button className="flex items-center gap-2"><Plus size={18} /> Nouveau match</Button>
+            </Link>
+          )}
         </div>
       </div>
 
