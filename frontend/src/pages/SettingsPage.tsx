@@ -189,6 +189,7 @@ export default function SettingsPage() {
                         onChange={(e) => updateRole(u.id, e.target.value)}
                         className="px-2 py-1 rounded bg-white/5 border-white/10"
                       >
+                        <option value="SUPER_ADMIN">👑 SUPER_ADMIN</option>
                         <option value="ADMIN">ADMIN</option>
                         <option value="STAFF">STAFF</option>
                         <option value="MEMBER">MEMBER</option>
