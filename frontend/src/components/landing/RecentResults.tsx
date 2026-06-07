@@ -51,7 +51,7 @@ export const RecentResults = () => {
               className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between shadow-sm hover:shadow-xl border border-gray-100 dark:border-gray-800 transition-all duration-300"
             >
               <div className="flex-1 text-center md:text-left mb-6 md:mb-0">
-                <Badge variant="default" className="mb-3">{match.competition}</Badge>
+                <Badge variant="secondary" className="mb-3">{match.competition}</Badge>
                 <p className="text-gray-500 dark:text-gray-400 font-medium text-sm">
                   {format(new Date(match.date_heure), 'EEEE dd MMMM yyyy', { locale: fr })}
                 </p>

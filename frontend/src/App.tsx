@@ -16,10 +16,10 @@ import Dashboard from './pages/Dashboard';
 import HomePage from './pages/HomePage';
 
 import { AdminLayout } from './components/admin/AdminLayout';
-import AdminDashboard from './pages/admin/AdminDashboard';
-import AdminHomepage from './pages/admin/AdminHomepage';
-import AdminActualites from './pages/admin/AdminActualites';
-import AdminJoueurs from './pages/admin/AdminJoueurs';
+import { AdminDashboard } from './pages/admin/AdminDashboard';
+import { AdminHomepage } from './pages/admin/AdminHomepage';
+import { AdminActualites } from './pages/admin/AdminActualites';
+import { AdminJoueurs } from './pages/admin/AdminJoueurs';
 
 const JoueursList = lazy(() => import('./pages/joueurs/JoueursList'));
 const JoueurForm = lazy(() => import('./pages/joueurs/JoueurForm'));
