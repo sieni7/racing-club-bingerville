@@ -9,10 +9,13 @@ export const HeroSection = () => {
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent z-10" />
         <img 
-          src="https://images.unsplash.com/photo-1518605368461-1e1252281166?q=80&w=2000&auto=format&fit=crop" 
+          src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=2000&auto=format&fit=crop" 
           alt="Terrain de football" 
           className="w-full h-full object-cover"
           loading="lazy"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop';
+          }}
         />
       </div>
 
