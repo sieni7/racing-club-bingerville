@@ -2,8 +2,12 @@ import { useEffect, useState } from 'react';
 import { statistiquesService, StatJoueur } from '../../features/statistiques/statistiquesService';
 import { Trophy, Medal } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
-export const TopScorersSection = () => {
+const medalAnimation = {
+  hidden: { scale: 0, rotate: -180 },
+  visible: { scale: 1, rotate: 0, transition: { type: 'spring', duration: 0.5 } }
+};
   const [buteurs, setButeurs] = useState<StatJoueur[]>([]);
 
   useEffect(() => {
@@ -45,17 +49,46 @@ export const TopScorersSection = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.02, x: 10 }}
-                className="group flex items-center justify-between p-5 bg-gray-50/50 dark:bg-gray-750/30 hover:bg-white dark:hover:bg-gray-700 rounded-2xl transition-all duration-300 border border-transparent hover:border-gray-200 dark:hover:border-gray-600 hover:shadow-md cursor-default"
+                whileHover={{ scale: 1.05 }}
+                className="group flex items-center justify-between p-3 md:p-5 bg-gray-50/50 dark:bg-gray-750/30 hover:bg-white dark:hover:bg-gray-700 rounded-2xl transition-all duration-300 border border-transparent hover:border-gray-200 dark:hover:border-gray-600 hover:shadow-md cursor-default"
               >
                 <div className="flex items-center gap-5 md:gap-6">
-                  <div className={`w-14 h-14 flex items-center justify-center rounded-2xl font-black text-xl shadow-inner transition-colors duration-300 ${
-                    index === 0 ? 'bg-gradient-to-br from-yellow-300 to-yellow-500 text-white shadow-yellow-500/30' :
-                    index === 1 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white shadow-gray-400/30' :
-                    index === 2 ? 'bg-gradient-to-br from-orange-300 to-orange-500 text-white shadow-orange-500/30' :
-                    'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 group-hover:bg-gray-200 dark:group-hover:bg-gray-700'
-                  }`}>
-                    {index === 0 ? <Medal size={28} /> : index + 1}
+                  <div className="w-14 h-14 flex items-center justify-center font-black text-xl">
+                    {index === 0 && (
+                      <motion.span
+                        variants={medalAnimation}
+                        initial="hidden"
+                        animate="visible"
+                        className="text-4xl filter drop-shadow-lg"
+                      >
+                        🥇
+                      </motion.span>
+                    )}
+                    {index === 1 && (
+                      <motion.span
+                        variants={medalAnimation}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ delay: 0.1 }}
+                        className="text-4xl filter drop-shadow-lg"
+                      >
+                        🥈
+                      </motion.span>
+                    )}
+                    {index === 2 && (
+                      <motion.span
+                        variants={medalAnimation}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ delay: 0.2 }}
+                        className="text-4xl filter drop-shadow-lg"
+                      >
+                        🥉
+                      </motion.span>
+                    )}
+                    {index > 2 && (
+                      <span className="text-gray-400 text-2xl font-bold">{index + 1}</span>
+                    )}
                   </div>
                   <div>
                     <span className="font-bold text-xl text-gray-900 dark:text-white block group-hover:text-primary transition-colors">{buteur.prenom} {buteur.nom}</span>
