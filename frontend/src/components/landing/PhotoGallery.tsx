@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const demoPhotos = [
   { src: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop', title: 'Entraînement' },
@@ -12,7 +12,21 @@ const demoPhotos = [
 ];
 
 export const PhotoGallery = () => {
-  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex + 1) % demoPhotos.length);
+    }
+  };
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (selectedIndex !== null) {
+      setSelectedIndex((selectedIndex - 1 + demoPhotos.length) % demoPhotos.length);
+    }
+  };
 
   return (
     <section className="py-24 bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800">
@@ -29,7 +43,7 @@ export const PhotoGallery = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="relative aspect-square overflow-hidden rounded-2xl cursor-pointer group shadow-sm hover:shadow-xl transition-all"
-              onClick={() => setSelectedPhoto(photo.src)}
+              onClick={() => setSelectedIndex(idx)}
             >
               <img 
                 src={photo.src} 
@@ -46,29 +60,49 @@ export const PhotoGallery = () => {
       </div>
 
       <AnimatePresence>
-        {selectedPhoto && (
+        {selectedIndex !== null && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setSelectedPhoto(null)}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+            onClick={() => setSelectedIndex(null)}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 p-4 backdrop-blur-sm"
           >
             <button 
-              className="absolute top-6 right-6 text-white hover:text-primary transition-colors"
-              onClick={() => setSelectedPhoto(null)}
+              className="absolute top-6 right-6 text-white hover:text-primary transition-colors p-2"
+              onClick={() => setSelectedIndex(null)}
             >
               <X size={32} />
             </button>
+            
+            <button 
+              className="absolute left-4 md:left-10 top-1/2 -translate-y-1/2 text-white hover:text-primary transition-colors p-4 hidden md:block"
+              onClick={handlePrev}
+            >
+              <ChevronLeft size={48} />
+            </button>
+
             <motion.img
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              src={selectedPhoto}
-              alt="Vue agrandie"
-              className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
+              key={selectedIndex}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+              src={demoPhotos[selectedIndex].src}
+              alt={demoPhotos[selectedIndex].title}
+              className="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl"
             />
+
+            <button 
+              className="absolute right-4 md:right-10 top-1/2 -translate-y-1/2 text-white hover:text-primary transition-colors p-4 hidden md:block"
+              onClick={handleNext}
+            >
+              <ChevronRight size={48} />
+            </button>
+            
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white font-medium bg-black/50 px-4 py-2 rounded-full">
+              {demoPhotos[selectedIndex].title} ({selectedIndex + 1}/{demoPhotos.length})
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

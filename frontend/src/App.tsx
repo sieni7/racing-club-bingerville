@@ -8,6 +8,8 @@ import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { CommandCenter } from './components/layout/CommandCenter';
 import { OnboardingModal } from './components/common/OnboardingModal';
+import { WhatsAppButton } from './components/common/WhatsAppButton';
+import { CookieConsent } from './components/common/CookieConsent';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -82,6 +84,8 @@ function App() {
           <Footer />
           <CommandCenter />
           <OnboardingModal />
+          <WhatsAppButton />
+          <CookieConsent />
           <Toaster position="top-right" />
           </div>
         </AuthProvider>
