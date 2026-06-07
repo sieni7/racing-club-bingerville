@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { PrivateRoute } from './components/auth/PrivateRoute';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -32,9 +33,10 @@ const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <div className="flex flex-col min-h-screen">
-          <Header />
+      <ThemeProvider>
+        <AuthProvider>
+          <div className="flex flex-col min-h-screen">
+            <Header />
           <main className="flex-grow">
             <Suspense fallback={<div className="flex justify-center items-center h-screen"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>}>
               <Routes>
@@ -80,8 +82,9 @@ function App() {
           <CommandCenter />
           <OnboardingModal />
           <Toaster position="top-right" />
-        </div>
-      </AuthProvider>
+          </div>
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

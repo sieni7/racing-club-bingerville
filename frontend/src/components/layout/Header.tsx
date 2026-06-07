@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
 import { useState } from 'react';
 import { Menu, X, LayoutDashboard, Users, Calendar, BarChart3, Newspaper, LogOut, HelpCircle, Settings } from 'lucide-react';
-import { DarkModeToggle } from '../common/DarkModeToggle';
+import { ThemeToggle } from '../common/ThemeToggle';
 
 export const Header = () => {
   const { user, signOut } = useAuth();
@@ -50,7 +50,7 @@ export const Header = () => {
             </nav>
             
             <div className="flex items-center gap-4 pl-4 border-l border-white/10">
-              <DarkModeToggle />
+              <ThemeToggle />
               {user ? (
                 <div className="flex items-center space-x-4">
                   <span className="text-xs font-medium text-content-muted bg-white/5 px-2 py-1 rounded">{user.email}</span>
@@ -68,7 +68,7 @@ export const Header = () => {
           </div>
 
           <div className="md:hidden flex items-center space-x-4">
-            <DarkModeToggle />
+            <ThemeToggle />
             <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-content-muted hover:text-gray-900 dark:text-white transition-colors bg-white/5 rounded-lg border border-white/5">
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
