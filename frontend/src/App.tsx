@@ -73,9 +73,18 @@ function App() {
 
               {/* PUBLIC & USER ROUTES */}
               <Route element={<MainLayout />}>
+                {/* Routes PUBLIQUES (accessibles sans connexion) */}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/matchs" element={<MatchsList />} />
+                <Route path="/matchs/calendrier" element={<MatchsCalendar />} />
+                <Route path="/statistiques" element={<StatistiquesPage />} />
+                <Route path="/actualites" element={<ActualitesList />} />
+                <Route path="/actualites/:slug" element={<ActualiteDetail />} />
+                <Route path="/guide" element={<GuidePage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 
+                {/* Routes PRIVÉES (authentification requise) */}
                 <Route element={<PrivateRoute />}>
                   <Route path="/dashboard" element={<Dashboard />} />
                   
@@ -85,30 +94,18 @@ function App() {
                   <Route path="/joueurs/:id" element={<JoueurDetail />} />
                   <Route path="/joueurs/:id/editer" element={<JoueurForm />} />
                   
-                  {/* Matchs */}
-                  <Route path="/matchs" element={<MatchsList />} />
-                  <Route path="/matchs/calendrier" element={<MatchsCalendar />} />
+                  {/* Matchs (Gestion) */}
                   <Route path="/matchs/nouveau" element={<MatchForm />} />
                   <Route path="/matchs/:id/editer" element={<MatchForm />} />
                   <Route path="/matchs/:id/feuille" element={<MatchFeuille />} />
                   
-                  {/* Statistiques */}
-                  <Route path="/statistiques" element={<StatistiquesPage />} />
-                  
-                  {/* Actualités */}
-                  <Route path="/actualites" element={<ActualitesList />} />
+                  {/* Actualités (Gestion) */}
                   <Route path="/actualites/nouvelle" element={<ActualiteForm />} />
-                  <Route path="/actualites/:slug" element={<ActualiteDetail />} />
                   <Route path="/actualites/:id/editer" element={<ActualiteForm />} />
-
-                  {/* Guide */}
-                  <Route path="/guide" element={<GuidePage />} />
                   
                   {/* Paramètres */}
                   <Route path="/parametres" element={<SettingsPage />} />
                 </Route>
-                
-                <Route path="/" element={<HomePage />} />
               </Route>
             </Routes>
           </Suspense>
