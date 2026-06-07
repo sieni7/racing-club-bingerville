@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -14,6 +14,12 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import HomePage from './pages/HomePage';
+
+import { AdminLayout } from './components/admin/AdminLayout';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminHomepage from './pages/admin/AdminHomepage';
+import AdminActualites from './pages/admin/AdminActualites';
+import AdminJoueurs from './pages/admin/AdminJoueurs';
 
 const JoueursList = lazy(() => import('./pages/joueurs/JoueursList'));
 const JoueurForm = lazy(() => import('./pages/joueurs/JoueurForm'));
@@ -33,18 +39,42 @@ const ActualiteDetail = lazy(() => import('./pages/actualites/ActualiteDetail'))
 const GuidePage = lazy(() => import('./pages/GuidePage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 
+const MainLayout = () => (
+  <div className="flex flex-col min-h-screen">
+    <Header />
+    <main className="flex-grow">
+      <Outlet />
+    </main>
+    <Footer />
+    <CommandCenter />
+    <OnboardingModal />
+    <WhatsAppButton />
+    <CookieConsent />
+  </div>
+);
+
 function App() {
   return (
     <BrowserRouter>
       <ThemeProvider>
         <AuthProvider>
-          <div className="flex flex-col min-h-screen">
-            <Header />
-          <main className="flex-grow">
-            <Suspense fallback={<div className="flex justify-center items-center h-screen"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>}>
-              <Routes>
+          <Suspense fallback={<div className="flex justify-center items-center h-screen"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>}>
+            <Routes>
+              {/* ADMIN ROUTES */}
+              <Route path="/admin" element={<PrivateRoute requiredRole="ADMIN" />}>
+                <Route element={<AdminLayout />}>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="homepage" element={<AdminHomepage />} />
+                  <Route path="actualites" element={<AdminActualites />} />
+                  <Route path="joueurs" element={<AdminJoueurs />} />
+                </Route>
+              </Route>
+
+              {/* PUBLIC & USER ROUTES */}
+              <Route element={<MainLayout />}>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                
                 <Route element={<PrivateRoute />}>
                   <Route path="/dashboard" element={<Dashboard />} />
                   
@@ -75,19 +105,13 @@ function App() {
                   
                   {/* Paramètres */}
                   <Route path="/parametres" element={<SettingsPage />} />
-                  
                 </Route>
+                
                 <Route path="/" element={<HomePage />} />
-              </Routes>
-            </Suspense>
-          </main>
-          <Footer />
-          <CommandCenter />
-          <OnboardingModal />
-          <WhatsAppButton />
-          <CookieConsent />
+              </Route>
+            </Routes>
+          </Suspense>
           <Toaster position="top-right" />
-          </div>
         </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
