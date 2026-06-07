@@ -14,7 +14,7 @@ export const CookieConsent = () => {
   if (!show) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 z-50 shadow-2xl border-t border-gray-800 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div className="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 w-[95%] md:w-1/2 max-w-3xl rounded-2xl bg-gray-900 text-white p-4 md:p-6 z-50 shadow-2xl border border-gray-800 flex flex-col md:flex-row items-center justify-between gap-4">
       <div className="text-sm text-gray-300">
         En poursuivant votre navigation sur ce site, vous acceptez l'utilisation de cookies pour vous proposer des contenus personnalisés et réaliser des statistiques de visites. 
         <Link to="/confidentialite" className="ml-2 text-primary hover:underline font-medium">En savoir plus</Link>
