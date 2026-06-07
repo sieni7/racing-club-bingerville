@@ -2,7 +2,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
 import { useState } from 'react';
-import { Menu, X, LayoutDashboard, Users, Calendar, BarChart3, Newspaper, LogOut, HelpCircle } from 'lucide-react';
+import { Menu, X, LayoutDashboard, Users, Calendar, BarChart3, Newspaper, LogOut, HelpCircle, Settings } from 'lucide-react';
 import { DarkModeToggle } from '../common/DarkModeToggle';
 
 export const Header = () => {
@@ -23,6 +23,7 @@ export const Header = () => {
     { name: 'Statistiques', path: '/statistiques', icon: <BarChart3 size={18} /> },
     { name: 'Actualités', path: '/actualites', icon: <Newspaper size={18} /> },
     { name: 'Guide', path: '/guide', icon: <HelpCircle size={18} /> },
+    { name: 'Paramètres', path: '/parametres', icon: <Settings size={18} /> },
   ];
 
   return (

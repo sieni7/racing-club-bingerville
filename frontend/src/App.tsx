@@ -27,6 +27,7 @@ const ActualiteForm = lazy(() => import('./pages/actualites/ActualiteForm'));
 const ActualiteDetail = lazy(() => import('./pages/actualites/ActualiteDetail'));
 
 const GuidePage = lazy(() => import('./pages/GuidePage'));
+const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 
 function App() {
   return (
@@ -66,6 +67,9 @@ function App() {
 
                   {/* Guide */}
                   <Route path="/guide" element={<GuidePage />} />
+                  
+                  {/* Paramètres */}
+                  <Route path="/parametres" element={<SettingsPage />} />
                   
                 </Route>
                 <Route path="/" element={<Dashboard />} />
