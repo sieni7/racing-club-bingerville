@@ -17,14 +17,16 @@ export const Header = () => {
   };
 
   const navLinks = [
-    { name: 'Actualités', path: '/actualites', icon: <Newspaper size={18} /> },
-    { name: 'Joueurs', path: '/joueurs', icon: <Users size={18} /> },
-    { name: 'Matchs', path: '/matchs', icon: <Calendar size={18} /> },
-    { name: 'Statistiques', path: '/statistiques', icon: <BarChart3 size={18} /> },
-    { name: 'Administration', path: '/dashboard', icon: <LayoutDashboard size={18} /> },
-    { name: 'Guide', path: '/guide', icon: <HelpCircle size={18} /> },
-    { name: 'Paramètres', path: '/parametres', icon: <Settings size={18} /> },
+    { name: 'Actualités', path: '/actualites', icon: <Newspaper size={18} />, private: false },
+    { name: 'Joueurs', path: '/joueurs', icon: <Users size={18} />, private: false },
+    { name: 'Matchs', path: '/matchs', icon: <Calendar size={18} />, private: false },
+    { name: 'Statistiques', path: '/statistiques', icon: <BarChart3 size={18} />, private: false },
+    { name: 'Administration', path: '/dashboard', icon: <LayoutDashboard size={18} />, private: true },
+    { name: 'Guide', path: '/guide', icon: <HelpCircle size={18} />, private: true },
+    { name: 'Paramètres', path: '/parametres', icon: <Settings size={18} />, private: true },
   ];
+
+  const visibleLinks = navLinks.filter(link => !link.private || user);
 
   return (
     <header className="bg-background-card/80 backdrop-blur-md border-b border-white/5 sticky top-0 z-50">
@@ -37,7 +39,7 @@ export const Header = () => {
           
           <div className="hidden md:flex items-center space-x-8">
             <nav className="flex space-x-1">
-              {navLinks.map((link) => (
+              {visibleLinks.map((link) => (
                 <Link 
                   key={link.path} 
                   to={link.path} 
@@ -77,7 +79,7 @@ export const Header = () => {
 
         {isOpen && (
           <nav className="md:hidden mt-4 flex flex-col space-y-2 pb-4 pt-2 border-t border-white/5">
-            {navLinks.map((link) => (
+            {visibleLinks.map((link) => (
               <Link 
                 key={link.path} 
                 to={link.path} 
