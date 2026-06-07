@@ -3,12 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const demoPhotos = [
-  { src: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop', title: 'Entraînement' },
-  { src: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=800&auto=format&fit=crop', title: 'Match Officiel' },
-  { src: 'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?q=80&w=800&auto=format&fit=crop', title: 'Victoire' },
-  { src: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=800&auto=format&fit=crop', title: 'Esprit d\'équipe' },
-  { src: 'https://images.unsplash.com/photo-1551280857-2b9b71a17726?q=80&w=800&auto=format&fit=crop', title: 'Le Stade' },
-  { src: 'https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=800&auto=format&fit=crop', title: 'Célébration' },
+  { src: 'https://images.unsplash.com/photo-mY2ZHBU6GRk?q=80&w=800&auto=format&fit=crop', title: 'Action de jeu' },
+  { src: 'https://images.unsplash.com/photo-nTIkwCmUmNU?q=80&w=800&auto=format&fit=crop', title: 'Esprit d\'équipe' },
+  { src: 'https://images.unsplash.com/photo-unPrQUcWfI4?q=80&w=800&auto=format&fit=crop', title: 'Entraînement intense' },
+  { src: 'https://images.unsplash.com/photo-jaODdxmamsg?q=80&w=800&auto=format&fit=crop', title: 'Passion du terrain' },
 ];
 
 export const PhotoGallery = () => {
@@ -36,7 +34,7 @@ export const PhotoGallery = () => {
           <h2 className="text-4xl font-black text-gray-900 dark:text-white mt-2">Moments Forts</h2>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {demoPhotos.map((photo, idx) => (
             <motion.div
               key={idx}
