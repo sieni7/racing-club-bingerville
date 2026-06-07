@@ -11,6 +11,7 @@ import { OnboardingModal } from './components/common/OnboardingModal';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import HomePage from './pages/HomePage';
 
 const JoueursList = lazy(() => import('./pages/joueurs/JoueursList'));
 const JoueurForm = lazy(() => import('./pages/joueurs/JoueurForm'));
@@ -74,7 +75,7 @@ function App() {
                   <Route path="/parametres" element={<SettingsPage />} />
                   
                 </Route>
-                <Route path="/" element={<Dashboard />} />
+                <Route path="/" element={<HomePage />} />
               </Routes>
             </Suspense>
           </main>
