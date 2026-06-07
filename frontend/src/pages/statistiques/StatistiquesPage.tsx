@@ -45,14 +45,14 @@ export default function StatistiquesPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8">
-        <h1 className="text-3xl font-black text-white tracking-tight">Performance & Data</h1>
+        <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Performance & Data</h1>
         <p className="text-content-muted mt-1">Analyse détaillée de l'équipe et des joueurs.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Radar Chart (Hero Stats) */}
         <Card className="p-6 lg:col-span-1 bg-gradient-to-b from-background-card to-background border-primary/20">
-          <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+          <h2 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-6 flex items-center gap-2">
             <Target className="w-4 h-4 text-primary" />
             Profil MVP: {topPlayer ? `${topPlayer.prenom} ${topPlayer.nom}` : 'N/A'}
           </h2>
@@ -74,7 +74,7 @@ export default function StatistiquesPage() {
 
         {/* Buteurs vs Passes BarChart */}
         <Card className="p-6 lg:col-span-2">
-          <h2 className="text-sm font-bold text-white uppercase tracking-wider mb-6 flex items-center gap-2">
+          <h2 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-6 flex items-center gap-2">
             <Activity className="w-4 h-4 text-accent-success" />
             Impact Offensif (Top 5)
           </h2>
@@ -104,7 +104,7 @@ export default function StatistiquesPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card className="p-0 overflow-hidden border border-white/5">
           <div className="p-4 bg-white/5 border-b border-white/5 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Trophy className="w-4 h-4 text-secondary" /> Top Buteurs
             </h2>
           </div>
@@ -113,7 +113,7 @@ export default function StatistiquesPage() {
               <div key={b.joueur_id} className="flex items-center justify-between group">
                 <div className="flex items-center gap-3">
                   <span className="w-5 text-center text-content-muted font-bold">{index + 1}</span>
-                  <span className="font-medium text-white group-hover:text-primary transition-colors">{b.prenom} {b.nom}</span>
+                  <span className="font-medium text-gray-900 dark:text-white group-hover:text-primary transition-colors">{b.prenom} {b.nom}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-primary-light">{b.buts}</span>
@@ -127,7 +127,7 @@ export default function StatistiquesPage() {
 
         <Card className="p-0 overflow-hidden border border-white/5">
           <div className="p-4 bg-white/5 border-b border-white/5 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
               <Trophy className="w-4 h-4 text-secondary" /> Top Passeurs
             </h2>
           </div>
@@ -136,7 +136,7 @@ export default function StatistiquesPage() {
               <div key={p.joueur_id} className="flex items-center justify-between group">
                 <div className="flex items-center gap-3">
                   <span className="w-5 text-center text-content-muted font-bold">{index + 1}</span>
-                  <span className="font-medium text-white group-hover:text-accent-success transition-colors">{p.prenom} {p.nom}</span>
+                  <span className="font-medium text-gray-900 dark:text-white group-hover:text-accent-success transition-colors">{p.prenom} {p.nom}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="font-bold text-accent-success">{p.passes_decisives}</span>
@@ -150,25 +150,25 @@ export default function StatistiquesPage() {
 
         <Card className="p-0 overflow-hidden border border-white/5">
           <div className="p-4 bg-white/5 border-b border-white/5 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <h2 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
               <ShieldAlert className="w-4 h-4 text-accent-danger" /> Discipline
             </h2>
           </div>
           <div className="p-4 space-y-4">
             {discipline.slice(0,5).map(d => (
               <div key={d.joueur_id} className="flex items-center justify-between">
-                <span className="font-medium text-white">{d.prenom} {d.nom}</span>
+                <span className="font-medium text-gray-900 dark:text-white">{d.prenom} {d.nom}</span>
                 <div className="flex items-center gap-3">
                   {d.cartons_jaunes > 0 && (
                     <div className="flex items-center gap-1">
                       <div className="w-3 h-4 bg-accent-warning rounded-sm" />
-                      <span className="font-bold text-white">{d.cartons_jaunes}</span>
+                      <span className="font-bold text-gray-900 dark:text-white">{d.cartons_jaunes}</span>
                     </div>
                   )}
                   {d.cartons_rouges > 0 && (
                     <div className="flex items-center gap-1">
                       <div className="w-3 h-4 bg-accent-danger rounded-sm" />
-                      <span className="font-bold text-white">{d.cartons_rouges}</span>
+                      <span className="font-bold text-gray-900 dark:text-white">{d.cartons_rouges}</span>
                     </div>
                   )}
                 </div>

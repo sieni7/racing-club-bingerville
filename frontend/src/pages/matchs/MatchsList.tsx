@@ -78,7 +78,7 @@ export default function MatchsList() {
               </div>
               
               <div className="flex items-center justify-between w-full gap-4 my-2">
-                <span className={`font-bold ${isRacingHome ? 'text-white' : 'text-content-muted'}`}>Racing CB</span>
+                <span className={`font-bold ${isRacingHome ? 'text-gray-900 dark:text-white' : 'text-content-muted'}`}>Racing CB</span>
                 
                 {match.statut === 'TERMINE' || match.statut === 'EN_COURS' ? (
                   <div className="bg-background px-3 py-1 rounded-md border border-white/10 font-black text-lg text-primary-light">
@@ -88,14 +88,14 @@ export default function MatchsList() {
                   <span className="bg-white/5 px-2 py-1 rounded text-xs font-bold text-content-muted">VS</span>
                 )}
                 
-                <span className={`font-bold ${!isRacingHome ? 'text-white' : 'text-content-muted'}`}>{match.adversaire}</span>
+                <span className={`font-bold ${!isRacingHome ? 'text-gray-900 dark:text-white' : 'text-content-muted'}`}>{match.adversaire}</span>
               </div>
               
               <div className="text-xs text-content-muted font-medium uppercase tracking-wider">{match.competition}</div>
             </div>
 
             <div className="flex gap-2 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-              <Link to={`/matchs/${match.id}/feuille`} className="p-2 bg-white/5 hover:bg-primary hover:text-white rounded-lg transition text-content-muted"><ClipboardList size={18} /></Link>
+              <Link to={`/matchs/${match.id}/feuille`} className="p-2 bg-white/5 hover:bg-primary hover:text-gray-900 dark:text-white rounded-lg transition text-content-muted"><ClipboardList size={18} /></Link>
               <Link to={`/matchs/${match.id}/editer`} className="p-2 bg-white/5 hover:bg-white/10 rounded-lg transition text-content-muted"><Edit size={18} /></Link>
               <button onClick={() => handleDelete(match.id)} className="p-2 bg-accent-danger/10 hover:bg-accent-danger/20 text-accent-danger rounded-lg transition"><Trash2 size={18} /></button>
             </div>
@@ -109,7 +109,7 @@ export default function MatchsList() {
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight">Matchs & Calendrier</h1>
+          <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Matchs & Calendrier</h1>
           <p className="text-content-muted mt-1">Suivez l'historique et planifiez les prochaines rencontres.</p>
         </div>
         <div className="flex gap-3">

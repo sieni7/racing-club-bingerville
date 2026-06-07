@@ -30,7 +30,7 @@ export const Header = () => {
     <header className="bg-background-card/80 backdrop-blur-md border-b border-white/5 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
-          <Link to="/" className="text-2xl font-black text-white tracking-tight flex items-center gap-3">
+          <Link to="/" className="text-2xl font-black text-gray-900 dark:text-white tracking-tight flex items-center gap-3">
             <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-sm">RC</div>
             <span className="hidden sm:block">Racing CB</span>
           </Link>
@@ -41,7 +41,7 @@ export const Header = () => {
                 <Link 
                   key={link.path} 
                   to={link.path} 
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${location.pathname.startsWith(link.path) ? 'bg-white/10 text-white' : 'text-content-muted hover:bg-white/5 hover:text-white'}`}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${location.pathname.startsWith(link.path) ? 'bg-white/10 text-gray-900 dark:text-white' : 'text-content-muted hover:bg-white/5 hover:text-gray-900 dark:text-white'}`}
                 >
                   {link.icon}
                   {link.name}
@@ -69,7 +69,7 @@ export const Header = () => {
 
           <div className="md:hidden flex items-center space-x-4">
             <DarkModeToggle />
-            <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-content-muted hover:text-white transition-colors bg-white/5 rounded-lg border border-white/5">
+            <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-content-muted hover:text-gray-900 dark:text-white transition-colors bg-white/5 rounded-lg border border-white/5">
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -82,7 +82,7 @@ export const Header = () => {
                 key={link.path} 
                 to={link.path} 
                 onClick={() => setIsOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${location.pathname.startsWith(link.path) ? 'bg-primary/20 text-primary-light border border-primary/30' : 'text-content-muted hover:bg-white/5 hover:text-white border border-transparent'}`}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${location.pathname.startsWith(link.path) ? 'bg-primary/20 text-primary-light border border-primary/30' : 'text-content-muted hover:bg-white/5 hover:text-gray-900 dark:text-white border border-transparent'}`}
               >
                 {link.icon}
                 {link.name}

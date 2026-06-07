@@ -45,7 +45,7 @@ export default function ActualitesList() {
     <div className="container mx-auto px-4 py-8 max-w-3xl">
       <div className="flex justify-between items-end mb-8">
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight">Club Newsfeed</h1>
+          <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Club Newsfeed</h1>
           <p className="text-content-muted mt-1">Toutes les dernières informations du Racing CB.</p>
         </div>
         {isStaff && (
@@ -69,11 +69,11 @@ export default function ActualitesList() {
               {/* Post Header */}
               <div className="p-5 flex justify-between items-start border-b border-white/5">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center font-bold text-white text-lg">
+                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center font-bold text-gray-900 dark:text-white text-lg">
                     RC
                   </div>
                   <div>
-                    <h2 className="font-bold text-white leading-tight">Racing Club Bingerville</h2>
+                    <h2 className="font-bold text-gray-900 dark:text-white leading-tight">Racing Club Bingerville</h2>
                     <div className="flex items-center gap-2 text-xs text-content-muted mt-0.5">
                       <span>{actu.published_at ? format(new Date(actu.published_at), 'dd MMM à HH:mm', { locale: fr }) : 'Non publié'}</span>
                       {actu.statut === 'BROUILLON' && <Badge variant="warning" className="text-[10px] py-0">Brouillon</Badge>}
@@ -82,7 +82,7 @@ export default function ActualitesList() {
                 </div>
                 {isStaff && (
                   <div className="flex items-center gap-1">
-                    <Link to={`/actualites/${actu.id}/editer`} className="p-2 text-content-muted hover:text-white transition"><Edit size={16} /></Link>
+                    <Link to={`/actualites/${actu.id}/editer`} className="p-2 text-content-muted hover:text-gray-900 dark:text-white transition"><Edit size={16} /></Link>
                     <button onClick={() => handleDelete(actu.id)} className="p-2 text-content-muted hover:text-accent-danger transition"><Trash2 size={16} /></button>
                   </div>
                 )}
@@ -91,7 +91,7 @@ export default function ActualitesList() {
               {/* Post Content */}
               <div className="p-5">
                 <Link to={`/actualites/${actu.slug}`} className="block group">
-                  <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors mb-3">{actu.titre}</h3>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-primary transition-colors mb-3">{actu.titre}</h3>
                   <p className="text-content-muted leading-relaxed line-clamp-4">
                     {actu.contenu}
                   </p>
@@ -108,7 +108,7 @@ export default function ActualitesList() {
                   <MessageCircle size={18} />
                   <span className="text-sm font-medium">Commenter</span>
                 </button>
-                <button className="flex items-center gap-2 text-content-muted hover:text-white transition-colors group ml-auto">
+                <button className="flex items-center gap-2 text-content-muted hover:text-gray-900 dark:text-white transition-colors group ml-auto">
                   <Share2 size={18} />
                 </button>
               </div>

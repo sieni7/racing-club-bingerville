@@ -72,7 +72,7 @@ export default function Dashboard() {
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8 flex justify-between items-end">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Bienvenue, {user?.user_metadata?.prenom} 👋</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-900 dark:text-white">Bienvenue, {user?.user_metadata?.prenom} 👋</h1>
           <p className="text-gray-600 dark:text-content-muted mt-2">Vue d'ensemble de la performance (Sport Intelligence).</p>
         </div>
       </div>
@@ -92,10 +92,10 @@ export default function Dashboard() {
             {prochainMatch ? (
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div>
-                  <div className="flex items-center gap-4 text-3xl font-black text-white tracking-tight">
-                    <span className={prochainMatch.lieu === 'DOMICILE' ? 'text-white' : 'text-content-muted'}>{prochainMatch.lieu === 'DOMICILE' ? 'Racing CB' : prochainMatch.adversaire}</span>
+                  <div className="flex items-center gap-4 text-3xl font-black text-gray-900 dark:text-white tracking-tight">
+                    <span className={prochainMatch.lieu === 'DOMICILE' ? 'text-gray-900 dark:text-white' : 'text-content-muted'}>{prochainMatch.lieu === 'DOMICILE' ? 'Racing CB' : prochainMatch.adversaire}</span>
                     <span className="text-xl text-primary font-bold">VS</span>
-                    <span className={prochainMatch.lieu === 'EXTERIEUR' ? 'text-white' : 'text-content-muted'}>{prochainMatch.lieu === 'EXTERIEUR' ? 'Racing CB' : prochainMatch.adversaire}</span>
+                    <span className={prochainMatch.lieu === 'EXTERIEUR' ? 'text-gray-900 dark:text-white' : 'text-content-muted'}>{prochainMatch.lieu === 'EXTERIEUR' ? 'Racing CB' : prochainMatch.adversaire}</span>
                   </div>
                   <div className="mt-3 text-content-muted flex items-center gap-2">
                     <Calendar size={16} />
@@ -103,7 +103,7 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <Link to={`/matchs/${prochainMatch.id}/feuille`} className="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition shadow-glow">
+                  <Link to={`/matchs/${prochainMatch.id}/feuille`} className="bg-primary text-gray-900 dark:text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition shadow-glow">
                     Préparer la composition
                   </Link>
                 </div>
@@ -118,7 +118,7 @@ export default function Dashboard() {
         <Card className="p-6 md:col-span-2 flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-6">
             <Activity size={20} className="text-accent-info" />
-            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center">
+            <h2 className="font-bold text-gray-900 dark:text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center">
               Dernier Résultat
               <TooltipHelper id="tt-dernier-resultat" content="Le résultat du dernier match joué par l'équipe" />
             </h2>
@@ -127,7 +127,7 @@ export default function Dashboard() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-content-muted mb-1">{dernierMatch.competition}</p>
-                <div className="flex items-center gap-3 text-2xl font-black text-white">
+                <div className="flex items-center gap-3 text-2xl font-black text-gray-900 dark:text-white">
                   <span>{dernierMatch.lieu === 'DOMICILE' ? 'Racing CB' : dernierMatch.adversaire}</span>
                   <span className="bg-white/10 px-4 py-1 rounded-md text-primary-light border border-white/10">
                     {dernierMatch.lieu === 'DOMICILE' ? dernierMatch.score_equipe : dernierMatch.score_adversaire} - {dernierMatch.lieu === 'DOMICILE' ? dernierMatch.score_adversaire : dernierMatch.score_equipe}
@@ -148,7 +148,7 @@ export default function Dashboard() {
         {/* Top 3 Joueurs */}
         <Card className="p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center gap-2">
+            <h2 className="font-bold text-gray-900 dark:text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center gap-2">
               <Trophy size={16} className="text-secondary" /> Top Joueurs
               <TooltipHelper id="tt-top-joueurs" content="Classement basé sur le nombre de buts marqués" />
             </h2>
@@ -158,7 +158,7 @@ export default function Dashboard() {
             {topButeurs.length > 0 ? topButeurs.map((buteur, index) => (
               <div key={buteur.joueur_id} className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0 ? 'bg-secondary text-white shadow-glow' : index === 1 ? 'bg-gray-300 text-gray-800' : 'bg-orange-200 text-orange-800'}`}>
+                  <span className={`w-6 h-6 flex items-center justify-center rounded-full text-xs font-bold ${index === 0 ? 'bg-secondary text-gray-900 dark:text-white shadow-glow' : index === 1 ? 'bg-gray-300 text-gray-800' : 'bg-orange-200 text-orange-800'}`}>
                     {index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : index + 1}
                   </span>
                   <span className="font-medium text-sm dark:text-gray-200">{buteur.prenom} {buteur.nom}</span>
@@ -175,7 +175,7 @@ export default function Dashboard() {
         <Card className="p-6 md:col-span-3 bg-gradient-to-br from-background-card to-background">
           <div className="flex items-center gap-2 mb-6">
             <BrainCircuit size={20} className="text-purple-500" />
-            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center">
+            <h2 className="font-bold text-gray-900 dark:text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center">
               Intelligence & Insights
               <TooltipHelper id="tt-insights" content="Analyse automatique des performances et tendances de l'équipe" />
             </h2>
@@ -203,7 +203,7 @@ export default function Dashboard() {
         <Card className="p-6 md:col-span-3">
           <div className="flex items-center gap-2 mb-6">
             <Calendar size={20} className="text-content-muted" />
-            <h2 className="font-bold text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center">
+            <h2 className="font-bold text-gray-900 dark:text-gray-900 dark:text-white uppercase tracking-wider text-sm flex items-center">
               Timeline de la Semaine
               <TooltipHelper id="tt-timeline" content="Calendrier des matchs prévus cette semaine" />
             </h2>
@@ -218,7 +218,7 @@ export default function Dashboard() {
               return (
                 <div key={i} className={`flex-1 min-w-[100px] flex flex-col items-center p-3 rounded-lg border ${isToday ? 'bg-primary/20 border-primary' : 'bg-white/5 border-white/5'} ${matchForDay ? 'border-accent-info/50 shadow-glow' : ''}`}>
                   <span className="text-xs text-content-muted uppercase font-semibold">{format(day, 'EEE', { locale: fr })}</span>
-                  <span className={`text-lg font-black ${isToday ? 'text-primary-light' : 'text-white'}`}>{format(day, 'dd')}</span>
+                  <span className={`text-lg font-black ${isToday ? 'text-primary-light' : 'text-gray-900 dark:text-white'}`}>{format(day, 'dd')}</span>
                   
                   <div className="mt-4 flex-grow flex flex-col justify-end w-full">
                     {matchForDay ? (

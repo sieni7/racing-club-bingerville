@@ -64,14 +64,14 @@ export const OnboardingModal = () => {
           >
             <button
               onClick={handleClose}
-              className="absolute top-4 right-4 p-2 text-content-muted hover:text-white transition-colors bg-white/5 rounded-full"
+              className="absolute top-4 right-4 p-2 text-content-muted hover:text-gray-900 dark:text-white transition-colors bg-white/5 rounded-full"
             >
               <X size={20} />
             </button>
 
             <div className="p-8">
               <div className="flex justify-center mb-6">
-                <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-white text-2xl font-black shadow-glow">
+                <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-gray-900 dark:text-white text-2xl font-black shadow-glow">
                   RC
                 </div>
               </div>
@@ -81,7 +81,7 @@ export const OnboardingModal = () => {
                   key={`title-${currentStep}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="text-2xl font-black text-white mb-4"
+                  className="text-2xl font-black text-gray-900 dark:text-white mb-4"
                 >
                   {steps[currentStep].title}
                 </motion.h2>

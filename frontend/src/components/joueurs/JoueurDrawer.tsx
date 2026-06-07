@@ -70,10 +70,10 @@ export const JoueurDrawer = ({ joueur, isOpen, onClose, onDelete }: JoueurDrawer
                     </div>
                   )}
                   <div className="absolute -bottom-2 -right-2 bg-background border-2 border-white/10 rounded-full w-12 h-12 flex items-center justify-center shadow-glow">
-                    <span className="font-black text-lg text-white">{rating}</span>
+                    <span className="font-black text-lg text-gray-900 dark:text-white">{rating}</span>
                   </div>
                 </div>
-                <h2 className="text-2xl font-black text-white mt-4">{joueur.prenom} {joueur.nom}</h2>
+                <h2 className="text-2xl font-black text-gray-900 dark:text-white mt-4">{joueur.prenom} {joueur.nom}</h2>
                 <p className="text-content-muted font-medium mt-1 uppercase tracking-wider">{joueur.poste} • N°{joueur.numero}</p>
                 <div className="mt-3">
                   <Badge variant={joueur.statut === 'ACTIF' ? 'success' : 'danger'}>{joueur.statut}</Badge>
@@ -82,7 +82,7 @@ export const JoueurDrawer = ({ joueur, isOpen, onClose, onDelete }: JoueurDrawer
 
               <div className="space-y-6">
                 <div className="bg-white/5 rounded-xl p-5 border border-white/10">
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
                     <Activity className="w-4 h-4 text-primary" />
                     Activité Récente
                   </h3>
@@ -90,26 +90,26 @@ export const JoueurDrawer = ({ joueur, isOpen, onClose, onDelete }: JoueurDrawer
                 </div>
 
                 <div className="bg-white/5 rounded-xl p-5 border border-white/10">
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                  <h3 className="text-sm font-bold text-gray-900 dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
                     <Shield className="w-4 h-4 text-secondary" />
                     Informations
                   </h3>
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between border-b border-white/5 pb-2">
                       <span className="text-content-muted">Nationalité</span>
-                      <span className="text-white font-medium">{joueur.nationalite || 'Non renseigné'}</span>
+                      <span className="text-gray-900 dark:text-white font-medium">{joueur.nationalite || 'Non renseigné'}</span>
                     </div>
                     <div className="flex justify-between border-b border-white/5 pb-2">
                       <span className="text-content-muted">Date de naissance</span>
-                      <span className="text-white font-medium">{joueur.date_naissance ? new Date(joueur.date_naissance).toLocaleDateString() : 'Non renseigné'}</span>
+                      <span className="text-gray-900 dark:text-white font-medium">{joueur.date_naissance ? new Date(joueur.date_naissance).toLocaleDateString() : 'Non renseigné'}</span>
                     </div>
                     <div className="flex justify-between border-b border-white/5 pb-2">
                       <span className="text-content-muted">Taille</span>
-                      <span className="text-white font-medium">{joueur.taille ? `${joueur.taille} cm` : 'Non renseigné'}</span>
+                      <span className="text-gray-900 dark:text-white font-medium">{joueur.taille ? `${joueur.taille} cm` : 'Non renseigné'}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-content-muted">Poids</span>
-                      <span className="text-white font-medium">{joueur.poids ? `${joueur.poids} kg` : 'Non renseigné'}</span>
+                      <span className="text-gray-900 dark:text-white font-medium">{joueur.poids ? `${joueur.poids} kg` : 'Non renseigné'}</span>
                     </div>
                   </div>
                 </div>

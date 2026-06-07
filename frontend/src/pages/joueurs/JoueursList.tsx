@@ -48,7 +48,7 @@ export default function JoueursList() {
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-black text-white tracking-tight">Effectif</h1>
+          <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Effectif</h1>
           <p className="text-content-muted mt-1">Gérez vos joueurs et analysez leurs performances.</p>
         </div>
         <Link to="/joueurs/nouveau">
@@ -64,7 +64,7 @@ export default function JoueursList() {
             placeholder="Rechercher un joueur..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-lg py-2.5 pl-10 pr-4 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+            className="w-full bg-white/5 border border-white/10 rounded-lg py-2.5 pl-10 pr-4 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
           />
         </div>
         <Button variant="secondary" className="px-4"><Filter size={18} /></Button>
@@ -91,18 +91,18 @@ export default function JoueursList() {
                 
                 <div className="relative h-32 bg-gradient-to-br from-primary/20 to-background flex items-center justify-center overflow-hidden">
                   <div className="absolute inset-0 bg-glass-gradient opacity-50"></div>
-                  <span className="absolute left-3 bottom-3 text-4xl font-black text-white/10">{joueur.numero}</span>
+                  <span className="absolute left-3 bottom-3 text-4xl font-black text-gray-900 dark:text-white/10">{joueur.numero}</span>
                   {joueur.photo_url ? (
                     <img src={joueur.photo_url} alt="" className="w-20 h-20 rounded-full object-cover border-2 border-background z-10" />
                   ) : (
                     <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center border-2 border-background z-10">
-                      <span className="text-xl font-bold text-white">{joueur.prenom[0]}{joueur.nom[0]}</span>
+                      <span className="text-xl font-bold text-gray-900 dark:text-white">{joueur.prenom[0]}{joueur.nom[0]}</span>
                     </div>
                   )}
                 </div>
 
                 <div className="p-4 flex-grow flex flex-col">
-                  <h3 className="text-lg font-bold text-white group-hover:text-primary-light transition-colors">{joueur.prenom} {joueur.nom}</h3>
+                  <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-primary-light transition-colors">{joueur.prenom} {joueur.nom}</h3>
                   <p className="text-xs text-content-muted font-medium uppercase tracking-wider mb-4">{joueur.poste}</p>
                   
                   <div className="mt-auto pt-4 border-t border-white/5 flex items-center justify-between">
@@ -114,7 +114,7 @@ export default function JoueursList() {
                           style={{ width: `${rating}%` }}
                         />
                       </div>
-                      <span className="font-black text-white">{rating}</span>
+                      <span className="font-black text-gray-900 dark:text-white">{rating}</span>
                     </div>
                   </div>
                 </div>

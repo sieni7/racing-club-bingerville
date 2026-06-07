@@ -23,7 +23,7 @@ export const MetricsCards = ({ victoires, defaites, buts, matchsRestants }: Metr
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-500 dark:text-gray-400 text-sm">{card.title}</p>
-              <p className="text-2xl font-bold dark:text-white">{card.value}</p>
+              <p className="text-2xl font-bold dark:text-gray-900 dark:text-white">{card.value}</p>
             </div>
             <card.icon className={`w-8 h-8 ${card.color}`} />
           </div>

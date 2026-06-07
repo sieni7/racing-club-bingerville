@@ -8,11 +8,11 @@ interface BadgeProps {
 
 export const Badge = ({ children, variant = 'primary', className = '' }: BadgeProps) => {
   const variants = {
-    primary: 'bg-primary text-white',
-    secondary: 'bg-secondary text-white',
-    success: 'bg-accent-success text-white',
-    danger: 'bg-accent-danger text-white',
-    warning: 'bg-accent-warning text-white',
+    primary: 'bg-primary text-gray-900 dark:text-white',
+    secondary: 'bg-secondary text-gray-900 dark:text-white',
+    success: 'bg-accent-success text-gray-900 dark:text-white',
+    danger: 'bg-accent-danger text-gray-900 dark:text-white',
+    warning: 'bg-accent-warning text-gray-900 dark:text-white',
   };
 
   return (

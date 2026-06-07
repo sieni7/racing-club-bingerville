@@ -39,7 +39,7 @@ export default function GuidePage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="mb-10 text-center">
-        <h1 className="text-4xl font-black text-white tracking-tight mb-3">Centre d'Aide & Documentation</h1>
+        <h1 className="text-4xl font-black text-gray-900 dark:text-white tracking-tight mb-3">Centre d'Aide & Documentation</h1>
         <p className="text-content-muted text-lg max-w-2xl mx-auto">
           Tout ce dont vous avez besoin pour maîtriser le Sport Intelligence Dashboard du Racing Club de Bingerville.
         </p>
@@ -66,7 +66,7 @@ export default function GuidePage() {
                   {guide.icon}
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-white mb-2 group-hover:text-primary-light transition-colors">{guide.title}</h2>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-light transition-colors">{guide.title}</h2>
                   <p className="text-content-muted leading-relaxed">{guide.description}</p>
                 </div>
               </div>
