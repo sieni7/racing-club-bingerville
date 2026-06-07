@@ -15,13 +15,13 @@ export const Header = () => {
     await signOut();
     navigate('/login');
   };
-
   const navLinks = [
     { name: 'Actualités', path: '/actualites', icon: <Newspaper size={18} />, private: false },
     { name: 'Joueurs', path: '/joueurs', icon: <Users size={18} />, private: false },
     { name: 'Matchs', path: '/matchs', icon: <Calendar size={18} />, private: false },
     { name: 'Statistiques', path: '/statistiques', icon: <BarChart3 size={18} />, private: false },
-    { name: 'Administration', path: '/dashboard', icon: <LayoutDashboard size={18} />, private: true },
+    { name: 'Espace Membre', path: '/dashboard', icon: <LayoutDashboard size={18} />, private: true },
+    { name: 'Administration', path: '/admin', icon: <Settings size={18} />, private: true },
     { name: 'Guide', path: '/guide', icon: <HelpCircle size={18} />, private: true },
     { name: 'Paramètres', path: '/parametres', icon: <Settings size={18} />, private: true },
   ];
