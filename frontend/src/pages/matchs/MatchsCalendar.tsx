@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, startOfWeek, getDay } from 'date-fns';
 import { fr } from 'date-fns/locale';
@@ -23,6 +24,8 @@ const localizer = dateFnsLocalizer({
 export default function MatchsCalendar() {
   const [matchs, setMatchs] = useState<Match[]>([]);
   const navigate = useNavigate();
+  const { profile } = useAuth();
+  const isAdmin = profile?.role === 'ADMIN' || profile?.role === 'SUPER_ADMIN';
 
   useEffect(() => {
     matchsService.getAll().then(setMatchs).catch(console.error);
@@ -37,7 +40,12 @@ export default function MatchsCalendar() {
   }));
 
   const onSelectEvent = (event: any) => {
-    navigate(`/matchs/${event.id}/editer`);
+    if (isAdmin) {
+      navigate(`/matchs/${event.id}/editer`);
+    } else {
+      // Just show details or do nothing for public users
+      // navigate(`/matchs/${event.id}`); if there was a public detail page
+    }
   };
 
   return (
@@ -48,9 +56,11 @@ export default function MatchsCalendar() {
           <Link to="/matchs">
             <Button variant="secondary" className="flex items-center gap-2"><List size={16} /> Vue Liste</Button>
           </Link>
-          <Link to="/matchs/nouveau">
-            <Button className="flex items-center gap-2"><Plus size={16} /> Nouveau match</Button>
-          </Link>
+          {isAdmin && (
+            <Link to="/matchs/nouveau">
+              <Button className="flex items-center gap-2"><Plus size={16} /> Nouveau match</Button>
+            </Link>
+          )}
         </div>
       </div>
 

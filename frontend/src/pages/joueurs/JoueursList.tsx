@@ -12,6 +12,7 @@ import { SkeletonLoader } from '../../components/common/SkeletonLoader';
 import { EmptyState } from '../../components/common/EmptyState';
 import { Pagination } from '../../components/common/Pagination';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 export default function JoueursList() {
   const [joueurs, setJoueurs] = useState<Joueur[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -20,6 +21,8 @@ export default function JoueursList() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
   const navigate = useNavigate();
+  const { profile } = useAuth();
+  const isAdmin = profile?.role === 'ADMIN' || profile?.role === 'SUPER_ADMIN';
 
   useEffect(() => {
     loadJoueurs();
@@ -71,9 +74,11 @@ export default function JoueursList() {
           <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Effectif</h1>
           <p className="text-content-muted mt-1">Gérez vos joueurs et analysez leurs performances.</p>
         </div>
-        <Link to="/joueurs/nouveau">
-          <Button className="flex items-center gap-2"><Plus size={18} /> Ajouter un joueur</Button>
-        </Link>
+        {isAdmin && (
+          <Link to="/joueurs/nouveau">
+            <Button className="flex items-center gap-2"><Plus size={18} /> Ajouter un joueur</Button>
+          </Link>
+        )}
       </div>
 
       <div className="flex gap-4 mb-8">

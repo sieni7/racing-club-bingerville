@@ -5,6 +5,7 @@ import { Joueur } from '../../features/joueurs/joueursService';
 import { Badge } from '../ui/Badge';
 import { calculatePlayerRating } from '../../utils/rating';
 import { ActivityHeatmap } from './ActivityHeatmap';
+import { useAuth } from '../../contexts/AuthContext';
 // In a real app, we would fetch stats and matchs for the specific player
 // Here we mock the data for the heatmap
 
@@ -16,6 +17,9 @@ interface JoueurDrawerProps {
 }
 
 export const JoueurDrawer = ({ joueur, isOpen, onClose, onDelete }: JoueurDrawerProps) => {
+  const { profile } = useAuth();
+  const isAdmin = profile?.role === 'ADMIN' || profile?.role === 'SUPER_ADMIN';
+
   if (!joueur) return null;
 
   const mockMatchs = Array.from({ length: 12 }).map((_, i) => ({
@@ -51,12 +55,16 @@ export const JoueurDrawer = ({ joueur, isOpen, onClose, onDelete }: JoueurDrawer
                   <X className="w-5 h-5 text-content-muted" />
                 </button>
                 <div className="flex gap-2">
-                  <Link to={`/joueurs/${joueur.id}/editer`} className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors text-primary-light">
-                    <Edit className="w-5 h-5" />
-                  </Link>
-                  <button onClick={() => { onDelete(joueur.id); onClose(); }} className="p-2 bg-accent-danger/20 rounded-full hover:bg-accent-danger/40 transition-colors text-accent-danger">
-                    <Trash2 className="w-5 h-5" />
-                  </button>
+                  {isAdmin && (
+                    <>
+                      <Link to={`/joueurs/${joueur.id}/editer`} className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors text-primary-light">
+                        <Edit className="w-5 h-5" />
+                      </Link>
+                      <button onClick={() => { onDelete(joueur.id); onClose(); }} className="p-2 bg-accent-danger/20 rounded-full hover:bg-accent-danger/40 transition-colors text-accent-danger">
+                        <Trash2 className="w-5 h-5" />
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
 
