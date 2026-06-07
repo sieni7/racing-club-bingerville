@@ -114,8 +114,8 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <Link to={`/matchs/${prochainMatch.id}/feuille`} className="bg-primary text-gray-900 dark:text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition shadow-glow">
-                    Préparer la composition
+                  <Link to={`/matchs`} className="bg-primary text-gray-900 dark:text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark transition shadow-glow">
+                    Voir les matchs
                   </Link>
                 </div>
               </div>

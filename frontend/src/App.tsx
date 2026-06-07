@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { PrivateRoute } from './components/auth/PrivateRoute';
-import { Header } from './components/layout/Header';
+import { HeaderPublic } from './components/layout/HeaderPublic';
 import { Footer } from './components/layout/Footer';
 import { CommandCenter } from './components/layout/CommandCenter';
 import { OnboardingModal } from './components/common/OnboardingModal';
@@ -15,7 +15,6 @@ import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import HomePage from './pages/HomePage';
 
-import { MemberLayout } from './components/layout/MemberLayout';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { AdminHomepage } from './pages/admin/AdminHomepage';
 import { AdminActualites } from './pages/admin/AdminActualites';
@@ -39,9 +38,11 @@ const ActualiteDetail = lazy(() => import('./pages/actualites/ActualiteDetail'))
 const GuidePage = lazy(() => import('./pages/GuidePage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 
-const MainLayout = () => (
+import { AdminLayout } from './components/admin/AdminLayout';
+
+const PublicLayout = () => (
   <div className="flex flex-col min-h-screen">
-    <Header />
+    <HeaderPublic />
     <main className="flex-grow">
       <Outlet />
     </main>
@@ -60,8 +61,9 @@ function App() {
         <AuthProvider>
           <Suspense fallback={<div className="flex justify-center items-center h-screen"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>}>
             <Routes>
-              {/* Routes PUBLIQUES (accessibles sans connexion) */}
-              <Route element={<MainLayout />}>
+              {/* Layout Public (pour visiteurs et membres non-admin) */}
+              <Route element={<PublicLayout />}>
+                {/* Routes PUBLIQUES */}
                 <Route path="/" element={<HomePage />} />
                 <Route path="/matchs" element={<MatchsList />} />
                 <Route path="/matchs/calendrier" element={<MatchsCalendar />} />
@@ -71,12 +73,9 @@ function App() {
                 <Route path="/guide" element={<GuidePage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-              </Route>
-              
-              {/* Routes PRIVÉES (authentification requise) via MemberLayout */}
-              <Route element={<MemberLayout />}>
+                
+                {/* Routes MEMBRE (authentification requise) */}
                 <Route element={<PrivateRoute />}>
-                  {/* Membre */}
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/joueurs" element={<JoueursList />} />
                   <Route path="/joueurs/nouveau" element={<JoueurForm />} />
@@ -92,16 +91,16 @@ function App() {
                   
                   <Route path="/parametres" element={<SettingsPage />} />
                 </Route>
+              </Route>
 
-                {/* ADMIN ROUTES */}
-                <Route element={<PrivateRoute requiredRole={['ADMIN', 'SUPER_ADMIN']} />}>
-                  <Route path="/admin">
-                    <Route index element={<Navigate to="dashboard" replace />} />
-                    <Route path="dashboard" element={<AdminDashboard />} />
-                    <Route path="homepage" element={<AdminHomepage />} />
-                    <Route path="actualites" element={<AdminActualites />} />
-                    <Route path="joueurs" element={<AdminJoueurs />} />
-                  </Route>
+              {/* Layout ADMIN (rôle ADMIN/SUPER_ADMIN requis) */}
+              <Route element={<PrivateRoute requiredRole={['ADMIN', 'SUPER_ADMIN']} />}>
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<Navigate to="dashboard" replace />} />
+                  <Route path="dashboard" element={<AdminDashboard />} />
+                  <Route path="homepage" element={<AdminHomepage />} />
+                  <Route path="actualites" element={<AdminActualites />} />
+                  <Route path="joueurs" element={<AdminJoueurs />} />
                 </Route>
               </Route>
             </Routes>
