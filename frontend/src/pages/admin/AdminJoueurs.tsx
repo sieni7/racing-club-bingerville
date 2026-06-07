@@ -231,3 +231,4 @@ export const AdminJoueurs = () => {
     </div>
   );
 };
+

@@ -118,3 +118,4 @@ function JoueurFormInner({ id, initialData, navigate, photo, setPhoto }: { id?: 
     </div>
   );
 }
+

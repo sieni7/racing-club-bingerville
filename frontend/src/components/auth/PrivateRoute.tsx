@@ -25,3 +25,4 @@ export const PrivateRoute = ({ requiredRole }: PrivateRouteProps) => {
 
   return <Outlet />;
 };
+

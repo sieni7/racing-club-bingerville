@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { calculatePlayerRating } from '../../utils/rating';
 import { JoueurDrawer } from '../../components/joueurs/JoueurDrawer';
 import { Card } from '../../components/ui/Card';
-
+import { SkeletonLoader } from '../../components/common/SkeletonLoader';
 export default function JoueursList() {
   const [joueurs, setJoueurs] = useState<Joueur[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +42,13 @@ export default function JoueursList() {
     j.poste.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (isLoading) return <div className="flex justify-center py-10"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>;
+  if (isLoading) return (
+    <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-20">
+        <SkeletonLoader type="card" count={8} />
+      </div>
+    </div>
+  );
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
@@ -133,3 +139,4 @@ export default function JoueursList() {
     </div>
   );
 }
+

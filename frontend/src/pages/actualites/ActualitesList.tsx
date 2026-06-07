@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
 import { Link } from 'react-router-dom';
 import { Calendar, Eye } from 'lucide-react';
+import { SkeletonLoader } from '../../components/common/SkeletonLoader';
 
 interface Article {
   id: string;
@@ -34,7 +35,14 @@ export default function ActualitesList() {
   };
 
   if (loading) {
-    return <div className="text-center py-16"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto" /></div>;
+    return (
+      <div className="container mx-auto px-4 py-12 max-w-7xl">
+        <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-8">Actualités</h1>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <SkeletonLoader type="card" count={6} />
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -87,3 +95,4 @@ export default function ActualitesList() {
     </div>
   );
 }
+

@@ -152,3 +152,4 @@ export default function EvenementsTab({ matchId }: { matchId: string }) {
     </div>
   );
 }
+

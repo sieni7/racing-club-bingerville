@@ -84,3 +84,4 @@ export const actualitesService = {
     if (error) throw error;
   }
 };
+

@@ -65,3 +65,4 @@ describe('actualitesService', () => {
     await expect(actualitesService.delete('1')).resolves.not.toThrow();
   });
 });
+

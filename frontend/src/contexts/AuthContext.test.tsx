@@ -30,3 +30,4 @@ describe('AuthContext', () => {
     expect(result.current.isLoading).toBe(false);
   });
 });
+

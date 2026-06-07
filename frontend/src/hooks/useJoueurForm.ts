@@ -51,3 +51,4 @@ export const useJoueurForm = (initialData?: Partial<JoueurFormData> & { id?: str
 
   return { form, onSubmit, isSubmitting: form.formState.isSubmitting };
 };
+

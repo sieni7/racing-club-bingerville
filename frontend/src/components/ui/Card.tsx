@@ -22,3 +22,4 @@ export const Card = ({ children, className = '', hover = true, ...props }: CardP
     </motion.div>
   );
 };
+

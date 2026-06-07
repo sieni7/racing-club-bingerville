@@ -341,3 +341,4 @@ export const AdminActualites = () => {
     </div>
   );
 };
+

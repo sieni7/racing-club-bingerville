@@ -32,3 +32,4 @@ export const MetricsCards = ({ victoires, defaites, buts, matchsRestants }: Metr
     </div>
   );
 };
+

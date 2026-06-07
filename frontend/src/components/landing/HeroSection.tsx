@@ -21,7 +21,7 @@ export const HeroSection = () => {
 
   const handleCTAClick = (ctaName: string) => {
     // Analytics tracking (placeholder)
-    console.log(`[Analytics] CTA Clicked: ${ctaName}`);
+    
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('event', 'click', {
         event_category: 'CTA',
@@ -100,3 +100,4 @@ export const HeroSection = () => {
     </section>
   );
 };
+

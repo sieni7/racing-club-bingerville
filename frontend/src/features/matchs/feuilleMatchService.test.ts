@@ -46,3 +46,4 @@ describe('feuilleMatchService', () => {
     await expect(feuilleMatchService.deleteEvenement('evt1')).resolves.not.toThrow();
   });
 });
+

@@ -127,3 +127,4 @@ export const generateInsights = (matchs: Match[], joueurs: Joueur[], stats: Stat
 
   return insights.slice(0, 5);
 };
+

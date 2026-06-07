@@ -122,3 +122,4 @@ export const JoueurDrawer = ({ joueur, isOpen, onClose, onDelete }: JoueurDrawer
     </AnimatePresence>
   );
 };
+

@@ -63,3 +63,4 @@ export const ClubKPIs = () => {
     </section>
   );
 };
+

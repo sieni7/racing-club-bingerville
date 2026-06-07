@@ -21,3 +21,4 @@ export const Button = ({ variant = 'primary', isLoading = false, children, class
     </button>
   );
 };
+

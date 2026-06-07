@@ -31,3 +31,4 @@ export const ActivityHeatmap = ({ matchs }: ActivityHeatmapProps) => {
     </div>
   );
 };
+

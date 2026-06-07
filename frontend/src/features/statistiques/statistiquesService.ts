@@ -48,3 +48,4 @@ export const statistiquesService = {
     return data;
   }
 };
+

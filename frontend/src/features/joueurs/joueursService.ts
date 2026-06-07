@@ -85,3 +85,4 @@ export const joueursService = {
     await supabase.storage.from('joueurs-photos').remove([`joueurs/${filePath}`]);
   }
 };
+

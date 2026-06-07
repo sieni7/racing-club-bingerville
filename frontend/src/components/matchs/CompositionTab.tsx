@@ -115,3 +115,4 @@ export default function CompositionTab({ matchId }: { matchId: string }) {
     </div>
   );
 }
+

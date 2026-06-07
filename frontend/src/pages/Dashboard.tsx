@@ -13,7 +13,7 @@ import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { generateInsights, Insight } from '../features/insights/insightEngine';
 import { TooltipHelper } from '../components/common/TooltipHelper';
-
+import { SkeletonLoader } from '../components/common/SkeletonLoader';
 export default function Dashboard() {
   const { user } = useAuth();
   const [prochainMatch, setProchainMatch] = useState<Match | null>(null);
@@ -61,10 +61,21 @@ export default function Dashboard() {
   }, []);
 
   if (isLoading) return (
-    <div className="flex justify-center items-center h-full min-h-[60vh]">
-      <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}>
-        <Activity className="w-8 h-8 text-primary" />
-      </motion.div>
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 mt-20">
+        <div className="md:col-span-3">
+          <SkeletonLoader type="card" count={1} />
+        </div>
+        <div className="md:col-span-2">
+          <SkeletonLoader type="card" count={1} />
+        </div>
+        <div className="md:col-span-1">
+          <SkeletonLoader type="card" count={1} />
+        </div>
+        <div className="md:col-span-3">
+          <SkeletonLoader type="card" count={1} />
+        </div>
+      </div>
     </div>
   );
 
@@ -242,3 +253,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

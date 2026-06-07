@@ -65,3 +65,4 @@ describe('ThemeToggle', () => {
     expect(localStorage.getItem('theme-preference')).toBe('system');
   });
 });
+

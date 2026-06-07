@@ -26,3 +26,4 @@ export const TooltipHelper = ({ id, content, place = 'top' }: TooltipHelperProps
     </>
   );
 };
+

@@ -27,3 +27,4 @@ export const calculatePlayerRating = (joueur: Joueur, stats?: StatJoueur): numbe
 
   return Math.min(99, Math.max(50, Math.floor(baseScore + bonus)));
 };
+
