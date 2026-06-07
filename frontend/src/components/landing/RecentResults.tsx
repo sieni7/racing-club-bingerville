@@ -50,35 +50,35 @@ export const RecentResults = () => {
               whileHover={{ scale: 1.01, translateY: -2 }}
               className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between shadow-sm hover:shadow-xl border border-gray-100 dark:border-gray-800 transition-all duration-300"
             >
-              <div className="flex-1 text-center md:text-left mb-6 md:mb-0">
-                <Badge variant="secondary" className="mb-3">{match.competition}</Badge>
-                <p className="text-gray-500 dark:text-gray-400 font-medium text-sm">
+              <div className="w-full md:w-auto md:flex-1 text-center md:text-left mb-2 md:mb-0">
+                <Badge variant="secondary" className="mb-2 whitespace-nowrap">{match.competition}</Badge>
+                <p className="text-gray-500 dark:text-gray-400 font-medium text-xs md:text-sm capitalize">
                   {format(new Date(match.date_heure), 'EEEE dd MMMM yyyy', { locale: fr })}
                 </p>
               </div>
               
-              <div className="flex items-center gap-4 md:gap-8 flex-2 justify-center w-full md:w-auto">
-                <span className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white text-right flex-1 md:flex-none">
-                  Racing Club
-                </span>
+              <div className="w-full flex items-center justify-between md:justify-center gap-2 md:gap-8 my-4 md:my-0 flex-1">
+                <div className={`flex-1 text-right md:text-right ${match.lieu === 'DOMICILE' ? 'font-bold text-gray-900 dark:text-white text-lg md:text-2xl' : 'font-medium text-gray-500 dark:text-gray-400 text-sm md:text-xl'}`}>
+                  {match.lieu === 'DOMICILE' ? 'Racing Club' : match.adversaire}
+                </div>
                 
-                <div className="flex items-center gap-3 bg-gray-50 dark:bg-gray-800/50 px-6 py-3 rounded-xl border border-gray-100 dark:border-gray-700/50">
-                  <span className="text-3xl font-black text-primary">
-                    {match.score_equipe}
+                <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800/50 px-4 py-2 md:px-6 md:py-3 rounded-xl border border-gray-100 dark:border-gray-700/50 shadow-inner">
+                  <span className={`text-2xl md:text-3xl font-black ${match.lieu === 'DOMICILE' ? 'text-primary' : 'text-gray-900 dark:text-white'}`}>
+                    {match.lieu === 'DOMICILE' ? match.score_equipe : match.score_adversaire}
                   </span>
-                  <span className="text-gray-300 dark:text-gray-600 font-bold text-xl">-</span>
-                  <span className="text-3xl font-black text-gray-900 dark:text-white">
-                    {match.score_adversaire}
+                  <span className="text-gray-300 dark:text-gray-600 font-bold px-1">-</span>
+                  <span className={`text-2xl md:text-3xl font-black ${match.lieu !== 'DOMICILE' ? 'text-primary' : 'text-gray-900 dark:text-white'}`}>
+                    {match.lieu === 'DOMICILE' ? match.score_adversaire : match.score_equipe}
                   </span>
                 </div>
                 
-                <span className="text-xl md:text-2xl font-bold text-gray-500 dark:text-gray-400 text-left flex-1 md:flex-none">
-                  {match.adversaire}
-                </span>
+                <div className={`flex-1 text-left md:text-left ${match.lieu !== 'DOMICILE' ? 'font-bold text-gray-900 dark:text-white text-lg md:text-2xl' : 'font-medium text-gray-500 dark:text-gray-400 text-sm md:text-xl'}`}>
+                  {match.lieu === 'DOMICILE' ? match.adversaire : 'Racing Club'}
+                </div>
               </div>
               
-              <div className="flex-1 text-center md:text-right mt-6 md:mt-0 flex justify-center md:justify-end">
-                <Badge variant={(match.score_equipe || 0) > (match.score_adversaire || 0) ? 'success' : (match.score_equipe || 0) < (match.score_adversaire || 0) ? 'danger' : 'warning'} className="px-4 py-1.5 text-sm">
+              <div className="w-full md:w-auto md:flex-1 text-center md:text-right mt-2 md:mt-0 flex justify-center md:justify-end">
+                <Badge variant={(match.score_equipe || 0) > (match.score_adversaire || 0) ? 'success' : (match.score_equipe || 0) < (match.score_adversaire || 0) ? 'danger' : 'warning'} className="px-4 py-1.5 text-sm whitespace-nowrap shadow-sm">
                   {(match.score_equipe || 0) > (match.score_adversaire || 0) ? 'VICTOIRE' : (match.score_equipe || 0) < (match.score_adversaire || 0) ? 'DÉFAITE' : 'MATCH NUL'}
                 </Badge>
               </div>
