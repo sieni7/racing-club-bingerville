@@ -5,6 +5,7 @@ import { NextMatchCard } from '../components/landing/NextMatchCard';
 import { RecentResults } from '../components/landing/RecentResults';
 import { TopScorersSection } from '../components/landing/TopScorersSection';
 import { ClubSection } from '../components/landing/ClubSection';
+import { ValuesSection } from '../components/landing/ValuesSection';
 import { NewsPreview } from '../components/landing/NewsPreview';
 import { PhotoGallery } from '../components/landing/PhotoGallery';
 import { Testimonials } from '../components/landing/Testimonials';
@@ -29,8 +30,11 @@ export default function HomePage() {
       {/* 5. Élite (Meilleurs Buteurs) */}
       <TopScorersSection />
       
-      {/* 6. Le Club (Histoire, Palmarès, Valeurs) */}
+      {/* 6. Le Club (Histoire) */}
       <ClubSection />
+      
+      {/* 6.bis Les Valeurs (ADN) */}
+      <ValuesSection />
       
       {/* 7. Actualités */}
       <NewsPreview />
