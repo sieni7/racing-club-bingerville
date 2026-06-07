@@ -3,10 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const demoPhotos = [
-  { src: 'https://unsplash.com/photos/mY2ZHBU6GRk/download?w=800', title: 'Action de jeu' },
-  { src: 'https://unsplash.com/photos/nTIkwCmUmNU/download?w=800', title: 'Esprit d\'équipe' },
-  { src: 'https://unsplash.com/photos/unPrQUcWfI4/download?w=800', title: 'Entraînement intense' },
-  { src: 'https://unsplash.com/photos/jaODdxmamsg/download?w=800', title: 'Passion du terrain' },
+  { src: 'https://images.unsplash.com/photo-1579952363873-27f3bade9f55?q=80&w=800&auto=format&fit=crop', title: 'Action de jeu' },
+  { src: 'https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?q=80&w=800&auto=format&fit=crop', title: 'Esprit d\'équipe' },
+  { src: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=800&auto=format&fit=crop', title: 'Entraînement intense' },
+  { src: 'https://images.unsplash.com/photo-1600250395353-066bc2db98ba?q=80&w=800&auto=format&fit=crop', title: 'Passion du terrain' },
 ];
 
 export const PhotoGallery = () => {

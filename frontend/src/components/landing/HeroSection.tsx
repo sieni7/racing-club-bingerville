@@ -7,9 +7,9 @@ export const HeroSection = () => {
   const [index, setIndex] = useState(0);
 
   const images = [
-    'https://unsplash.com/photos/qowyMze7jqg/download?w=2000', // personnes-regardant-larene-de-football
-    'https://unsplash.com/photos/kTxAcjN2VtQ/download?w=2000', // un-ballon-de-football-pose-sur-un-terrain-verdoyant
-    'https://unsplash.com/photos/hQBIJsBtyBw/download?w=2000', // personnes-regardant-un-match-de-football-dans-le-stade
+    'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?q=80&w=2000&auto=format&fit=crop', // Soccer player kicking
+    'https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=2000&auto=format&fit=crop', // Stadium crowd
+    'https://images.unsplash.com/photo-1551280857-2b9ebf241ac4?q=80&w=2000&auto=format&fit=crop', // Soccer ball on pitch
   ];
 
   useEffect(() => {
