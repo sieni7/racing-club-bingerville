@@ -1,129 +1,144 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Users, Newspaper, Calendar, Trophy } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { Users, Calendar, Target, Newspaper, TrendingUp } from 'lucide-react';
 
-const mockChartData = [
-  { name: 'Jan', vues: 4000, inscrits: 240 },
-  { name: 'Fév', vues: 3000, inscrits: 139 },
-  { name: 'Mar', vues: 2000, inscrits: 980 },
-  { name: 'Avr', vues: 2780, inscrits: 390 },
-  { name: 'Mai', vues: 1890, inscrits: 480 },
-  { name: 'Juin', vues: 2390, inscrits: 380 },
-  { name: 'Juil', vues: 3490, inscrits: 430 },
-];
+interface Stats {
+  joueurs: number;
+  matchs: number;
+  buts: number;
+  actualites: number;
+  utilisateurs: number;
+  victoires: number;
+  nuls: number;
+  defaites: number;
+}
 
-export default function AdminDashboard() {
-  const [stats, setStats] = useState({
-    joueurs: 0,
-    actualites: 0,
-    matchs: 0,
-  });
-  const [isLoading, setIsLoading] = useState(true);
+const Skeleton = ({ className }: { className: string }) => (
+  <div className={`animate-pulse bg-gray-200 dark:bg-gray-700 rounded ${className}`} />
+);
+
+export const AdminDashboard = () => {
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchStats() {
-      try {
-        // Fetch counts from real tables
-        const [joueursRes, actusRes, matchsRes] = await Promise.all([
-          supabase.from('joueurs').select('*', { count: 'exact', head: true }),
-          supabase.from('actualites').select('*', { count: 'exact', head: true }),
-          supabase.from('matchs').select('*', { count: 'exact', head: true })
-        ]);
+    const fetchAll = async () => {
+      const [
+        { count: joueurs },
+        { count: matchs },
+        { count: actualites },
+        { count: utilisateurs },
+        { data: butsData },
+      ] = await Promise.all([
+        supabase.from('joueurs').select('*', { count: 'exact', head: true }),
+        supabase.from('matchs').select('*', { count: 'exact', head: true }).eq('statut', 'TERMINE'),
+        supabase.from('actualites').select('*', { count: 'exact', head: true }),
+        supabase.from('profiles').select('*', { count: 'exact', head: true }),
+        supabase.from('evenements_match').select('*').eq('type_evenement', 'BUT'),
+      ]);
 
-        setStats({
-          joueurs: joueursRes.count || 0,
-          actualites: actusRes.count || 0,
-          matchs: matchsRes.count || 0,
-        });
-      } catch (error) {
-        console.error('Erreur lors du chargement des statistiques:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
+      // Calculer bilan W/D/L (à adapter selon votre schéma)
+      const { data: matchsData } = await supabase.from('matchs').select('score_equipe, score_adversaire').eq('statut', 'TERMINE');
+      let victoires = 0, nuls = 0, defaites = 0;
+      matchsData?.forEach((m: any) => {
+        if (m.score_equipe > m.score_adversaire) victoires++;
+        else if (m.score_equipe === m.score_adversaire) nuls++;
+        else defaites++;
+      });
 
-    fetchStats();
+      setStats({
+        joueurs: joueurs || 0,
+        matchs: matchs || 0,
+        buts: butsData?.length || 0,
+        actualites: actualites || 0,
+        utilisateurs: utilisateurs || 0,
+        victoires,
+        nuls,
+        defaites,
+      });
+      setLoading(false);
+    };
+
+    fetchAll();
   }, []);
 
-  if (isLoading) {
-    return (
-      <div className="space-y-6 animate-pulse">
-        <div className="h-8 bg-gray-200 dark:bg-gray-700 w-1/4 rounded"></div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="bg-white dark:bg-gray-800 h-32 rounded-xl border border-gray-100 dark:border-gray-700"></div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  const statCards = [
-    { title: 'Total Joueurs', value: stats.joueurs, icon: <Users size={24} />, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-900/20' },
-    { title: 'Actualités', value: stats.actualites, icon: <Newspaper size={24} />, color: 'text-green-500', bg: 'bg-green-50 dark:bg-green-900/20' },
-    { title: 'Matchs Joués', value: stats.matchs, icon: <Calendar size={24} />, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-900/20' },
-    { title: 'Victoires', value: '75%', icon: <Trophy size={24} />, color: 'text-yellow-500', bg: 'bg-yellow-50 dark:bg-yellow-900/20' },
+  const kpiCards = [
+    { label: 'Joueurs', value: stats?.joueurs, icon: Users, color: 'text-blue-500', bg: 'bg-blue-50 dark:bg-blue-950' },
+    { label: 'Matchs joués', value: stats?.matchs, icon: Calendar, color: 'text-green-500', bg: 'bg-green-50 dark:bg-green-950' },
+    { label: 'Buts marqués', value: stats?.buts, icon: Target, color: 'text-orange-500', bg: 'bg-orange-50 dark:bg-orange-950' },
+    { label: 'Actualités', value: stats?.actualites, icon: Newspaper, color: 'text-purple-500', bg: 'bg-purple-50 dark:bg-purple-950' },
+    { label: 'Utilisateurs', value: stats?.utilisateurs, icon: TrendingUp, color: 'text-pink-500', bg: 'bg-pink-50 dark:bg-pink-950' },
   ];
 
+  const bilanData = stats ? [
+    { name: 'Victoires', value: stats.victoires, color: '#22c55e' },
+    { name: 'Nuls', value: stats.nuls, color: '#f59e0b' },
+    { name: 'Défaites', value: stats.defaites, color: '#ef4444' },
+  ] : [];
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Tableau de bord</h1>
-      
+    <div>
+      <h1 className="text-2xl font-bold mb-8">Tableau de bord</h1>
+
       {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {statCards.map((stat, idx) => (
-          <div key={idx} className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm flex items-center justify-between">
-            <div>
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{stat.title}</p>
-              <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">{stat.value}</p>
-            </div>
-            <div className={`p-4 rounded-full ${stat.bg} ${stat.color}`}>
-              {stat.icon}
-            </div>
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+        {kpiCards.map((card) => (
+          <div key={card.label} className="bg-white dark:bg-gray-900 rounded-xl p-5 shadow-sm">
+            {loading ? (
+              <>
+                <Skeleton className="h-8 w-8 mb-3" />
+                <Skeleton className="h-7 w-16 mb-1" />
+                <Skeleton className="h-4 w-20" />
+              </>
+            ) : (
+              <>
+                <div className={`inline-flex p-2 rounded-lg ${card.bg} ${card.color} mb-3`}>
+                  <card.icon size={20} />
+                </div>
+                <div className="text-2xl font-bold">{card.value}</div>
+                <div className="text-sm text-gray-500 mt-0.5">{card.label}</div>
+              </>
+            )}
           </div>
         ))}
       </div>
 
-      {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Visites du site (Vues)</h2>
-          <div className="h-80 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={mockChartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.2} />
-                <XAxis dataKey="name" stroke="#6B7280" />
-                <YAxis stroke="#6B7280" />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151', color: '#F3F4F6' }}
-                  itemStyle={{ color: '#F3F4F6' }}
-                />
-                <Line type="monotone" dataKey="vues" stroke="#E63946" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 8 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-100 dark:border-gray-700 shadow-sm">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Nouvelles inscriptions</h2>
-          <div className="h-80 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={mockChartData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.2} />
-                <XAxis dataKey="name" stroke="#6B7280" />
-                <YAxis stroke="#6B7280" />
-                <Tooltip 
-                  contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151', color: '#F3F4F6' }}
-                  itemStyle={{ color: '#F3F4F6' }}
-                  cursor={{ fill: '#374151', opacity: 0.1 }}
-                />
-                <Bar dataKey="inscrits" fill="#1D4ED8" radius={[4, 4, 0, 0]} />
+      {/* Graphiques */}
+      {!loading && (
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm">
+            <h2 className="font-semibold mb-4">Bilan des matchs</h2>
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={bilanData} barSize={40}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+                <YAxis tick={{ fontSize: 12 }} />
+                <Tooltip />
+                <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+                  {bilanData.map((entry, idx) => (
+                    <Cell key={idx} fill={entry.color} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
+
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-sm">
+            <h2 className="font-semibold mb-4">Activité récente</h2>
+            <div className="space-y-3">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-500">Dernière actualité</span>
+                <span className="text-sm font-medium">À venir</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-500">Prochain match</span>
+                <span className="text-sm font-medium">À venir</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
-}
+};

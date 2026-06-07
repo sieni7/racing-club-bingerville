@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
@@ -60,18 +60,19 @@ function App() {
         <AuthProvider>
           <Suspense fallback={<div className="flex justify-center items-center h-screen"><div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div></div>}>
             <Routes>
+              {/* ADMIN ROUTES */}
+              <Route element={<PrivateRoute requiredRole={['ADMIN', 'SUPER_ADMIN']} />}>
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<Navigate to="dashboard" replace />} />
+                  <Route path="dashboard" element={<AdminDashboard />} />
+                  <Route path="homepage" element={<AdminHomepage />} />
+                  <Route path="actualites" element={<AdminActualites />} />
+                  <Route path="joueurs" element={<AdminJoueurs />} />
+                </Route>
+              </Route>
+
               {/* PUBLIC & USER ROUTES */}
               <Route element={<MainLayout />}>
-                {/* ADMIN ROUTES */}
-                <Route path="/admin" element={<PrivateRoute requiredRole="ADMIN" />}>
-                  <Route element={<AdminLayout />}>
-                    <Route index element={<AdminDashboard />} />
-                    <Route path="homepage" element={<AdminHomepage />} />
-                    <Route path="actualites" element={<AdminActualites />} />
-                    <Route path="joueurs" element={<AdminJoueurs />} />
-                  </Route>
-                </Route>
-
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 

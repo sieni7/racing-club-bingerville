@@ -1,149 +1,149 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Save, AlertCircle, Layout } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { Save } from 'lucide-react';
 
-interface SiteSection {
+interface Section {
   id: string;
   section_key: string;
   title: string;
+  content: string | null;
   is_enabled: boolean;
   display_order: number;
 }
 
-export default function AdminHomepage() {
-  const [sections, setSections] = useState<SiteSection[]>([]);
-  const [originalSections, setOriginalSections] = useState<SiteSection[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+const DYNAMIC_SECTIONS = ['hero', 'kpis', 'next_match', 'recent_results', 'top_scorers'];
+
+const Skeleton = () => (
+  <div className="bg-white dark:bg-gray-900 rounded-xl p-5 shadow-sm animate-pulse">
+    <div className="flex justify-between items-center">
+      <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-40" />
+      <div className="h-6 w-11 bg-gray-200 dark:bg-gray-700 rounded-full" />
+    </div>
+  </div>
+);
+
+export const AdminHomepage = () => {
+  const [sections, setSections] = useState<Section[]>([]);
+  const [drafts, setDrafts] = useState<Record<string, string>>({});
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchSections();
+    supabase
+      .from('site_sections')
+      .select('*')
+      .order('display_order')
+      .then(({ data }) => {
+        if (data) {
+          setSections(data);
+          const initialDrafts: Record<string, string> = {};
+          data.forEach((s: Section) => { initialDrafts[s.id] = s.content || ''; });
+          setDrafts(initialDrafts);
+        }
+        setLoading(false);
+      });
   }, []);
 
-  const fetchSections = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('site_sections')
-        .select('*')
-        .order('display_order', { ascending: true });
+  const toggleSection = async (section: Section) => {
+    const next = !section.is_enabled;
+    const { error } = await supabase
+      .from('site_sections')
+      .update({ is_enabled: next, updated_at: new Date().toISOString() })
+      .eq('id', section.id);
 
-      if (error) throw error;
-      setSections(data || []);
-      setOriginalSections(data || []);
-    } catch (error) {
-      console.error('Erreur:', error);
-      setMessage({ type: 'error', text: 'Impossible de charger les sections.' });
-    } finally {
-      setIsLoading(false);
+    if (!error) {
+      setSections((prev) =>
+        prev.map((s) => (s.id === section.id ? { ...s, is_enabled: next } : s))
+      );
+      toast.success(`"${section.title}" ${next ? 'activée' : 'désactivée'}`);
     }
   };
 
-  const handleToggle = (id: string) => {
-    setSections(sections.map(s => s.id === id ? { ...s, is_enabled: !s.is_enabled } : s));
-  };
+  const saveContent = async (section: Section) => {
+    setSaving(section.id);
+    const { error } = await supabase
+      .from('site_sections')
+      .update({
+        content: drafts[section.id] || null,
+        updated_at: new Date().toISOString(),
+        updated_by: (await supabase.auth.getUser()).data.user?.id,
+      })
+      .eq('id', section.id);
 
-  const hasChanges = JSON.stringify(sections) !== JSON.stringify(originalSections);
-
-  const handleSave = async () => {
-    setIsSaving(true);
-    setMessage(null);
-    try {
-      // Upsert sections
-      const { error } = await supabase
-        .from('site_sections')
-        .upsert(sections.map(({ id, section_key, title, is_enabled, display_order }) => ({
-          id, section_key, title, is_enabled, display_order
-        })));
-
-      if (error) throw error;
-      
-      setOriginalSections([...sections]);
-      setMessage({ type: 'success', text: 'Les modifications ont été sauvegardées avec succès.' });
-      
-      setTimeout(() => setMessage(null), 3000);
-    } catch (error) {
-      console.error('Erreur lors de la sauvegarde:', error);
-      setMessage({ type: 'error', text: 'Erreur lors de la sauvegarde.' });
-    } finally {
-      setIsSaving(false);
+    if (!error) {
+      setSections((prev) =>
+        prev.map((s) => (s.id === section.id ? { ...s, content: drafts[section.id] } : s))
+      );
+      toast.success('Contenu sauvegardé');
+    } else {
+      toast.error('Erreur lors de la sauvegarde');
     }
+    setSaving(null);
   };
 
-  if (isLoading) {
-    return (
-      <div className="space-y-4 animate-pulse">
-        <div className="h-8 bg-gray-200 dark:bg-gray-700 w-1/3 rounded mb-8"></div>
-        {[1, 2, 3, 4, 5].map((i) => (
-          <div key={i} className="h-16 bg-white dark:bg-gray-800 rounded-lg border border-gray-100 dark:border-gray-700"></div>
-        ))}
-      </div>
-    );
-  }
+  const isDirty = (section: Section) =>
+    (drafts[section.id] || '') !== (section.content || '');
 
   return (
-    <div className="max-w-4xl space-y-6">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-            <Layout size={24} className="text-primary" />
-            Gestion de l'Accueil
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Activez ou désactivez les sections visibles sur la page d'accueil publique.</p>
-        </div>
-        
-        <button
-          onClick={handleSave}
-          disabled={!hasChanges || isSaving}
-          className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
-            hasChanges && !isSaving
-              ? 'bg-primary hover:bg-primary-dark text-white shadow-md' 
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-          }`}
-        >
-          <Save size={18} />
-          {isSaving ? 'Sauvegarde...' : 'Sauvegarder'}
-        </button>
-      </div>
+    <div>
+      <h1 className="text-2xl font-bold mb-8">Gestion de la page d'accueil</h1>
 
-      {message && (
-        <div className={`p-4 rounded-lg flex items-center gap-3 ${
-          message.type === 'success' ? 'bg-green-50 text-green-800 border border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-800' 
-          : 'bg-red-50 text-red-800 border border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-800'
-        }`}>
-          <AlertCircle size={20} />
-          <p>{message.text}</p>
-        </div>
-      )}
+      <div className="space-y-3">
+        {loading
+          ? Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} />)
+          : sections.map((section) => (
+              <div
+                key={section.id}
+                className="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden"
+              >
+                <div className="flex justify-between items-center px-6 py-4">
+                  <div>
+                    <h3 className="font-medium">{section.title}</h3>
+                    {DYNAMIC_SECTIONS.includes(section.section_key) && (
+                      <p className="text-xs text-gray-400 mt-0.5">Données dynamiques — non éditables ici</p>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => toggleSection(section)}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
+                      section.is_enabled ? 'bg-primary' : 'bg-gray-300 dark:bg-gray-600'
+                    }`}
+                  >
+                    <span
+                      className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
+                        section.is_enabled ? 'translate-x-6' : 'translate-x-1'
+                      }`}
+                    />
+                  </button>
+                </div>
 
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden shadow-sm">
-        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-          {sections.map((section) => (
-            <li key={section.id} className="p-4 sm:px-6 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-750 transition-colors">
-              <div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white">{section.title}</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">Identifiant technique : <code className="bg-gray-100 dark:bg-gray-900 px-1 py-0.5 rounded text-xs">{section.section_key}</code></p>
+                {!DYNAMIC_SECTIONS.includes(section.section_key) && (
+                  <div className="px-6 pb-4 border-t border-gray-100 dark:border-gray-800 pt-4">
+                    <textarea
+                      rows={3}
+                      value={drafts[section.id] || ''}
+                      onChange={(e) =>
+                        setDrafts((prev) => ({ ...prev, [section.id]: e.target.value }))
+                      }
+                      placeholder="Contenu personnalisé (optionnel)"
+                      className="w-full text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 bg-transparent resize-none focus:outline-none focus:ring-2 focus:ring-primary/30"
+                    />
+                    <div className="flex justify-end mt-2">
+                      <button
+                        onClick={() => saveContent(section)}
+                        disabled={!isDirty(section) || saving === section.id}
+                        className="flex items-center gap-2 text-sm bg-primary text-white px-4 py-1.5 rounded-lg disabled:opacity-40 transition-opacity"
+                      >
+                        <Save size={14} />
+                        {saving === section.id ? 'Sauvegarde...' : 'Sauvegarder'}
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-              
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input 
-                  type="checkbox" 
-                  className="sr-only peer" 
-                  checked={section.is_enabled}
-                  onChange={() => handleToggle(section.id)}
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/40 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
-                <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300 w-12 hidden sm:block">
-                  {section.is_enabled ? 'Visible' : 'Masqué'}
-                </span>
-              </label>
-            </li>
-          ))}
-          {sections.length === 0 && (
-            <li className="p-6 text-center text-gray-500">Aucune section trouvée dans la base de données. Exécutez la migration SQL.</li>
-          )}
-        </ul>
+            ))}
       </div>
     </div>
   );
-}
+};
