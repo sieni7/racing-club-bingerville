@@ -41,22 +41,22 @@ export const RecentResults = () => {
               </div>
               
               <div className="flex items-center gap-6 flex-2 justify-center">
-                <span className={`text-xl font-bold ${match.lieu === 'DOMICILE' ? 'text-gray-900 dark:text-white' : 'text-gray-500'}`}>
-                  {match.lieu === 'DOMICILE' ? 'RCB' : match.adversaire}
+                <span className="text-xl font-bold text-gray-900 dark:text-white">
+                  Racing Club
                 </span>
                 
                 <div className="flex items-center gap-2">
                   <span className="bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-lg text-2xl font-black text-gray-900 dark:text-white">
-                    {match.lieu === 'DOMICILE' ? match.score_equipe : match.score_adversaire}
+                    {match.score_equipe}
                   </span>
                   <span className="text-gray-400 font-bold">-</span>
                   <span className="bg-gray-100 dark:bg-gray-800 px-4 py-2 rounded-lg text-2xl font-black text-gray-900 dark:text-white">
-                    {match.lieu === 'DOMICILE' ? match.score_adversaire : match.score_equipe}
+                    {match.score_adversaire}
                   </span>
                 </div>
                 
-                <span className={`text-xl font-bold ${match.lieu === 'EXTERIEUR' ? 'text-gray-900 dark:text-white' : 'text-gray-500'}`}>
-                  {match.lieu === 'EXTERIEUR' ? 'RCB' : match.adversaire}
+                <span className="text-xl font-bold text-gray-900 dark:text-white">
+                  {match.adversaire}
                 </span>
               </div>
               

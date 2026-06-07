@@ -65,10 +65,12 @@ export const NextMatchCard = () => {
               <div className="bg-primary/20 p-2 rounded-lg text-primary"><Calendar size={20} /></div>
               <span className="font-medium text-gray-900 dark:text-gray-200 capitalize">{format(new Date(nextMatch.date_heure), 'EEEE d MMMM yyyy', { locale: fr })}</span>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="bg-secondary/20 p-2 rounded-lg text-secondary"><Clock size={20} /></div>
-              <span className="font-medium text-gray-900 dark:text-gray-200">{format(new Date(nextMatch.date_heure), 'HH:mm')}</span>
-            </div>
+            {format(new Date(nextMatch.date_heure), 'HH:mm') !== '00:00' && (
+              <div className="flex items-center gap-3">
+                <div className="bg-secondary/20 p-2 rounded-lg text-secondary"><Clock size={20} /></div>
+                <span className="font-medium text-gray-900 dark:text-gray-200">{format(new Date(nextMatch.date_heure), 'HH:mm')}</span>
+              </div>
+            )}
             <div className="flex items-center gap-3">
               <div className="bg-gray-200 dark:bg-gray-700 p-2 rounded-lg text-gray-600 dark:text-gray-300"><MapPin size={20} /></div>
               <span className="font-medium text-gray-900 dark:text-gray-200">{nextMatch.lieu === 'DOMICILE' ? 'Stade Municipal, Bingerville' : 'À l\'extérieur'}</span>

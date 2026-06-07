@@ -24,13 +24,13 @@ export const ClubKPIs = () => {
         .eq('statut', 'TERMINE');
       
       // Compter les buts
-      const { data: butsData } = await supabase.from('evenements_match').select('*', { count: 'exact' })
+      const { count: buts } = await supabase.from('evenements_match').select('*', { count: 'exact', head: true })
         .eq('type_evenement', 'BUT');
       
       setKpis({
         joueurs: joueurs || 0,
         matchs: matchs || 0,
-        buts: butsData?.length || 0,
+        buts: buts || 0,
         trophees: 4 // À connecter à une table palmarès plus tard
       });
     };

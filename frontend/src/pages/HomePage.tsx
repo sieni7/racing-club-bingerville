@@ -6,6 +6,7 @@ import { RecentResults } from '../components/landing/RecentResults';
 import { TopScorersSection } from '../components/landing/TopScorersSection';
 import { ClubSection } from '../components/landing/ClubSection';
 import { NewsPreview } from '../components/landing/NewsPreview';
+import { PhotoGallery } from '../components/landing/PhotoGallery';
 import { Testimonials } from '../components/landing/Testimonials';
 import { JoinClubCTA } from '../components/landing/JoinClubCTA';
 
@@ -34,10 +35,13 @@ export default function HomePage() {
       {/* 7. Actualités */}
       <NewsPreview />
       
-      {/* 8. Témoignages */}
+      {/* 8. Galerie */}
+      <PhotoGallery />
+      
+      {/* 9. Témoignages */}
       <Testimonials />
       
-      {/* 9. CTA */}
+      {/* 10. CTA */}
       <JoinClubCTA />
     </div>
   );
