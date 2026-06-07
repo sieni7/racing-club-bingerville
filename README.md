@@ -23,6 +23,7 @@
 | 📊 **Statistiques** | Top buteurs, passeurs, discipline |
 | 📰 **Actualités** | Feed style réseau social |
 | 📈 **Dashboard** | Insights automatiques, métriques |
+| 🛠️ **Administration** | Back-office complet (Dashboard, Pages, Utilisateurs) |
 | ⚙️ **Paramètres** | Configuration club, utilisateurs, rôles |
 | 🌙 **Dark mode** | Thème clair/sombre avec toggle |
 
@@ -88,6 +89,7 @@ npm run build
 | `compositions` | Composition d'équipe |
 | `evenements_match` | Événements (buts, cartons) |
 | `actualites` | Actualités du club |
+| `site_sections` | Configuration de la page d'accueil |
 | `settings` | Paramètres généraux |
 | `roles` | Rôles disponibles |
 
