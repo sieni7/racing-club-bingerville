@@ -5,6 +5,14 @@ import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { toast } from 'react-hot-toast';
 
+interface Role {
+  id: string;
+  name: string;
+  display_name: string;
+  icon: string;
+  level: number;
+}
+
 export default function SettingsPage() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -18,11 +26,29 @@ export default function SettingsPage() {
   });
 
   const [users, setUsers] = useState<any[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [loadingRoles, setLoadingRoles] = useState(true);
 
   useEffect(() => {
     fetchSettings();
     fetchUsers();
+    fetchRoles();
   }, []);
+
+  const fetchRoles = async () => {
+    setLoadingRoles(true);
+    const { data, error } = await supabase
+      .from('roles')
+      .select('*')
+      .order('level', { ascending: false });
+    
+    if (error) {
+      console.error('Erreur chargement rôles:', error);
+    } else {
+      setRoles(data || []);
+    }
+    setLoadingRoles(false);
+  };
 
   const fetchSettings = async () => {
     const { data } = await supabase.from('settings').select('*');
@@ -184,18 +210,21 @@ export default function SettingsPage() {
                   <tr key={u.id} className="border-b border-white/5">
                     <td className="py-2">{u.email}</td>
                     <td className="py-2">
-                      <select
-                        value={u.role}
-                        onChange={(e) => updateRole(u.id, e.target.value)}
-                        className="px-2 py-1 rounded bg-white/5 border-white/10"
-                      >
-                        <option value="SUPER_ADMIN">👑 SUPER_ADMIN</option>
-                        <option value="ADMIN">ADMIN</option>
-                        <option value="STAFF">STAFF</option>
-                        <option value="MEMBER">MEMBER</option>
-                        <option value="JOUEUR">JOUEUR</option>
-                        <option value="PARENT">PARENT</option>
-                      </select>
+                      {loadingRoles ? (
+                        <span className="text-gray-400">Chargement...</span>
+                      ) : (
+                        <select
+                          value={u.role}
+                          onChange={(e) => updateRole(u.id, e.target.value)}
+                          className="px-2 py-1 rounded bg-white/5 border-white/10"
+                        >
+                          {roles.map((role) => (
+                            <option key={role.name} value={role.name}>
+                              {role.display_name}
+                            </option>
+                          ))}
+                        </select>
+                      )}
                     </td>
                     <td className="text-right">
                       <button className="text-red-500 hover:text-red-400">❌</button>
