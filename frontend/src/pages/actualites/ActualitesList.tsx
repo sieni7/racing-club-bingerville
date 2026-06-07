@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase';
 import { Link } from 'react-router-dom';
 import { Calendar, Eye } from 'lucide-react';
 import { SkeletonLoader } from '../../components/common/SkeletonLoader';
+import { EmptyState } from '../../components/common/EmptyState';
 
 interface Article {
   id: string;
@@ -50,9 +51,7 @@ export default function ActualitesList() {
       <h1 className="text-3xl font-black text-gray-900 dark:text-white mb-8">Actualités</h1>
 
       {articles.length === 0 ? (
-        <div className="text-center py-16 text-gray-500">
-          Aucune actualité pour le moment.
-        </div>
+        <EmptyState title="Aucune actualité" message="Aucune actualité n'a encore été publiée." />
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {articles.map((article) => (

@@ -9,11 +9,14 @@ import { calculatePlayerRating } from '../../utils/rating';
 import { JoueurDrawer } from '../../components/joueurs/JoueurDrawer';
 import { Card } from '../../components/ui/Card';
 import { SkeletonLoader } from '../../components/common/SkeletonLoader';
+import { EmptyState } from '../../components/common/EmptyState';
+import { useNavigate } from 'react-router-dom';
 export default function JoueursList() {
   const [joueurs, setJoueurs] = useState<Joueur[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedJoueur, setSelectedJoueur] = useState<Joueur | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadJoueurs();
@@ -77,7 +80,16 @@ export default function JoueursList() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredJoueurs.map((joueur, i) => {
+        {filteredJoueurs.length === 0 ? (
+          <div className="col-span-full">
+            <EmptyState 
+              title="Aucun joueur" 
+              message="Aucun joueur n'a encore été enregistré ou ne correspond à votre recherche." 
+              action={{ label: 'Ajouter un joueur', onClick: () => navigate('/joueurs/nouveau') }} 
+            />
+          </div>
+        ) : (
+          filteredJoueurs.map((joueur, i) => {
           const rating = calculatePlayerRating(joueur);
           
           return (

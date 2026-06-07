@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import toast from 'react-hot-toast';
 import { Eye, Pencil, Trash2, LayoutList, LayoutGrid, Plus } from 'lucide-react';
-
+import { ConfirmModal } from '../../components/common/ConfirmModal';
 interface Joueur {
   id: string;
   nom: string;
@@ -70,6 +70,11 @@ export const AdminJoueurs = () => {
   const [viewMode, setViewMode] = useState<ViewMode>(
     (localStorage.getItem('admin_joueurs_view') as ViewMode) || 'table'
   );
+  const [confirmModal, setConfirmModal] = useState<{ isOpen: boolean; joueur: Joueur | null }>({
+    isOpen: false,
+    joueur: null,
+  });
+  const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -88,13 +93,22 @@ export const AdminJoueurs = () => {
     localStorage.setItem('admin_joueurs_view', mode);
   };
 
-  const handleDelete = async (joueur: Joueur) => {
-    if (!confirm(`Supprimer ${joueur.prenom} ${joueur.nom} ?`)) return;
-    const { error } = await supabase.from('joueurs').delete().eq('id', joueur.id);
+  const handleDeleteClick = (joueur: Joueur) => {
+    setConfirmModal({ isOpen: true, joueur });
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!confirmModal.joueur) return;
+    setIsDeleting(true);
+    const { error } = await supabase.from('joueurs').delete().eq('id', confirmModal.joueur.id);
     if (!error) {
-      setJoueurs((prev) => prev.filter((j) => j.id !== joueur.id));
-      toast.success(`${joueur.prenom} ${joueur.nom} supprimé`);
+      setJoueurs((prev) => prev.filter((j) => j.id !== confirmModal.joueur?.id));
+      toast.success(`${confirmModal.joueur.prenom} ${confirmModal.joueur.nom} supprimé`);
+    } else {
+      toast.error("Erreur lors de la suppression");
     }
+    setIsDeleting(false);
+    setConfirmModal({ isOpen: false, joueur: null });
   };
 
   const Actions = ({ joueur }: { joueur: Joueur }) => (
@@ -116,7 +130,7 @@ export const AdminJoueurs = () => {
       <button
         title="Supprimer"
         className="hover:text-red-500 transition-colors"
-        onClick={() => handleDelete(joueur)}
+        onClick={() => handleDeleteClick(joueur)}
       >
         <Trash2 size={17} />
       </button>
@@ -228,6 +242,15 @@ export const AdminJoueurs = () => {
               ))}
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        title="Supprimer le joueur"
+        message={`Voulez-vous vraiment supprimer ${confirmModal.joueur?.prenom} ${confirmModal.joueur?.nom} ? Cette action est irréversible.`}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setConfirmModal({ isOpen: false, joueur: null })}
+        isDeleting={isDeleting}
+      />
     </div>
   );
 };

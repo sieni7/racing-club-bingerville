@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import toast from 'react-hot-toast';
 import { Save } from 'lucide-react';
+import { z } from 'zod';
+
+const contentSchema = z.object({
+  content: z.string().max(500, 'Contenu trop long (max 500 caractères)').optional(),
+});
 
 interface Section {
   id: string;
@@ -61,6 +66,19 @@ export const AdminHomepage = () => {
   };
 
   const saveContent = async (section: Section) => {
+    const draftContent = drafts[section.id] || '';
+    
+    try {
+      contentSchema.parse({ content: draftContent });
+    } catch (err: any) {
+      if (err.errors && err.errors.length > 0) {
+        toast.error(err.errors[0].message);
+      } else {
+        toast.error('Contenu invalide');
+      }
+      return;
+    }
+
     setSaving(section.id);
     const { error } = await supabase
       .from('site_sections')
