@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
+import { LayoutDashboard } from 'lucide-react';
 import { ThemeToggle } from '../common/ThemeToggle';
 
 export const HeaderPublic = () => {
@@ -30,15 +31,18 @@ export const HeaderPublic = () => {
             
             {user ? (
               <>
-                {isAdmin && (
-                  <Link to="/admin/dashboard" className="hover:text-primary transition font-semibold text-primary">
-                    Administration
-                  </Link>
-                )}
-                <Link to="/dashboard" className="hover:text-primary transition">Dashboard</Link>
                 <ThemeToggle />
-                <span className="text-sm text-gray-600">{user.email}</span>
-                <Button variant="secondary" onClick={handleLogout}>Déconnexion</Button>
+                <div className="flex items-center gap-4 pl-4 border-l border-gray-200 dark:border-gray-800">
+                  <div className="flex flex-col text-right">
+                    <span className="text-sm font-medium text-gray-900 dark:text-white leading-none">{profile?.first_name || user.email?.split('@')[0]}</span>
+                    <span className="text-xs text-primary">{isAdmin ? 'Administrateur' : 'Membre'}</span>
+                  </div>
+                  <Link to={isAdmin ? "/admin/dashboard" : "/dashboard"}>
+                    <Button variant="primary" className="flex items-center gap-2 shadow-glow">
+                      <LayoutDashboard size={16} /> Mon Espace
+                    </Button>
+                  </Link>
+                </div>
               </>
             ) : (
               <>

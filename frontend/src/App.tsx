@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { PrivateRoute } from './components/auth/PrivateRoute';
 import { HeaderPublic } from './components/layout/HeaderPublic';
@@ -40,27 +40,19 @@ const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 
 import { MemberLayout } from './components/layout/MemberLayout';
 
-const PublicLayout = () => {
-  const { user } = useAuth();
-
-  if (user) {
-    return <MemberLayout />;
-  }
-
-  return (
-    <div className="flex flex-col min-h-screen">
-      <HeaderPublic />
-      <main className="flex-grow">
-        <Outlet />
-      </main>
-      <Footer />
-      <CommandCenter />
-      <OnboardingModal />
-      <WhatsAppButton />
-      <CookieConsent />
-    </div>
-  );
-};
+const PublicLayout = () => (
+  <div className="flex flex-col min-h-screen">
+    <HeaderPublic />
+    <main className="flex-grow">
+      <Outlet />
+    </main>
+    <Footer />
+    <CommandCenter />
+    <OnboardingModal />
+    <WhatsAppButton />
+    <CookieConsent />
+  </div>
+);
 
 function App() {
   return (
