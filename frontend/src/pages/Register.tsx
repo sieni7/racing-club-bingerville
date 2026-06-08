@@ -41,7 +41,7 @@ export default function Register() {
       <div className="hidden lg:flex lg:w-1/2 relative bg-gray-900 overflow-hidden order-2">
         <div className="absolute inset-0 bg-gradient-to-tr from-secondary/80 to-gray-900/90 z-10 mix-blend-multiply" />
         <img
-          src="https://images.unsplash.com/photo-mY2ZHBU6GRk?q=80&w=2000&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1508344928928-7165b67de128?q=80&w=2000&auto=format&fit=crop"
           alt="Racing Club Bingerville Training"
           className="absolute inset-0 w-full h-full object-cover"
         />

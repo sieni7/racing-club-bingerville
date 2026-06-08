@@ -37,7 +37,7 @@ export default function Login() {
       <div className="hidden lg:flex lg:w-1/2 relative bg-gray-900 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-gray-900/90 z-10 mix-blend-multiply" />
         <img
-          src="https://images.unsplash.com/photo-qowyMze7jqg?q=80&w=2000&auto=format&fit=crop"
+          src="https://images.unsplash.com/photo-1518605368461-1ed107b34e40?q=80&w=2000&auto=format&fit=crop"
           alt="Racing Club Bingerville Stadium"
           className="absolute inset-0 w-full h-full object-cover"
         />
