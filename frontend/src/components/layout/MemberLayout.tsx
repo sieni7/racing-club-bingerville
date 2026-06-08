@@ -3,6 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import { LayoutDashboard, Newspaper, Users, Home, LogOut, CalendarDays, Settings, ShieldAlert, FileText, ArrowLeft } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
+import { HeaderPublic } from './HeaderPublic';
 
 const memberNavItems = [
   { to: '/dashboard', label: 'Vue d\'ensemble', icon: LayoutDashboard },
@@ -37,11 +38,12 @@ export const MemberLayout = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 dark:bg-gray-950">
+    <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-950">
       <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
-
+      <HeaderPublic />
+      <div className="flex flex-1 overflow-hidden">
       {/* Sidebar */}
-      <aside className="w-64 bg-white dark:bg-gray-900 shadow-sm border-r border-gray-100 dark:border-gray-800 flex flex-col shrink-0 h-screen sticky top-0">
+      <aside className="w-64 bg-white dark:bg-gray-900 shadow-sm border-r border-gray-100 dark:border-gray-800 flex flex-col shrink-0 h-[calc(100vh-73px)] sticky top-[73px]">
         <div className="p-6 border-b border-gray-100 dark:border-gray-800">
           <Link to="/" className="flex items-center gap-3 group">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold group-hover:bg-primary-dark transition-colors">
@@ -112,6 +114,7 @@ export const MemberLayout = () => {
           <Outlet />
         </div>
       </main>
+      </div>
     </div>
   );
 };

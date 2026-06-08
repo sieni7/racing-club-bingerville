@@ -73,7 +73,10 @@ function App() {
                 <Route path="/guide" element={<GuidePage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                
+              </Route>
+
+              {/* Layout Backend (pour membres et admins) */}
+              <Route element={<MemberLayout />}>
                 {/* Routes MEMBRE (authentification requise) */}
                 <Route element={<PrivateRoute />}>
                   <Route path="/dashboard" element={<Dashboard />} />
@@ -91,16 +94,16 @@ function App() {
                   
                   <Route path="/parametres" element={<SettingsPage />} />
                 </Route>
-              </Route>
 
-              {/* Layout ADMIN (rôle ADMIN/SUPER_ADMIN requis) */}
-              <Route element={<PrivateRoute requiredRole={['ADMIN', 'SUPER_ADMIN']} />}>
-                <Route path="/admin" element={<MemberLayout />}>
+                {/* Layout ADMIN (rôle ADMIN/SUPER_ADMIN requis) */}
+                <Route element={<PrivateRoute requiredRole={['ADMIN', 'SUPER_ADMIN']} />}>
+                  <Route path="/admin">
                   <Route index element={<Navigate to="dashboard" replace />} />
                   <Route path="dashboard" element={<AdminDashboard />} />
                   <Route path="homepage" element={<AdminHomepage />} />
                   <Route path="actualites" element={<AdminActualites />} />
                   <Route path="joueurs" element={<AdminJoueurs />} />
+                  </Route>
                 </Route>
               </Route>
             </Routes>
