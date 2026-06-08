@@ -21,10 +21,10 @@ const adminNavItems = [
 ];
 
 const navClass = ({ isActive }: { isActive: boolean }) =>
-  `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-colors ${
+  `flex items-center gap-3 px-4 py-3 rounded-xl text-sm transition-all duration-300 relative overflow-hidden ${
     isActive
-      ? 'bg-primary text-white font-medium'
-      : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
+      ? 'bg-primary text-white font-bold shadow-glow shadow-primary/20'
+      : 'text-gray-500 dark:text-gray-400 hover:bg-primary/5 hover:text-primary dark:hover:bg-white/5 dark:hover:text-white'
   }`;
 
 export const MemberLayout = () => {
@@ -43,8 +43,8 @@ export const MemberLayout = () => {
       <HeaderPublic />
       <div className="flex flex-1 overflow-hidden">
       {/* Sidebar */}
-      <aside className="w-64 bg-white dark:bg-gray-900 shadow-sm border-r border-gray-100 dark:border-gray-800 flex flex-col shrink-0 h-[calc(100vh-73px)] sticky top-[73px]">
-        <div className="p-6 border-b border-gray-100 dark:border-gray-800">
+      <aside className="w-64 bg-white/90 dark:bg-[#0A0E17]/90 backdrop-blur-xl border-r border-gray-200 dark:border-white/5 flex flex-col shrink-0 h-[calc(100vh-73px)] sticky top-[73px] z-40 shadow-[4px_0_24px_rgba(0,0,0,0.02)] dark:shadow-none">
+        <div className="p-6 border-b border-gray-100 dark:border-white/5">
           <Link to="/" className="flex items-center gap-3 group">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold group-hover:bg-primary-dark transition-colors">
               R
@@ -56,7 +56,7 @@ export const MemberLayout = () => {
           </Link>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-6">
+        <div className="flex-1 overflow-y-auto p-4 space-y-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {/* Menu Membre */}
           <div>
             <p className="px-4 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
@@ -90,7 +90,7 @@ export const MemberLayout = () => {
           )}
         </div>
 
-        <div className="p-4 border-t border-gray-100 dark:border-gray-800 space-y-2">
+        <div className="p-4 border-t border-gray-100 dark:border-white/5 space-y-2">
           <Link
             to="/"
             className="flex items-center gap-3 px-4 py-2.5 w-full text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
