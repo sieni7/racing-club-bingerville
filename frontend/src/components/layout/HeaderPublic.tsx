@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../ui/Button';
 import { LayoutDashboard } from 'lucide-react';
@@ -7,7 +7,10 @@ import { ThemeToggle } from '../common/ThemeToggle';
 export const HeaderPublic = () => {
   const { user, signOut, profile } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const isAdmin = profile?.role === 'ADMIN' || profile?.role === 'SUPER_ADMIN';
+  
+  const isAppMode = location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/admin') || location.pathname.startsWith('/parametres') || location.pathname.includes('/nouveau') || location.pathname.includes('/editer');
 
   const handleLogout = async () => {
     await signOut();
@@ -37,11 +40,20 @@ export const HeaderPublic = () => {
                     <span className="text-sm font-medium text-gray-900 dark:text-white leading-none">{profile?.first_name || user.email?.split('@')[0]}</span>
                     <span className="text-xs text-primary">{isAdmin ? 'Administrateur' : 'Membre'}</span>
                   </div>
-                  <Link to={isAdmin ? "/admin/dashboard" : "/dashboard"}>
-                    <Button variant="primary" className="flex items-center gap-2 shadow-glow">
-                      <LayoutDashboard size={16} /> Mon Espace
-                    </Button>
-                  </Link>
+                  <div className="flex items-center gap-3 bg-gray-100 dark:bg-gray-800/50 p-1 rounded-full border border-gray-200 dark:border-gray-700">
+                    <button 
+                      onClick={() => navigate('/')}
+                      className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${!isAppMode ? 'bg-white dark:bg-gray-700 shadow-sm text-gray-900 dark:text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}
+                    >
+                      Site Public
+                    </button>
+                    <button 
+                      onClick={() => navigate(isAdmin ? '/admin/dashboard' : '/dashboard')}
+                      className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 ${isAppMode ? 'bg-primary text-white shadow-glow shadow-primary/30' : 'text-gray-500 dark:text-gray-400 hover:text-primary'}`}
+                    >
+                      <LayoutDashboard size={14} /> Mon Espace
+                    </button>
+                  </div>
                 </div>
               </>
             ) : (
