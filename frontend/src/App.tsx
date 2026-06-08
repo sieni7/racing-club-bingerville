@@ -70,6 +70,8 @@ function App() {
                 <Route path="/statistiques" element={<StatistiquesPage />} />
                 <Route path="/actualites" element={<ActualitesList />} />
                 <Route path="/actualites/:slug" element={<ActualiteDetail />} />
+                <Route path="/joueurs" element={<JoueursList />} />
+                <Route path="/joueurs/:id" element={<JoueurDetail />} />
                 <Route path="/guide" element={<GuidePage />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
@@ -80,9 +82,7 @@ function App() {
                 {/* Routes MEMBRE (authentification requise) */}
                 <Route element={<PrivateRoute />}>
                   <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/joueurs" element={<JoueursList />} />
                   <Route path="/joueurs/nouveau" element={<JoueurForm />} />
-                  <Route path="/joueurs/:id" element={<JoueurDetail />} />
                   <Route path="/joueurs/:id/editer" element={<JoueurForm />} />
                   
                   <Route path="/matchs/nouveau" element={<MatchForm />} />

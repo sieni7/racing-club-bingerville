@@ -11,7 +11,6 @@ const memberNavItems = [
   { to: '/matchs', label: 'Matchs', icon: CalendarDays },
   { to: '/joueurs', label: 'Effectif', icon: Users },
   { to: '/statistiques', label: 'Statistiques', icon: FileText },
-  { to: '/parametres', label: 'Paramètres', icon: Settings },
 ];
 
 const adminNavItems = [
@@ -19,6 +18,7 @@ const adminNavItems = [
   { to: '/admin/homepage', label: 'Page d\'accueil', icon: Home },
   { to: '/admin/actualites', label: 'Actualités', icon: Newspaper },
   { to: '/admin/joueurs', label: 'Gestion Joueurs', icon: Users },
+  { to: '/parametres', label: 'Paramètres', icon: Settings },
 ];
 
 const navClass = ({ isActive }: { isActive: boolean }, isCollapsed: boolean) =>

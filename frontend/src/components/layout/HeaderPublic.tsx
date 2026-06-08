@@ -29,6 +29,7 @@ export const HeaderPublic = () => {
           {/* Navigation principale */}
           <nav className="hidden md:flex items-center space-x-6">
             <Link to="/matchs" className="hover:text-primary transition">Matchs</Link>
+            <Link to="/joueurs" className="hover:text-primary transition">Effectif</Link>
             <Link to="/statistiques" className="hover:text-primary transition">Statistiques</Link>
             <Link to="/actualites" className="hover:text-primary transition">Actualités</Link>
             
